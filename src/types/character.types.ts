@@ -27,9 +27,13 @@ export interface Character {
   /** 关联知识点 */
   knowledge: string[];
   /** 稀有度 */
-  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  rarity: 'common' | 'rare' | 'epic' | 'legendary' | 'bronze' | 'silver' | 'gold' | 'rainbow' | 'prismatic';
   /** 编号 */
   number: string;
+  /** 绝招名称 */
+  ultimateSkill?: string;
+  /** 属性/元素 */
+  attribute?: string;
 }
 
 /**

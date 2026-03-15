@@ -6,7 +6,7 @@ import { GameConfig } from '@/config';
 import { Button } from '@/shared/components';
 import { storageService } from '@/services';
 import { getLevelById } from '@/data/levels.data';
-import { ChoiceQuestion, DragQuestion, CircleQuestion, MultiSelectQuestion } from '@/features/quiz';
+import { ChoiceQuestion, DragQuestion, CircleQuestion, MultiSelectQuestion, FillBlankQuestion } from '@/features/quiz';
 import QuizProgress from '../quiz-progress/quiz-progress.component';
 import AnswerFeedback from '../answer-feedback/answer-feedback.component';
 import type { UserAnswer } from '@/types';
@@ -110,6 +110,16 @@ const QuizGame: React.FC = () => {
           // 圈画题的答案检查在组件内部完成
           setAnswerState((prev) => ({ ...prev, marks: answer as Array<{ x: number; y: number; radius: number }> }));
           return; // 圈画题不自动显示反馈
+        case 'fill_blank': {
+          const fillBlankQ = currentQuestion as { answer: string | string[] };
+          const userAnswerStr = answer as string;
+          const correctAnswers = Array.isArray(fillBlankQ.answer) ? fillBlankQ.answer : [fillBlankQ.answer];
+          isCorrect = correctAnswers.some(
+            (ans) => ans.trim().toLowerCase() === userAnswerStr.trim().toLowerCase()
+          );
+          setAnswerState((prev) => ({ ...prev, selectedAnswer: userAnswerStr }));
+          break;
+        }
       }
 
       // 添加答题记录
@@ -235,6 +245,15 @@ const QuizGame: React.FC = () => {
             selectedAnswers={answerState.selectedAnswer as string[]}
             isAnswered={isAnswered}
             onAnswer={(ids) => handleAnswer(ids)}
+          />
+        );
+      case 'fill_blank':
+        return (
+          <FillBlankQuestion
+            question={currentQuestion as Parameters<typeof FillBlankQuestion>[0]['question']}
+            selectedAnswer={answerState.selectedAnswer as string}
+            isAnswered={isAnswered}
+            onAnswer={(ans) => handleAnswer(ans)}
           />
         );
       default:

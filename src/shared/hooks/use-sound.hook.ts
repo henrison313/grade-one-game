@@ -69,6 +69,11 @@ export function useSound() {
   const playDrop = useCallback(() => play('drop'), [play]);
 
   /**
+   * 播放召唤音效
+   */
+  const playSummon = useCallback(() => play('summon'), [play]);
+
+  /**
    * 设置音效开关
    */
   const setEnabled = useCallback((enabled: boolean) => {
@@ -93,6 +98,7 @@ export function useSound() {
     playTransform,
     playDrag,
     playDrop,
+    playSummon,
     setEnabled,
     setVolume,
   };

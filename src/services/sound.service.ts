@@ -10,7 +10,8 @@ export type SoundType =
   | 'level-complete'
   | 'transform'
   | 'drag'
-  | 'drop';
+  | 'drop'
+  | 'summon';
 
 /**
  * 音效服务
@@ -184,6 +185,41 @@ class SoundService {
   }
 
   /**
+   * 播放召唤音效
+   */
+  playSummon(): void {
+    if (!this.enabled) return;
+    // 魔法召唤风格的上升音调序列 + 和弦叠加
+    const melody = [
+      { freq: 261.63, delay: 0, duration: 0.15 },    // C4
+      { freq: 329.63, delay: 100, duration: 0.15 },  // E4
+      { freq: 392.00, delay: 200, duration: 0.15 },  // G4
+      { freq: 523.25, delay: 300, duration: 0.2 },   // C5
+      { freq: 659.25, delay: 400, duration: 0.2 },   // E5
+      { freq: 783.99, delay: 500, duration: 0.25 },  // G5
+      { freq: 1046.50, delay: 600, duration: 0.3 },  // C6 高潮
+    ];
+
+    melody.forEach(({ freq, delay, duration }) => {
+      setTimeout(() => this.playTone(freq, duration, 'sine'), delay);
+    });
+
+    // 和弦叠加（在高潮部分）
+    setTimeout(() => {
+      this.playTone(523.25, 0.3, 'sine');  // C5
+      this.playTone(659.25, 0.3, 'sine');  // E5
+      this.playTone(783.99, 0.3, 'sine');  // G5
+    }, 600);
+
+    // 闪烁音效
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => {
+        this.playTone(1500 + i * 200, 0.05, 'sine');
+      }, 800 + i * 50);
+    }
+  }
+
+  /**
    * 播放指定音效
    */
   play(type: SoundType): void {
@@ -214,6 +250,9 @@ class SoundService {
         break;
       case 'drop':
         this.playDrop();
+        break;
+      case 'summon':
+        this.playSummon();
         break;
     }
   }

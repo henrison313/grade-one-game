@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeColors, GameConfig } from '@/config';
 import type { StorySegment } from '@/types';
+import { speechService } from '@/services';
 
 interface StoryPlayerProps {
   segments: StorySegment[];
@@ -137,6 +138,7 @@ const StoryPlayer: React.FC<StoryPlayerProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
   const [displayedText, setDisplayedText] = useState('');
+  const [speechComplete, setSpeechComplete] = useState(false);
 
   const currentSegment = segments[currentIndex];
   const isLastSegment = currentIndex === segments.length - 1;
@@ -164,19 +166,63 @@ const StoryPlayer: React.FC<StoryPlayerProps> = ({
     return () => clearInterval(typeInterval);
   }, [currentSegment, autoPlay]);
 
-  // 自动播放
+  // 语音播放：对话和旁白自动朗读，等待播放完成
+  useEffect(() => {
+    if (!currentSegment || !autoPlay) return;
+
+    // 只对 dialogue 和 narration 类型播放语音
+    if (currentSegment.type !== 'dialogue' && currentSegment.type !== 'narration') {
+      return;
+    }
+
+    // 停止之前的语音
+    speechService.stop();
+
+    // 重置语音完成状态
+    setSpeechComplete(false);
+
+    // 稍后开始播放，让打字机效果先开始
+    const speechTimer = setTimeout(() => {
+      speechService.speak(
+        currentSegment.text,
+        currentSegment.speaker,
+        () => {
+          // 语音播放完成，标记可以切换
+          setSpeechComplete(true);
+        }
+      );
+    }, 200);
+
+    return () => {
+      clearTimeout(speechTimer);
+      speechService.stop();
+    };
+  }, [currentSegment, autoPlay]);
+
+  // 组件卸载时停止语音
+  useEffect(() => {
+    return () => {
+      speechService.stop();
+    };
+  }, []);
+
+  // 自动播放：等待打字机效果和语音完成
   useEffect(() => {
     if (!autoPlay || isTyping || isLastSegment) return;
 
-    const duration = currentSegment?.duration || GameConfig.storyAutoPlayInterval;
+    // 等待语音完成后再切换
+    if (!speechComplete) return;
+
+    // 语音完成后使用较短的等待时间
     const timer = setTimeout(() => {
       nextSegment();
-    }, duration);
+    }, GameConfig.storyAutoPlayInterval);
 
     return () => clearTimeout(timer);
-  }, [autoPlay, isTyping, isLastSegment, currentSegment]);
+  }, [autoPlay, isTyping, isLastSegment, currentSegment, speechComplete]);
 
   const nextSegment = useCallback(() => {
+    speechService.stop();
     if (isLastSegment) {
       onComplete?.();
     } else {
@@ -185,10 +231,12 @@ const StoryPlayer: React.FC<StoryPlayerProps> = ({
   }, [isLastSegment, onComplete]);
 
   const goToSegment = (index: number) => {
+    speechService.stop();
     setCurrentIndex(index);
   };
 
   const handleSkip = () => {
+    speechService.stop();
     onComplete?.();
   };
 

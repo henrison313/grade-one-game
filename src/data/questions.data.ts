@@ -42,10 +42,10 @@ export const level1_1Questions: Question[] = [
       { id: 'a', text: '皮球 🏀' },
       { id: 'b', text: '书本 📚' },
       { id: 'c', text: '时钟 ⏰' },
-      { id: 'd', text: '硬币 💰' },
+      { id: 'd', text: '盘子 🍽️' },
     ],
     correctAnswers: ['a', 'c', 'd'],
-    explanation: '皮球、时钟和硬币都是圆圆的，所以是圆形。书本是长方形的。',
+    explanation: '皮球、时钟和盘子都是圆圆的，所以是圆形。书本是长方形的。',
     hint: '圆圆的东西就是圆形哦！',
   },
 
