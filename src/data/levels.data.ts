@@ -800,7 +800,7 @@ export const levels: Level[] = [
     chapter: 3,
     chapterName: '100 以内数的认识',
     description: '认识 100 以内的数，学习数的组成',
-    thumbnail: '/图片素材/炫蓝闪电 S.png',
+    thumbnail: '/图片素材/炫蓝闪电 1.png',
     status: 'locked',
     guardian: getCharacterById('xuanlan-shandian-S') || characters[7],
     mentor: {
@@ -821,7 +821,7 @@ export const levels: Level[] = [
     chapter: 3,
     chapterName: '100 以内数的认识',
     description: '探索百数表的规律',
-    thumbnail: '/图片素材/焰龙战神.png',
+    thumbnail: '/图片素材/焰龙战神 1.png',
     status: 'locked',
     guardian: getCharacterById('yanlong-zhanshen') || characters[8],
     mentor: {
@@ -842,7 +842,7 @@ export const levels: Level[] = [
     chapter: 3,
     chapterName: '100 以内数的认识',
     description: '学习数的顺序和比较大小',
-    thumbnail: '/图片素材/霹雳火影.png',
+    thumbnail: '/图片素材/霹雳火影.jpg',
     status: 'locked',
     guardian: getCharacterById('pili-huoying') || characters[9],
     mentor: {
@@ -863,7 +863,7 @@ export const levels: Level[] = [
     chapter: 3,
     chapterName: '100 以内数的认识',
     description: '数的组成综合应用',
-    thumbnail: '/图片素材/猎空悍将.png',
+    thumbnail: '/图片素材/裂空悍将.png',
     status: 'locked',
     guardian: getCharacterById('liekong-hanjiang') || characters[10],
     mentor: {
@@ -906,7 +906,7 @@ export const levels: Level[] = [
     chapter: 4,
     chapterName: '100 以内口算加减法',
     description: '学习两位数加减整十数',
-    thumbnail: '/图片素材/星际游侠.png',
+    thumbnail: '/图片素材/星际游侠 1.png',
     status: 'locked',
     guardian: getCharacterById('xingji-youxia') || characters[12],
     mentor: {
@@ -949,7 +949,7 @@ export const levels: Level[] = [
     chapter: 5,
     chapterName: '100 以内笔算加减法',
     description: '学习用竖式计算两位数加两位数（不进位）',
-    thumbnail: '/图片素材/深海霸王.png',
+    thumbnail: '/图片素材/爆旋洛克.png',
     status: 'locked',
     guardian: getCharacterById('shenhai-bawang') || characters[14],
     mentor: {
@@ -992,7 +992,7 @@ export const levels: Level[] = [
     chapter: 6,
     chapterName: '期中综合练习',
     description: '综合运用所学知识，挑战 BOSS',
-    thumbnail: '/图片素材/重装赤魂王.png',
+    thumbnail: '/图片素材/重装赤魂王 1.png',
     status: 'locked',
     guardian: getCharacterById('zhongzhuang-chihunwang') || characters[16],
     mentor: {
