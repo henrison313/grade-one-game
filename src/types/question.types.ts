@@ -45,6 +45,8 @@ export interface ChoiceOption {
   image?: string;
   /** 图形类型，用于渲染彩色立体图形 */
   shape?: ShapeType;
+  /** 图形颜色，默认 blue */
+  shapeColor?: ShapeColor;
 }
 
 /**

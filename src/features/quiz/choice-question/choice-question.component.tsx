@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { ThemeColors } from '@/config';
 import { useSound } from '@/shared/hooks';
-import { ShapeIcon } from '@/shared/components';
+import { Shape } from '@/shared/components';
 import type { ChoiceQuestionData, ChoiceOption } from '@/types';
 
 interface ChoiceQuestionProps {
@@ -100,6 +100,14 @@ const OptionImage = styled.img`
 
 const OptionLabel = styled.span`
   flex: 1;
+  text-align: left;
+`;
+
+const ShapeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
 `;
 
 const CorrectIcon = styled.span`
@@ -179,7 +187,16 @@ const ChoiceQuestion: React.FC<ChoiceQuestionProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              {option.shape && <ShapeIcon shape={option.shape} size={48} />}
+              {option.shape && (
+                <ShapeWrapper>
+                  <Shape
+                    type={option.shape}
+                    color={option.shapeColor || 'blue'}
+                    size="small"
+                    showLabel={false}
+                  />
+                </ShapeWrapper>
+              )}
               {option.image && <OptionImage src={option.image} alt={option.text} />}
               <OptionLabel>{option.text}</OptionLabel>
               {state.isCorrect && <CorrectIcon>✓</CorrectIcon>}
