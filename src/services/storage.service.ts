@@ -1,6 +1,7 @@
 import { GameConfig } from '@/config';
 import type { UserData } from '@/types';
 import { createDefaultUserData } from '@/types';
+import { levels } from '@/data/levels.data';
 
 /**
  * 本地存储服务
@@ -19,12 +20,44 @@ class StorageService {
     try {
       const data = localStorage.getItem(this.storageKey);
       if (data) {
-        return JSON.parse(data) as UserData;
+        const parsed = JSON.parse(data) as Partial<UserData>;
+
+        // 向后兼容：为旧存档添加新增字段
+        return this.migrateUserData(parsed);
       }
     } catch (error) {
       console.error('Failed to load user data:', error);
     }
     return createDefaultUserData();
+  }
+
+  /**
+   * 迁移用户数据（向后兼容）
+   */
+  private migrateUserData(parsed: Partial<UserData>): UserData {
+    const defaultData = createDefaultUserData();
+
+    // 合并默认值，确保新字段存在
+    const merged = {
+      ...defaultData,
+      ...parsed,
+      // 确保新增字段存在（即使用户旧存档中没有）
+      hiddenLevelsUnlocked: parsed.hiddenLevelsUnlocked || [],
+      achievements: parsed.achievements || defaultData.achievements,
+    } as UserData;
+
+    // V0.3: 确保音效设置字段存在
+    merged.settings = {
+      ...defaultData.settings,
+      ...(parsed.settings || {}),
+      // V0.3 新增字段默认值
+      sfxVolume: parsed.settings?.sfxVolume ?? defaultData.settings.sfxVolume,
+      bgmVolume: parsed.settings?.bgmVolume ?? defaultData.settings.bgmVolume,
+      speechVolume: parsed.settings?.speechVolume ?? defaultData.settings.speechVolume,
+      speechEnabled: parsed.settings?.speechEnabled ?? defaultData.settings.speechEnabled,
+    };
+
+    return merged;
   }
 
   /**
@@ -91,10 +124,19 @@ class StorageService {
    */
   unlockNextLevel(currentLevelId: string): void {
     const data = this.getUserData();
-    const [chapter, level] = currentLevelId.split('-').map(Number);
 
-    // 计算下一关
-    const nextLevelId = `${chapter}-${level + 1}`;
+    // 找到当前关卡在列表中的位置
+    const currentIndex = levels.findIndex((l) => l.id === currentLevelId);
+    if (currentIndex === -1 || currentIndex === levels.length - 1) {
+      // 已经是最后一关，没有下一关需要解锁
+      return;
+    }
+
+    // 获取下一关 ID
+    const nextLevel = levels[currentIndex + 1];
+    const nextLevelId = nextLevel.id;
+
+    // 解锁下一关
     if (data.levelProgress[nextLevelId]) {
       data.levelProgress[nextLevelId].status = 'available';
     } else {

@@ -1,8 +1,11 @@
 import { useCallback, useRef } from 'react';
-import { soundService, type SoundType } from '@/services';
+import { soundService } from '@/services/sound.service';
+import { speechService, speakAsync } from '@/services/speech.service';
+import type { SoundType, BGMType, RarityType, SoundSettings } from '@/types';
 
 /**
  * 音效 Hook
+ * 提供音效播放、背景音乐控制和语音播放功能
  */
 export function useSound() {
   const lastPlayTimeRef = useRef<Record<string, number>>({});
@@ -74,7 +77,100 @@ export function useSound() {
   const playSummon = useCallback(() => play('summon'), [play]);
 
   /**
-   * 设置音效开关
+   * 播放胜利音效
+   */
+  const playVictory = useCallback(() => play('victory'), [play]);
+
+  /**
+   * 播放失败音效
+   */
+  const playDefeat = useCallback(() => play('defeat'), [play]);
+
+  // ========== 连击音效 ==========
+
+  /**
+   * 播放连击音效
+   */
+  const playCombo = useCallback((count: number) => {
+    soundService.playCombo(count);
+  }, []);
+
+  // ========== 背景音乐 ==========
+
+  /**
+   * 播放背景音乐
+   */
+  const playBGM = useCallback((type: BGMType) => {
+    soundService.playBGM(type);
+  }, []);
+
+  /**
+   * 停止背景音乐
+   */
+  const stopBGM = useCallback(() => {
+    soundService.stopBGM();
+  }, []);
+
+  /**
+   * 暂停背景音乐
+   */
+  const pauseBGM = useCallback(() => {
+    soundService.pauseBGM();
+  }, []);
+
+  /**
+   * 恢复背景音乐
+   */
+  const resumeBGM = useCallback(() => {
+    soundService.resumeBGM();
+  }, []);
+
+  // ========== 绝招音效 ==========
+
+  /**
+   * 播放绝招音效
+   */
+  const playUltimate = useCallback((rarity: RarityType) => {
+    soundService.playUltimate(rarity);
+  }, []);
+
+  // ========== 语音播放 ==========
+
+  /**
+   * 播放语音（带 Promise）
+   */
+  const speak = useCallback(
+    async (text: string, speaker?: string): Promise<void> => {
+      return speakAsync(text, speaker);
+    },
+    []
+  );
+
+  /**
+   * 停止语音播放
+   */
+  const stopSpeaking = useCallback(() => {
+    speechService.stop();
+  }, []);
+
+  // ========== 设置控制 ==========
+
+  /**
+   * 获取当前设置
+   */
+  const getSettings = useCallback((): SoundSettings => {
+    return soundService.getSettings();
+  }, []);
+
+  /**
+   * 更新设置
+   */
+  const updateSettings = useCallback((settings: Partial<SoundSettings>) => {
+    soundService.updateSettings(settings);
+  }, []);
+
+  /**
+   * 设置音效总开关
    */
   const setEnabled = useCallback((enabled: boolean) => {
     soundService.setEnabled(enabled);
@@ -83,11 +179,15 @@ export function useSound() {
   /**
    * 设置音量
    */
-  const setVolume = useCallback((volume: number) => {
-    soundService.setVolume(volume);
-  }, []);
+  const setVolume = useCallback(
+    (type: 'sfx' | 'bgm' | 'speech', volume: number) => {
+      soundService.setVolume(type, volume);
+    },
+    []
+  );
 
   return {
+    // 基础音效
     play,
     playCorrect,
     playWrong,
@@ -99,6 +199,23 @@ export function useSound() {
     playDrag,
     playDrop,
     playSummon,
+    playVictory,
+    playDefeat,
+    // 连击音效
+    playCombo,
+    // 背景音乐
+    playBGM,
+    stopBGM,
+    pauseBGM,
+    resumeBGM,
+    // 绝招音效
+    playUltimate,
+    // 语音播放
+    speak,
+    stopSpeaking,
+    // 设置控制
+    getSettings,
+    updateSettings,
     setEnabled,
     setVolume,
   };

@@ -1,28 +1,32 @@
-/**
- * 音效类型
- */
-export type SoundType =
-  | 'correct'
-  | 'wrong'
-  | 'click'
-  | 'card-reveal'
-  | 'star-earn'
-  | 'level-complete'
-  | 'transform'
-  | 'drag'
-  | 'drop'
-  | 'summon';
+import { soundConfig, bgmSceneConfig } from '@/config';
+import { storageService } from './storage.service';
+import type { SoundType, BGMType, RarityType, SoundSettings } from '@/types';
 
 /**
  * 音效服务
+ * 管理音效播放、背景音乐和音量控制
  */
 class SoundService {
   private audioContext: AudioContext | null = null;
-  private enabled: boolean = true;
-  private volume: number = 0.5;
+  private settings: SoundSettings = {
+    enabled: true,
+    sfxVolume: soundConfig.defaultVolume.sfx,
+    bgmVolume: soundConfig.defaultVolume.bgm,
+    speechVolume: soundConfig.defaultVolume.speech,
+    speechEnabled: true,
+    vibrationEnabled: true,
+  };
+
+  // 音频缓存
+  private sfxCache: Map<string, HTMLAudioElement> = new Map();
+  private currentBGM: HTMLAudioElement | null = null;
+  private currentBGMType: BGMType | null = null;
+  private bgmDucked: boolean = false;
+  private preDuckVolume: number = 0;
 
   constructor() {
     this.initAudioContext();
+    this.loadSettings();
   }
 
   /**
@@ -30,7 +34,8 @@ class SoundService {
    */
   private initAudioContext(): void {
     try {
-      this.audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+      this.audioContext = new (window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
     } catch (error) {
       console.warn('Web Audio API not supported:', error);
     }
@@ -46,215 +51,339 @@ class SoundService {
   }
 
   /**
-   * 设置是否启用
+   * 从用户数据加载设置
+   */
+  private loadSettings(): void {
+    try {
+      const userData = storageService.getUserData();
+      if (userData.settings) {
+        this.settings = {
+          ...this.settings,
+          enabled: userData.settings.soundEnabled,
+          vibrationEnabled: userData.settings.vibrationEnabled,
+          sfxVolume: userData.settings.sfxVolume ?? this.settings.sfxVolume,
+          bgmVolume: userData.settings.bgmVolume ?? this.settings.bgmVolume,
+          speechVolume: userData.settings.speechVolume ?? this.settings.speechVolume,
+          speechEnabled: userData.settings.speechEnabled ?? this.settings.speechEnabled,
+        };
+      }
+    } catch (error) {
+      console.warn('Failed to load sound settings:', error);
+    }
+  }
+
+  /**
+   * 保存设置到用户数据
+   */
+  private saveSettings(): void {
+    try {
+      storageService.updateSettings({
+        soundEnabled: this.settings.enabled,
+        musicEnabled: this.settings.bgmVolume > 0,
+        vibrationEnabled: this.settings.vibrationEnabled,
+        sfxVolume: this.settings.sfxVolume,
+        bgmVolume: this.settings.bgmVolume,
+        speechVolume: this.settings.speechVolume,
+        speechEnabled: this.settings.speechEnabled,
+      });
+    } catch (error) {
+      console.warn('Failed to save sound settings:', error);
+    }
+  }
+
+  /**
+   * 获取音效文件路径
+   */
+  private getSfxPath(type: SoundType): string {
+    return soundConfig.sfxFiles[type];
+  }
+
+  /**
+   * 获取或创建音频元素
+   */
+  private getAudioElement(type: SoundType): HTMLAudioElement | null {
+    const path = this.getSfxPath(type);
+
+    if (this.sfxCache.has(path)) {
+      return this.sfxCache.get(path)!;
+    }
+
+    const audio = new Audio(path);
+    audio.preload = 'auto';
+    this.sfxCache.set(path, audio);
+    return audio;
+  }
+
+  // ========== 全局控制 ==========
+
+  /**
+   * 设置音效总开关
    */
   setEnabled(enabled: boolean): void {
-    this.enabled = enabled;
+    this.settings.enabled = enabled;
+    if (!enabled) {
+      this.stopBGM();
+    }
+    this.saveSettings();
   }
 
   /**
    * 设置音量
    */
-  setVolume(volume: number): void {
-    this.volume = Math.max(0, Math.min(1, volume));
+  setVolume(type: 'sfx' | 'bgm' | 'speech', volume: number): void {
+    const clampedVolume = Math.max(0, Math.min(1, volume));
+
+    switch (type) {
+      case 'sfx':
+        this.settings.sfxVolume = clampedVolume;
+        break;
+      case 'bgm':
+        this.settings.bgmVolume = clampedVolume;
+        // 实时更新当前 BGM 音量
+        if (this.currentBGM && !this.bgmDucked) {
+          this.currentBGM.volume = clampedVolume;
+        }
+        break;
+      case 'speech':
+        this.settings.speechVolume = clampedVolume;
+        break;
+    }
+
+    this.saveSettings();
   }
 
   /**
-   * 生成简单音效
+   * 获取当前设置
    */
-  private playTone(frequency: number, duration: number, type: OscillatorType = 'sine'): void {
-    if (!this.enabled || !this.audioContext) return;
+  getSettings(): SoundSettings {
+    return { ...this.settings };
+  }
+
+  /**
+   * 更新所有设置
+   */
+  updateSettings(settings: Partial<SoundSettings>): void {
+    this.settings = { ...this.settings, ...settings };
+    this.saveSettings();
+
+    // 实时应用 BGM 音量
+    if (this.currentBGM && !this.bgmDucked) {
+      this.currentBGM.volume = this.settings.bgmVolume;
+    }
+
+    // 如果禁用音效，停止 BGM
+    if (!this.settings.enabled) {
+      this.stopBGM();
+    }
+  }
+
+  // ========== 音效播放 ==========
+
+  /**
+   * 播放指定音效
+   */
+  play(type: SoundType): void {
+    if (!this.settings.enabled) return;
 
     this.ensureContext();
 
-    const oscillator = this.audioContext.createOscillator();
-    const gainNode = this.audioContext.createGain();
+    const audio = this.getAudioElement(type);
+    if (!audio) return;
 
-    oscillator.connect(gainNode);
-    gainNode.connect(this.audioContext.destination);
+    // 克隆音频元素以支持同时播放
+    const clone = audio.cloneNode() as HTMLAudioElement;
+    clone.volume = this.settings.sfxVolume;
+    clone.play().catch(() => {
+      // 忽略自动播放限制错误
+    });
 
-    oscillator.frequency.value = frequency;
-    oscillator.type = type;
-
-    gainNode.gain.setValueAtTime(this.volume * 0.3, this.audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(
-      0.01,
-      this.audioContext.currentTime + duration
-    );
-
-    oscillator.start(this.audioContext.currentTime);
-    oscillator.stop(this.audioContext.currentTime + duration);
+    // 播放结束后清理
+    clone.addEventListener('ended', () => {
+      clone.remove();
+    });
   }
+
+  /**
+   * 播放连击音效
+   */
+  playCombo(count: number): void {
+    if (!this.settings.enabled) return;
+
+    if (count >= 10) {
+      this.play('combo-10');
+    } else if (count >= 5) {
+      this.play('combo-5');
+    } else if (count >= 1) {
+      this.play('combo-1');
+    }
+  }
+
+  /**
+   * 播放绝招音效
+   */
+  playUltimate(rarity: RarityType): void {
+    if (!this.settings.enabled) return;
+
+    const soundType: SoundType = `ultimate-${rarity}`;
+    this.play(soundType);
+  }
+
+  // ========== 背景音乐 ==========
+
+  /**
+   * 播放背景音乐
+   */
+  playBGM(type: BGMType): void {
+    if (!this.settings.enabled) return;
+    if (this.currentBGMType === type && this.currentBGM && !this.currentBGM.paused) {
+      return; // 已经在播放相同 BGM
+    }
+
+    // 停止当前 BGM
+    this.stopBGM();
+
+    const src = soundConfig.bgmFiles[type];
+    const config = bgmSceneConfig[type];
+
+    const audio = new Audio(src);
+    audio.loop = config.loop;
+    audio.volume = this.settings.bgmVolume;
+
+    this.currentBGM = audio;
+    this.currentBGMType = type;
+
+    audio.play().catch((error) => {
+      console.warn('BGM play failed:', error);
+    });
+  }
+
+  /**
+   * 停止背景音乐
+   */
+  stopBGM(): void {
+    if (this.currentBGM) {
+      this.currentBGM.pause();
+      this.currentBGM.currentTime = 0;
+      this.currentBGM = null;
+      this.currentBGMType = null;
+      this.bgmDucked = false;
+    }
+  }
+
+  /**
+   * 暂停背景音乐
+   */
+  pauseBGM(): void {
+    this.currentBGM?.pause();
+  }
+
+  /**
+   * 恢复背景音乐
+   */
+  resumeBGM(): void {
+    if (this.settings.enabled && this.currentBGM) {
+      this.currentBGM.play().catch(() => {});
+    }
+  }
+
+  /**
+   * 检查 BGM 是否正在播放
+   */
+  isBGMPlaying(): boolean {
+    return this.currentBGM !== null && !this.currentBGM.paused;
+  }
+
+  /**
+   * 压低 BGM 音量（用于语音播放时）
+   */
+  duckBGM(): void {
+    if (!this.currentBGM || this.bgmDucked) return;
+
+    this.preDuckVolume = this.currentBGM.volume;
+    this.currentBGM.volume = soundConfig.bgmDuckVolume;
+    this.bgmDucked = true;
+  }
+
+  /**
+   * 恢复 BGM 音量
+   */
+  unduckBGM(): void {
+    if (!this.currentBGM || !this.bgmDucked) return;
+
+    this.currentBGM.volume = this.preDuckVolume || this.settings.bgmVolume;
+    this.bgmDucked = false;
+  }
+
+  // ========== 便捷方法 ==========
 
   /**
    * 播放正确答案音效
    */
   playCorrect(): void {
-    if (!this.enabled) return;
-    // 愉快的上升音调
-    this.playTone(523.25, 0.1, 'sine'); // C5
-    setTimeout(() => this.playTone(659.25, 0.1, 'sine'), 100); // E5
-    setTimeout(() => this.playTone(783.99, 0.2, 'sine'), 200); // G5
+    this.play('correct');
   }
 
   /**
    * 播放错误答案音效
    */
   playWrong(): void {
-    if (!this.enabled) return;
-    // 下降的音调
-    this.playTone(311.13, 0.15, 'square'); // Eb4
-    setTimeout(() => this.playTone(261.63, 0.2, 'square'), 150); // C4
+    this.play('wrong');
   }
 
   /**
    * 播放点击音效
    */
   playClick(): void {
-    if (!this.enabled) return;
-    this.playTone(800, 0.05, 'sine');
+    this.play('click');
   }
 
   /**
    * 播放卡牌揭示音效
    */
   playCardReveal(): void {
-    if (!this.enabled) return;
-    // 神奇的上升音效
-    const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99];
-    notes.forEach((freq, i) => {
-      setTimeout(() => this.playTone(freq, 0.15, 'sine'), i * 80);
-    });
+    this.play('card-reveal');
   }
 
   /**
    * 播放获得星星音效
    */
   playStarEarn(): void {
-    if (!this.enabled) return;
-    this.playTone(880, 0.1, 'sine');
-    setTimeout(() => this.playTone(1108.73, 0.15, 'sine'), 100);
+    this.play('star-earn');
   }
 
   /**
    * 播放关卡完成音效
    */
   playLevelComplete(): void {
-    if (!this.enabled) return;
-    // 胜利的旋律
-    const melody = [
-      { freq: 523.25, delay: 0 },    // C5
-      { freq: 659.25, delay: 150 },  // E5
-      { freq: 783.99, delay: 300 },  // G5
-      { freq: 1046.50, delay: 450 }, // C6
-      { freq: 783.99, delay: 600 },  // G5
-      { freq: 1046.50, delay: 750 }, // C6
-    ];
-    melody.forEach(({ freq, delay }) => {
-      setTimeout(() => this.playTone(freq, 0.2, 'sine'), delay);
-    });
+    this.play('level-complete');
   }
 
   /**
    * 播放变形音效
    */
   playTransform(): void {
-    if (!this.enabled) return;
-    // 机械变形音效
-    for (let i = 0; i < 8; i++) {
-      setTimeout(() => {
-        this.playTone(200 + i * 50, 0.08, 'sawtooth');
-      }, i * 60);
-    }
+    this.play('transform');
   }
 
   /**
    * 播放拖拽音效
    */
   playDrag(): void {
-    if (!this.enabled) return;
-    this.playTone(400, 0.05, 'sine');
+    this.play('drag');
   }
 
   /**
    * 播放放置音效
    */
   playDrop(): void {
-    if (!this.enabled) return;
-    this.playTone(500, 0.08, 'sine');
+    this.play('drop');
   }
 
   /**
    * 播放召唤音效
    */
   playSummon(): void {
-    if (!this.enabled) return;
-    // 魔法召唤风格的上升音调序列 + 和弦叠加
-    const melody = [
-      { freq: 261.63, delay: 0, duration: 0.15 },    // C4
-      { freq: 329.63, delay: 100, duration: 0.15 },  // E4
-      { freq: 392.00, delay: 200, duration: 0.15 },  // G4
-      { freq: 523.25, delay: 300, duration: 0.2 },   // C5
-      { freq: 659.25, delay: 400, duration: 0.2 },   // E5
-      { freq: 783.99, delay: 500, duration: 0.25 },  // G5
-      { freq: 1046.50, delay: 600, duration: 0.3 },  // C6 高潮
-    ];
-
-    melody.forEach(({ freq, delay, duration }) => {
-      setTimeout(() => this.playTone(freq, duration, 'sine'), delay);
-    });
-
-    // 和弦叠加（在高潮部分）
-    setTimeout(() => {
-      this.playTone(523.25, 0.3, 'sine');  // C5
-      this.playTone(659.25, 0.3, 'sine');  // E5
-      this.playTone(783.99, 0.3, 'sine');  // G5
-    }, 600);
-
-    // 闪烁音效
-    for (let i = 0; i < 5; i++) {
-      setTimeout(() => {
-        this.playTone(1500 + i * 200, 0.05, 'sine');
-      }, 800 + i * 50);
-    }
-  }
-
-  /**
-   * 播放指定音效
-   */
-  play(type: SoundType): void {
-    switch (type) {
-      case 'correct':
-        this.playCorrect();
-        break;
-      case 'wrong':
-        this.playWrong();
-        break;
-      case 'click':
-        this.playClick();
-        break;
-      case 'card-reveal':
-        this.playCardReveal();
-        break;
-      case 'star-earn':
-        this.playStarEarn();
-        break;
-      case 'level-complete':
-        this.playLevelComplete();
-        break;
-      case 'transform':
-        this.playTransform();
-        break;
-      case 'drag':
-        this.playDrag();
-        break;
-      case 'drop':
-        this.playDrop();
-        break;
-      case 'summon':
-        this.playSummon();
-        break;
-    }
+    this.play('summon');
   }
 }
 

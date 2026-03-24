@@ -11,3 +11,4 @@ export { ShapeSortingGame, ShapeMatchingGame, FindShapeGame } from './shape-game
 export { default as LinkGame } from './link-game/link-game.component';
 export { default as MazeGame } from './maze-game/maze-game.component';
 export { default as CalculatorGame } from './calculator-game/calculator-game.component';
+export { default as SoundControl } from './sound-control/sound-control.component';

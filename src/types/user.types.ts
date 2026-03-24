@@ -20,6 +20,18 @@ export interface CollectedCard {
 }
 
 /**
+ * 成就数据
+ */
+export interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  unlocked: boolean;
+  unlockedAt?: string;
+}
+
+/**
  * 用户数据
  */
 export interface UserData {
@@ -30,6 +42,9 @@ export interface UserData {
   collectedCards: CollectedCard[];
   totalStars: number;
   settings: UserSettings;
+  // V0.2.1 新增字段
+  hiddenLevelsUnlocked: string[]; // 已解锁的隐藏关卡 ID 列表
+  achievements: Achievement[]; // 成就列表
   createdAt: string;
   updatedAt: string;
 }
@@ -38,9 +53,15 @@ export interface UserData {
  * 用户设置
  */
 export interface UserSettings {
+  // V0.2 基础设置
   soundEnabled: boolean;
   musicEnabled: boolean;
   vibrationEnabled: boolean;
+  // V0.3 音效系统新增
+  sfxVolume: number; // 音效音量 0-1
+  bgmVolume: number; // BGM 音量 0-1
+  speechVolume: number; // 语音音量 0-1
+  speechEnabled: boolean; // 语音开关
 }
 
 /**
@@ -55,10 +76,27 @@ export const createDefaultUserData = (): UserData => ({
   collectedCards: [],
   totalStars: 0,
   settings: {
+    // V0.2 基础设置
     soundEnabled: true,
     musicEnabled: true,
     vibrationEnabled: true,
+    // V0.3 音效系统新增
+    sfxVolume: 0.7,
+    bgmVolume: 0.4,
+    speechVolume: 0.8,
+    speechEnabled: true,
   },
+  // V0.2.1 新增字段
+  hiddenLevelsUnlocked: [],
+  achievements: [
+    {
+      id: 'math-king',
+      name: '数学王者',
+      description: '击败重装赤魂王，成为数学王者',
+      icon: '👑',
+      unlocked: false,
+    },
+  ],
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 });
