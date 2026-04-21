@@ -70,6 +70,27 @@ const BlankResult = styled.span<{ $isCorrect: boolean }>`
   border: 2px solid ${(props) => (props.$isCorrect ? ThemeColors.success : ThemeColors.error)};
 `;
 
+const InputGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 24px;
+`;
+
+const InputRow = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const StepLabel = styled.span`
+  font-size: 18px;
+  color: ${ThemeColors.textSecondary};
+`;
+
 const HintBox = styled.div`
   display: flex;
   align-items: center;
@@ -130,68 +151,138 @@ const FillBlankQuestion: React.FC<FillBlankQuestionProps> = ({
   isAnswered,
   onAnswer,
 }) => {
-  const [userAnswer, setUserAnswer] = useState(selectedAnswer || '');
+  const [userAnswers, setUserAnswers] = useState<string[]>(
+    selectedAnswer ? selectedAnswer.split(',') : []
+  );
 
-  const checkAnswer = (input: string): boolean => {
-    const normalizedInput = input.trim();
+  // 检测题目中有多少个需要填写的空白（使用 {{___}} 标记）
+  const blankCount = (question.question.match(/\{\{___\}\}/g) || []).length;
+  const isMultiBlank = blankCount > 1;
+
+  const checkAnswer = (answers: string[]): boolean => {
     const correctAnswers = Array.isArray(question.answer) ? question.answer : [question.answer];
 
-    return correctAnswers.some((ans) => ans.trim().toLowerCase() === normalizedInput.toLowerCase());
+    if (isMultiBlank) {
+      // 多空白：每个空白对应一个答案
+      // correctAnswers 中每个元素可能是逗号分隔的多个正确值（如 ['a,b', 'c,d']）
+      return answers.length === blankCount && answers.every((ans, i) => {
+        const correctForPosition = correctAnswers[i] || correctAnswers[0];
+        const validAnswersForPosition = correctForPosition.split(',').map(a => a.trim().toLowerCase());
+        return validAnswersForPosition.includes(ans.trim().toLowerCase());
+      });
+    }
+
+    // 单空白：correctAnswers 表示"答案可以是其中任意一个"
+    return correctAnswers.some((ans) =>
+      ans.trim().toLowerCase() === answers[0]?.trim().toLowerCase()
+    );
+  };
+
+  const handleInputChange = (index: number, value: string) => {
+    if (isAnswered) return;
+    const newAnswers = [...userAnswers];
+    newAnswers[index] = value;
+    setUserAnswers(newAnswers);
   };
 
   const handleConfirm = () => {
-    if (!userAnswer.trim()) return;
-    onAnswer(userAnswer.trim());
+    if (userAnswers.some(a => !a.trim())) return;
+    // 将多个答案用逗号连接（不加空格）
+    onAnswer(userAnswers.map(a => a.trim()).join(','));
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && userAnswer.trim() && !isAnswered) {
-      handleConfirm();
+  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+    if (e.key === 'Enter') {
+      if (index < userAnswers.length - 1) {
+        // 跳转到下一个输入框
+        const nextInput = document.getElementById(`blank-input-${index + 1}`);
+        nextInput?.focus();
+      } else if (userAnswers.every(a => a.trim()) && !isAnswered) {
+        handleConfirm();
+      }
     }
   };
 
-  // 渲染题目，将 ___ 替换为输入框或结果
-  const renderQuestion = () => {
-    const parts = question.question.split('___');
-    const isCorrect = selectedAnswer ? checkAnswer(selectedAnswer) : false;
+  // 渲染多个空白输入
+  const renderMultiBlankInputs = () => {
+    const parts = question.question.split('\{\{___\}\}');
+    const allAnswers = userAnswers.length > 0 ? userAnswers : Array(blankCount).fill('');
 
     return (
-      <span>
-        {parts.map((part, index) => (
-          <React.Fragment key={index}>
-            {part}
-            {index < parts.length - 1 && (
-              <>
-                {isAnswered ? (
-                  <BlankResult $isCorrect={isCorrect}>
-                    {Array.isArray(question.answer) ? question.answer[0] : question.answer}
-                  </BlankResult>
-                ) : (
-                  <BlankInput
-                    type="text"
-                    value={userAnswer}
-                    onChange={(e) => setUserAnswer(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="?"
-                    autoFocus
-                    $isCorrect={false}
-                    $isWrong={false}
-                  />
-                )}
-              </>
+      <InputGroup>
+        {parts.map((part, partIndex) => (
+          <InputRow key={partIndex}>
+            <StepLabel>{part}</StepLabel>
+            {partIndex < parts.length - 1 && (
+              isAnswered ? (
+                <BlankResult $isCorrect={checkAnswer(userAnswers)}>
+                  {Array.isArray(question.answer)
+                    ? (question.answer[0]?.split(',')[partIndex] || question.answer[0])
+                    : (question.answer?.split(',')[partIndex] || '?')
+                  }
+                </BlankResult>
+              ) : (
+                <BlankInput
+                  id={`blank-input-${partIndex}`}
+                  type="text"
+                  value={allAnswers[partIndex] || ''}
+                  onChange={(e) => handleInputChange(partIndex, e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e, partIndex)}
+                  placeholder="?"
+                  autoFocus={partIndex === 0}
+                  $isCorrect={false}
+                  $isWrong={false}
+                />
+              )
             )}
-          </React.Fragment>
+          </InputRow>
         ))}
-      </span>
+      </InputGroup>
     );
   };
 
   const correctAnswers = Array.isArray(question.answer) ? question.answer : [question.answer];
-  const isCorrect = selectedAnswer ? checkAnswer(selectedAnswer) : false;
+  const isCorrect = selectedAnswer ? checkAnswer(userAnswers) : false;
+
+  // 单空白情况的渲染
+  const renderSingleBlank = () => {
+    const parts = question.question.split('\{\{___\}\}');
+    return (
+      <QuestionText>
+        <span>
+          {parts.map((part, index) => (
+            <React.Fragment key={index}>
+              {part}
+              {index < parts.length - 1 && (
+                <>
+                  {isAnswered ? (
+                    <BlankResult $isCorrect={isCorrect}>
+                      {Array.isArray(question.answer) ? question.answer[0] : question.answer}
+                    </BlankResult>
+                  ) : (
+                    <BlankInput
+                      type="text"
+                      value={userAnswers[0] || ''}
+                      onChange={(e) => handleInputChange(0, e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(e, 0)}
+                      placeholder="?"
+                      autoFocus
+                      $isCorrect={false}
+                      $isWrong={false}
+                    />
+                  )}
+                </>
+              )}
+            </React.Fragment>
+          ))}
+        </span>
+      </QuestionText>
+    );
+  };
 
   return (
     <QuestionContainer>
-      <QuestionText>{renderQuestion()}</QuestionText>
+      {isMultiBlank ? renderMultiBlankInputs() : renderSingleBlank()}
       {question.questionImage && (
         <QuestionImage src={question.questionImage} alt="题目图片" />
       )}
@@ -216,10 +307,10 @@ const FillBlankQuestion: React.FC<FillBlankQuestionProps> = ({
       {!isAnswered && (
         <ConfirmButton
           onClick={handleConfirm}
-          disabled={!userAnswer.trim()}
-          $disabled={!userAnswer.trim()}
-          whileHover={userAnswer.trim() ? { scale: 1.05 } : {}}
-          whileTap={userAnswer.trim() ? { scale: 0.95 } : {}}
+          disabled={userAnswers.some(a => !a.trim())}
+          $disabled={userAnswers.some(a => !a.trim())}
+          whileHover={userAnswers.every(a => a.trim()) ? { scale: 1.05 } : {}}
+          whileTap={userAnswers.every(a => a.trim()) ? { scale: 0.95 } : {}}
         >
           确认答案
         </ConfirmButton>

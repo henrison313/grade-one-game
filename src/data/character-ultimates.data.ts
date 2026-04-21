@@ -59,9 +59,9 @@ export const characterUltimates: Record<string, UltimateAnimationParams> = {
     },
   },
 
-  // 002: 急救卫士
-  'baoche-jiushi': {
-    name: '生命守护结界',
+  // 002: 急救卫士（新手形态）
+  'ji-jiu-wei-shi': {
+    name: '治疗射线',
     animationParams: {
       scale: { from: 1, to: 1.1 },
       rotation: 0,
@@ -70,26 +70,94 @@ export const characterUltimates: Record<string, UltimateAnimationParams> = {
       color: '#10B981',
     },
     textEffect: {
-      color: '#FFD700',
-      glowColor: '#FFFACD',
+      color: '#FFFFFF',
+      glowColor: '#10B981',
       animation: 'pulse',
     },
   },
 
-  // 003: 烈火修罗
-  'liehuo-xiuluo': {
-    name: '烈火焚天',
+  // 002-2: 急救卫士·战地形态（挑战模式）
+  'ji-jiu-wei-shi-battle': {
+    name: '巨钳重压',
     animationParams: {
-      scale: { from: 1, to: 1.4 },
-      rotation: 10,
+      scale: { from: 1, to: 1.2 },
+      rotation: 5,
       duration: 4000,
-      particleCount: 35,
-      color: '#EF4444',
+      particleCount: 25,
+      color: '#FFD700',
     },
     textEffect: {
+      color: '#FFD700',
+      glowColor: '#FFA500',
+      animation: 'shake',
+    },
+  },
+
+  // 002-3: 急救卫士·终极形态（高手模式）
+  'ji-jiu-wei-shi-ultimate': {
+    name: '巨钳休克',
+    animationParams: {
+      scale: { from: 1, to: 1.3 },
+      rotation: 10,
+      duration: 4500,
+      particleCount: 30,
+      color: '#FF6B6B',
+    },
+    textEffect: {
+      color: '#FF0080',
+      glowColor: '#00FF80',
+      animation: 'flicker',
+    },
+  },
+
+  // 003: 烈火修罗（新手形态）
+  'liehuo-xiuluo': {
+    name: '水流发射',
+    animationParams: {
+      scale: { from: 1, to: 1.2 },
+      rotation: 0,
+      duration: 3500,
+      particleCount: 25,
+      color: '#3B82F6',
+    },
+    textEffect: {
+      color: '#1E90FF',
+      glowColor: '#00BFFF',
+      animation: 'wave',
+    },
+  },
+
+  // 003-2: 烈火修罗·烈焰形态（挑战模式）
+  'liehuo-xiuluo-flame': {
+    name: '烈焰巨锤',
+    animationParams: {
+      scale: { from: 1, to: 1.3 },
+      rotation: 15,
+      duration: 4000,
+      particleCount: 30,
       color: '#FF4500',
+    },
+    textEffect: {
+      color: '#FF6B6B',
       glowColor: '#FF8C00',
       animation: 'flicker',
+    },
+  },
+
+  // 003-3: 烈火修罗·终极形态（高手模式）
+  'liehuo-xiuluo-ultimate': {
+    name: '巨锤重击',
+    animationParams: {
+      scale: { from: 1, to: 1.4 },
+      rotation: 20,
+      duration: 4500,
+      particleCount: 40,
+      color: '#FFD700',
+    },
+    textEffect: {
+      color: '#FFD700',
+      glowColor: '#FFA500',
+      animation: 'shake',
     },
   },
 
@@ -396,6 +464,40 @@ export const characterUltimates: Record<string, UltimateAnimationParams> = {
       color: '#4B0082',
       glowColor: '#9370DB',
       animation: 'flicker',
+    },
+  },
+
+  // 022: 超炫电光王 - 隐藏关卡 H1 守护者
+  'chaoxuan-dianguangwang': {
+    name: '超炫电光爆裂',
+    animationParams: {
+      scale: { from: 1, to: 1.5 },
+      rotation: 30,
+      duration: 5500,
+      particleCount: 55,
+      color: '#FACC15',
+    },
+    textEffect: {
+      color: '#FFD700',
+      glowColor: '#FFA500',
+      animation: 'flicker',
+    },
+  },
+
+  // 023: 炫蓝雷霆王 - 隐藏关卡 H2 守护者
+  'xuanlan-leitingwang': {
+    name: '炫蓝雷霆灭世',
+    animationParams: {
+      scale: { from: 1, to: 1.6 },
+      rotation: 45,
+      duration: 7000,
+      particleCount: 75,
+      color: '#3B82F6',
+    },
+    textEffect: {
+      color: '#1E90FF',
+      glowColor: '#00BFFF',
+      animation: 'wave',
     },
   },
 };

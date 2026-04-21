@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeColors, GameConfig } from '@/config';
@@ -8,6 +8,7 @@ interface AnswerFeedbackProps {
   explanation: string;
   onNext: () => void;
   isLastQuestion: boolean;
+  autoNext?: boolean;  // 答对时自动下一题
 }
 
 const FeedbackContainer = styled(motion.div)`
@@ -108,12 +109,46 @@ const Overlay = styled(motion.div)`
   background: rgba(0, 0, 0, 0.5);
 `;
 
+// 自动跳转倒计时提示
+const AutoNextHint = styled(motion.div)`
+  font-size: 14px;
+  color: ${ThemeColors.textSecondary};
+  margin-bottom: 16px;
+`;
+
 const AnswerFeedback: React.FC<AnswerFeedbackProps> = ({
   isCorrect,
   explanation,
   onNext,
   isLastQuestion,
+  autoNext = false,
 }) => {
+  const [countdown, setCountdown] = useState(2);
+
+  // 答对时自动跳转（2秒后）
+  useEffect(() => {
+    if (isCorrect && autoNext) {
+      const countdownTimer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(countdownTimer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      const autoNextTimer = setTimeout(() => {
+        onNext();
+      }, 2000);
+
+      return () => {
+        clearInterval(countdownTimer);
+        clearTimeout(autoNextTimer);
+      };
+    }
+  }, [isCorrect, autoNext, onNext]);
+
   return (
     <AnimatePresence>
       <FeedbackContainer
@@ -156,13 +191,27 @@ const AnswerFeedback: React.FC<AnswerFeedbackProps> = ({
 
           <Explanation>{explanation}</Explanation>
 
-          <NextButton
-            onClick={onNext}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {isLastQuestion ? '查看结果' : '下一题'}
-          </NextButton>
+          {/* 答对自动跳转时显示倒计时提示 */}
+          {isCorrect && autoNext && (
+            <AutoNextHint
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              {countdown > 0 ? `${countdown}秒后自动进入下一题...` : '正在跳转...'}
+            </AutoNextHint>
+          )}
+
+          {/* 答错或非自动跳转时显示按钮 */}
+          {(!isCorrect || !autoNext) && (
+            <NextButton
+              onClick={onNext}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {isLastQuestion ? '查看结果' : '下一题'}
+            </NextButton>
+          )}
         </FeedbackContent>
       </FeedbackContainer>
     </AnimatePresence>

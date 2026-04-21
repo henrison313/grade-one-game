@@ -43,7 +43,7 @@ export const level4_1Questions: Question[] = [
   // 题目 3：填空题 - 整十数加减法
   {
     type: QuestionType.FILL_BLANK,
-    question: '50 + ___ = 90',
+    question: '50 + {{___}} = 90',
     answer: '40',
     explanation: '50 + 40 = 90！5 个十加 4 个十等于 9 个十。',
     hint: '5 个十加几个十等于 9 个十？',

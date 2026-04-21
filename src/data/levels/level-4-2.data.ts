@@ -43,7 +43,7 @@ export const level4_2Questions: Question[] = [
   // 题目 3：填空题 - 两位数加减法
   {
     type: QuestionType.FILL_BLANK,
-    question: '计算 56 + 20：\n先算 50 + 20 = 70\n再算 70 + ___ = 76',
+    question: '计算 56 + 20：\n先算 50 + 20 = 70\n再算 70 + {{___}} = 76',
     answer: '6',
     explanation: '56 + 20，先算 50 + 20 = 70，再加个位 6，等于 76！',
     hint: '个位上的 6 直接落下来',

@@ -1,5 +1,44 @@
 import type { Question } from './question.types';
 import type { Character, Mentor } from './character.types';
+import type { DifficultyLevel, QuestionStoryConfig } from './difficulty.types';
+
+/**
+ * 解锁条件类型
+ */
+export interface UnlockCondition {
+  type: 'levels_completed' | 'stars_collected' | 'accuracy';
+  targetLevels?: string[];
+  minStars?: number;
+  targetLevel?: string;
+  minAccuracy?: number;
+}
+
+/**
+ * 卡牌奖励
+ */
+export interface CardReward {
+  characterId: string;
+  rarity: 'bronze' | 'silver' | 'gold' | 'rainbow' | 'prismatic';
+}
+
+/**
+ * 技能奖励
+ */
+export interface SkillReward {
+  id: string;
+  name: string;
+  description: string;
+  type: 'passive' | 'active';
+  permanent?: boolean;
+}
+
+/**
+ * 关卡奖励
+ */
+export interface LevelReward {
+  card: CardReward;
+  skill?: SkillReward;
+}
 
 /**
  * 关卡数据
@@ -19,6 +58,15 @@ export interface Level {
   starReward: number; // 每题奖励星星
   prerequisite?: string; // 前置关卡
   story: StorySegment[];
+  // 隐藏关卡相关字段（可选）
+  unlockConditions?: UnlockCondition[];
+  unlockLogic?: 'AND' | 'OR';
+  reward?: LevelReward;
+  // 难度故事配置（可选，用于趣味化改造）
+  /** 按难度分组的题目（可选） */
+  questionsByDifficulty?: Record<DifficultyLevel, Question[]>;
+  /** 各难度的故事叙事配置（可选） */
+  storyConfigs?: Record<DifficultyLevel, QuestionStoryConfig>;
 }
 
 /**

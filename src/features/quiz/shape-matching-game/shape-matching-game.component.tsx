@@ -1,17 +1,22 @@
-/**
- * 图形配对游戏组件 (SHAPE_MATCH)
- * 功能：N×M 网格，点击翻开卡片，相同配对保持翻开，不同翻回
- */
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
-import type { ShapeMatchingGameConfig, ShapeGameItem } from '@/types';
+import type { ShapeMatchingGameConfig } from '@/types';
 import { Shape } from '@/shared/components/shape/shape.component';
 
 interface ShapeMatchingGameProps {
   config: ShapeMatchingGameConfig;
   onComplete: (stars: number, timeUsed: number) => void;
+}
+
+// Fisher-Yates 洗牌函数
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
 }
 
 // 游戏容器
@@ -134,33 +139,30 @@ export const ShapeMatchingGame: React.FC<ShapeMatchingGameProps> = ({
   config,
   onComplete,
 }) => {
-  const [cards, setCards] = useState<Array<{ id: string; item: ShapeGameItem; isFlipped: boolean; isMatched: boolean }>>([]);
-  const [flippedCards, setFlippedCards] = useState<number[]>([]);
-  const [moves, setMoves] = useState(0);
-  const [matchedPairs, setMatchedPairs] = useState(0);
-  const [timeUsed, setTimeUsed] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-
-  // 初始化卡片
-  useEffect(() => {
-    // 创建配对卡片（每对 2 张）
-    const shuffledItems = [...config.items, ...config.items]
-      .sort(() => Math.random() - 0.5)
+  // 初始化卡片（只在组件挂载时执行一次）
+  const [cards, setCards] = useState(() => {
+    const shuffledItems = shuffleArray([...config.items, ...config.items])
       .map((item, index) => ({
         id: `card-${index}`,
         item,
         isFlipped: false,
         isMatched: false,
       }));
-    setCards(shuffledItems);
+    return shuffledItems;
+  });
+  const [flippedCards, setFlippedCards] = useState<number[]>([]);
+  const [moves, setMoves] = useState(0);
+  const [matchedPairs, setMatchedPairs] = useState(0);
+  const [timeUsed, setTimeUsed] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
 
-    // 计时器
+  // 计时器
+  useEffect(() => {
     const timer = setInterval(() => {
       setTimeUsed((prev) => prev + 1);
     }, 1000);
-
     return () => clearInterval(timer);
-  }, [config.items]);
+  }, []);
 
   // 检查配对完成
   useEffect(() => {

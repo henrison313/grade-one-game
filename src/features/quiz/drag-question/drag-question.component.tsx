@@ -1,16 +1,58 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { ThemeColors, ShapeNames } from '@/config';
+import { ThemeColors } from '@/config';
 import { useSound } from '@/shared/hooks';
 import type { DragQuestionData, DragItem, DragTarget } from '@/types';
 
 interface DragQuestionProps {
   question: DragQuestionData;
-  placements: Record<string, string>; // targetId -> itemId
+  placements: Record<string, string[]>; // targetId -> itemId[]
   isAnswered: boolean;
-  onAnswer: (placements: Record<string, string>) => void;
+  onAnswer: (placements: Record<string, string[]>) => void;
 }
+
+// 图形颜色配置
+const SHAPE_COLORS: Record<string, string> = {
+  circle: '#3B82F6',    // 蓝色
+  triangle: '#EF4444',  // 红色
+  square: '#10B981',    // 绿色
+  rectangle: '#F59E0B', // 黄色
+};
+
+// 图形 SVG 渲染组件
+const ShapeSVG: React.FC<{ shape: string; size: number }> = ({ shape, size }) => {
+  const color = SHAPE_COLORS[shape] || '#4F46E5';
+
+  switch (shape) {
+    case 'circle':
+      return (
+        <svg width={size} height={size} viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="40" fill={color} stroke="#333" strokeWidth="2" />
+        </svg>
+      );
+    case 'triangle':
+      return (
+        <svg width={size} height={size} viewBox="0 0 100 100">
+          <polygon points="50,15 85,85 15,85" fill={color} stroke="#333" strokeWidth="2" />
+        </svg>
+      );
+    case 'square':
+      return (
+        <svg width={size} height={size} viewBox="0 0 100 100">
+          <rect x="15" y="15" width="70" height="70" fill={color} stroke="#333" strokeWidth="2" />
+        </svg>
+      );
+    case 'rectangle':
+      return (
+        <svg width={size} height={size * 0.7} viewBox="0 0 100 70">
+          <rect x="5" y="5" width="90" height="60" fill={color} stroke="#333" strokeWidth="2" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+};
 
 const QuestionContainer = styled.div`
   width: 100%;
@@ -47,11 +89,8 @@ const ItemsContainer = styled.div`
   border-radius: 16px;
 `;
 
-const DraggableItem = styled(motion.div)<{ $isPlaced: boolean }>`
-  width: 80px;
-  height: 80px;
+const DraggableItem = styled(motion.div)<{ $isPlaced: boolean; $hasShape: boolean }>`
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   background: white;
@@ -61,25 +100,15 @@ const DraggableItem = styled(motion.div)<{ $isPlaced: boolean }>`
   opacity: ${(props) => (props.$isPlaced ? 0.5 : 1)};
   user-select: none;
   touch-action: none;
+  padding: ${(props) => props.$hasShape ? '8px' : '12px 20px'};
+  min-width: ${(props) => props.$hasShape ? '60px' : '100px'};
+  min-height: ${(props) => props.$hasShape ? '60px' : 'auto'};
 `;
 
-const ShapeIcon = styled.div<{ $shape: 'circle' | 'triangle' | 'square' | 'rectangle' }>`
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  svg {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-const ItemName = styled.span`
-  font-size: 12px;
-  color: ${ThemeColors.textSecondary};
-  margin-top: 4px;
+const ItemText = styled.span`
+  font-size: 16px;
+  font-weight: 600;
+  color: ${ThemeColors.textPrimary};
 `;
 
 const TargetsContainer = styled.div`
@@ -90,12 +119,14 @@ const TargetsContainer = styled.div`
 `;
 
 const DropTarget = styled(motion.div)<{ $hasItem: boolean; $isCorrect: boolean; $isWrong: boolean }>`
-  width: 120px;
+  min-width: 120px;
   height: 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+  padding: 8px;
   background: ${(props) => {
     if (props.$isCorrect) return 'rgba(16, 185, 129, 0.2)';
     if (props.$isWrong) return 'rgba(239, 68, 68, 0.2)';
@@ -111,21 +142,34 @@ const DropTarget = styled(motion.div)<{ $hasItem: boolean; $isCorrect: boolean; 
 `;
 
 const TargetName = styled.span`
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   color: ${ThemeColors.textPrimary};
-  margin-bottom: 8px;
 `;
 
 const PlacedItem = styled(motion.div)`
-  width: 60px;
-  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 8px 12px;
+  min-width: 80px;
+`;
+
+const PlacedText = styled.span`
+  font-size: 14px;
+  font-weight: 600;
+  color: ${ThemeColors.textPrimary};
+`;
+
+const PlacedItemsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  width: 100%;
 `;
 
 const SubmitButton = styled(motion.button)`
@@ -141,41 +185,6 @@ const SubmitButton = styled(motion.button)`
   align-self: center;
 `;
 
-// 图形 SVG 组件
-const ShapeSvg: React.FC<{ shape: 'circle' | 'triangle' | 'square' | 'rectangle'; color?: string }> = ({
-  shape,
-  color = ThemeColors.primary,
-}) => {
-  switch (shape) {
-    case 'circle':
-      return (
-        <svg viewBox="0 0 50 50">
-          <circle cx="25" cy="25" r="20" fill={color} />
-        </svg>
-      );
-    case 'triangle':
-      return (
-        <svg viewBox="0 0 50 50">
-          <polygon points="25,5 45,45 5,45" fill={color} />
-        </svg>
-      );
-    case 'square':
-      return (
-        <svg viewBox="0 0 50 50">
-          <rect x="10" y="10" width="30" height="30" fill={color} />
-        </svg>
-      );
-    case 'rectangle':
-      return (
-        <svg viewBox="0 0 50 50">
-          <rect x="5" y="15" width="40" height="20" fill={color} />
-        </svg>
-      );
-    default:
-      return null;
-  }
-};
-
 const DragQuestion: React.FC<DragQuestionProps> = ({
   question,
   placements: externalPlacements,
@@ -183,19 +192,28 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
   onAnswer,
 }) => {
   const { playDrag, playDrop, playCorrect, playWrong } = useSound();
-  const [placements, setPlacements] = useState<Record<string, string>>(externalPlacements || {});
+  const [placements, setPlacements] = useState<Record<string, string[]>>(externalPlacements || {});
   const [draggingItemId, setDraggingItemId] = useState<string | null>(null);
 
-  // 检查是否所有目标都已放置
-  const allTargetsFilled = question.targets.every((t) => placements[t.id]);
+  // 检查是否所有物品都已放置
+  const allItemsPlaced = question.items.every((item) =>
+    Object.values(placements).some((ids) => ids.includes(item.id))
+  );
 
-  // 检查是否正确
+  // 检查是否正确：所有放置的物品都必须在正确的目标中
   const checkCorrectness = useCallback(() => {
-    return question.targets.every((target) => {
-      const placedItemId = placements[target.id];
-      return target.accepts.includes(placedItemId || '');
+    return question.items.every((item) => {
+      // 找到该物品被放置在哪个目标
+      const targetId = Object.keys(placements).find((tid) =>
+        placements[tid].includes(item.id)
+      );
+      if (!targetId) return false; // 物品未放置
+
+      // 检查该目标是否接受此物品
+      const target = question.targets.find((t) => t.id === targetId);
+      return target?.accepts.includes(item.id) || false;
     });
-  }, [placements, question.targets]);
+  }, [placements, question.items, question.targets]);
 
   const handleDragStart = (itemId: string) => {
     if (isAnswered) return;
@@ -210,31 +228,27 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
   const handleDrop = (targetId: string) => {
     if (!draggingItemId || isAnswered) return;
 
-    // 检查该目标是否已有物品
-    const existingItemId = placements[targetId];
     const newPlacements = { ...placements };
-
-    // 如果目标已有物品，先移除
-    if (existingItemId) {
-      delete newPlacements[targetId];
-    }
 
     // 移除该物品之前的位置
     Object.keys(newPlacements).forEach((key) => {
-      if (newPlacements[key] === draggingItemId) {
-        delete newPlacements[key];
-      }
+      newPlacements[key] = (newPlacements[key] || []).filter((id) => id !== draggingItemId);
     });
 
-    // 放置到新位置
-    newPlacements[targetId] = draggingItemId;
+    // 放置到新位置（添加到数组）
+    if (!newPlacements[targetId]) {
+      newPlacements[targetId] = [];
+    }
+    if (!newPlacements[targetId].includes(draggingItemId)) {
+      newPlacements[targetId].push(draggingItemId);
+    }
     setPlacements(newPlacements);
     playDrop();
     setDraggingItemId(null);
   };
 
   const handleSubmit = () => {
-    if (!allTargetsFilled || isAnswered) return;
+    if (!allItemsPlaced || isAnswered) return;
     onAnswer(placements);
 
     // 播放音效
@@ -248,12 +262,13 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
   // 获取目标状态
   const getTargetState = (target: DragTarget) => {
     if (!isAnswered) {
-      return { hasItem: !!placements[target.id], isCorrect: false, isWrong: false };
+      return { hasItem: !!(placements[target.id] && placements[target.id].length > 0), isCorrect: false, isWrong: false };
     }
 
-    const placedItemId = placements[target.id];
-    const isCorrect = target.accepts.includes(placedItemId || '');
-    return { hasItem: !!placedItemId, isCorrect, isWrong: !isCorrect && !!placedItemId };
+    const placedItemIds = placements[target.id] || [];
+    // 所有放置的物品都正确才算正确
+    const isCorrect = placedItemIds.length > 0 && placedItemIds.every((id) => target.accepts.includes(id));
+    return { hasItem: placedItemIds.length > 0, isCorrect, isWrong: !isCorrect && placedItemIds.length > 0 };
   };
 
   // 渲染拖拽项
@@ -261,6 +276,7 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
     <DraggableItem
       key={item.id}
       $isPlaced={isPlaced}
+      $hasShape={!!item.shape}
       draggable={!isAnswered && !isPlaced}
       onDragStart={() => handleDragStart(item.id)}
       onDragEnd={handleDragEnd}
@@ -285,19 +301,19 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
       whileHover={!isAnswered && !isPlaced ? { scale: 1.05 } : {}}
       whileTap={!isAnswered && !isPlaced ? { scale: 0.95 } : {}}
     >
-      <ShapeIcon $shape={item.shape || 'circle'}>
-        <ShapeSvg shape={item.shape || 'circle'} />
-      </ShapeIcon>
-      <ItemName>{ShapeNames[item.shape || 'circle']}</ItemName>
+      {item.shape ? (
+        <ShapeSVG shape={item.shape} size={40} />
+      ) : (
+        <ItemText>{item.name}</ItemText>
+      )}
     </DraggableItem>
   );
 
   // 渲染放置目标
   const renderTarget = (target: DragTarget) => {
     const state = getTargetState(target);
-    const placedItem = state.hasItem
-      ? question.items.find((i) => i.id === placements[target.id])
-      : null;
+    const placedItemIds = placements[target.id] || [];
+    const placedItems = placedItemIds.map((id) => question.items.find((i) => i.id === id)).filter(Boolean) as DragItem[];
 
     return (
       <DropTarget
@@ -314,15 +330,22 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
         whileHover={{ scale: 1.02 }}
       >
         <TargetName>{target.name}</TargetName>
-        {placedItem && (
-          <PlacedItem
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: 'spring', stiffness: 300 }}
-          >
-            <ShapeSvg shape={placedItem.shape || 'circle'} />
-          </PlacedItem>
-        )}
+        <PlacedItemsContainer>
+          {placedItems.map((item) => (
+            <PlacedItem
+              key={item.id}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
+              {item.shape ? (
+                <ShapeSVG shape={item.shape} size={30} />
+              ) : (
+                <PlacedText>{item.name}</PlacedText>
+              )}
+            </PlacedItem>
+          ))}
+        </PlacedItemsContainer>
       </DropTarget>
     );
   };
@@ -334,16 +357,17 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
 
       <DragArea>
         <ItemsContainer>
-          {question.items.map((item) =>
-            renderItem(item, !!Object.values(placements).includes(item.id))
-          )}
+          {question.items.map((item) => {
+            const isPlaced = Object.values(placements).some((ids) => ids.includes(item.id));
+            return renderItem(item, isPlaced);
+          })}
         </ItemsContainer>
 
         <TargetsContainer>
           {question.targets.map(renderTarget)}
         </TargetsContainer>
 
-        {!isAnswered && allTargetsFilled && (
+        {!isAnswered && allItemsPlaced && (
           <SubmitButton
             onClick={handleSubmit}
             whileHover={{ scale: 1.05 }}

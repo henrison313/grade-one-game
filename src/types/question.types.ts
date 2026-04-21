@@ -24,6 +24,8 @@ export enum QuestionType {
   COMBO = 'combo',
   /** 限时模式 */
   TIMED = 'timed',
+  /** 图形自由组合 */
+  SHAPE_COMPOSE = 'shape_compose',
 }
 
 /**
@@ -340,6 +342,19 @@ export interface TimedQuestionData {
 // ============== 更新 Question 联合类型 ==============
 
 /**
+ * 图形自由组合配置（SHAPE_COMPOSE）
+ */
+export interface ShapeComposeQuestionData {
+  type: QuestionType.SHAPE_COMPOSE;
+  question: string;
+  instruction: string;
+  items: DragItem[]; // 要组合的图形
+  canvasSize: { width: number; height: number }; // 画布尺寸
+  requiredCounts?: Record<string, number>; // 可选：每种图形需要的数量
+  explanation: string;
+}
+
+/**
  * 题目联合类型
  */
 export type Question =
@@ -353,4 +368,5 @@ export type Question =
   | ShapeMatchQuestionData
   | TangramQuestionData
   | ComboQuestionData
-  | TimedQuestionData;
+  | TimedQuestionData
+  | ShapeComposeQuestionData;

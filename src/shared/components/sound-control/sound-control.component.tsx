@@ -186,48 +186,45 @@ const Divider = styled.div`
 `;
 
 export const SoundControl: React.FC<SoundControlProps> = ({ isOpen, onClose }) => {
-  const { getSettings, updateSettings, playClick, play } = useSound();
-  const [settings, setSettings] = useState<SoundSettings>(getSettings());
+  const { getSettings, setVolume, setEnabled, play } = useSound();
+  const [localSettings, setLocalSettings] = useState<SoundSettings>(getSettings());
 
-  // 当面板打开时刷新设置
+  // 只在组件首次打开时加载设置
   useEffect(() => {
     if (isOpen) {
-      setSettings(getSettings());
+      setLocalSettings(getSettings());
     }
-  }, [isOpen, getSettings]);
+  }, [isOpen]);
 
   const handleToggle = useCallback(
     (key: keyof SoundSettings) => {
-      playClick();
-      setSettings((prev) => {
-        const newSettings = { ...prev, [key]: !prev[key] };
-        updateSettings(newSettings);
-        return newSettings;
-      });
+      const newValue = !localSettings[key];
+      setLocalSettings((prev) => ({ ...prev, [key]: newValue }));
+      setEnabled(key === 'enabled' ? newValue : localSettings.enabled);
     },
-    [playClick, updateSettings]
+    [localSettings, setEnabled]
   );
 
   const handleVolumeChange = useCallback(
     (key: 'sfxVolume' | 'bgmVolume' | 'speechVolume', value: number) => {
-      setSettings((prev) => {
-        const newSettings = { ...prev, [key]: value };
-        updateSettings(newSettings);
-        return newSettings;
-      });
+      setLocalSettings((prev) => ({ ...prev, [key]: value }));
+      setVolume(key === 'sfxVolume' ? 'sfx' : key === 'bgmVolume' ? 'bgm' : 'speech', value);
       // 播放测试音效
       if (key === 'sfxVolume') {
         play('click');
       }
     },
-    [play, updateSettings]
+    [play, setVolume]
   );
 
   const handleSave = useCallback(() => {
-    playClick();
-    updateSettings(settings);
+    // 保存时确保所有设置都已应用
+    setEnabled(localSettings.enabled);
+    setVolume('sfx', localSettings.sfxVolume);
+    setVolume('bgm', localSettings.bgmVolume);
+    setVolume('speech', localSettings.speechVolume);
     onClose();
-  }, [playClick, settings, updateSettings, onClose]);
+  }, [localSettings, setEnabled, setVolume, onClose]);
 
   const formatPercent = (value: number) => `${Math.round(value * 100)}%`;
 
@@ -266,7 +263,7 @@ export const SoundControl: React.FC<SoundControlProps> = ({ isOpen, onClose }) =
                   音效总开关
                 </ToggleLabel>
                 <Toggle
-                  $active={settings.enabled}
+                  $active={localSettings.enabled}
                   onClick={() => handleToggle('enabled')}
                 />
               </ToggleContainer>
@@ -287,13 +284,13 @@ export const SoundControl: React.FC<SoundControlProps> = ({ isOpen, onClose }) =
                   min="0"
                   max="1"
                   step="0.1"
-                  value={settings.bgmVolume}
+                  value={localSettings.bgmVolume}
                   onChange={(e) =>
                     handleVolumeChange('bgmVolume', parseFloat(e.target.value))
                   }
-                  disabled={!settings.enabled}
+                  disabled={!localSettings.enabled}
                 />
-                <VolumeValue>{formatPercent(settings.bgmVolume)}</VolumeValue>
+                <VolumeValue>{formatPercent(localSettings.bgmVolume)}</VolumeValue>
               </SliderContainer>
             </SettingItem>
 
@@ -310,13 +307,13 @@ export const SoundControl: React.FC<SoundControlProps> = ({ isOpen, onClose }) =
                   min="0"
                   max="1"
                   step="0.1"
-                  value={settings.sfxVolume}
+                  value={localSettings.sfxVolume}
                   onChange={(e) =>
                     handleVolumeChange('sfxVolume', parseFloat(e.target.value))
                   }
-                  disabled={!settings.enabled}
+                  disabled={!localSettings.enabled}
                 />
-                <VolumeValue>{formatPercent(settings.sfxVolume)}</VolumeValue>
+                <VolumeValue>{formatPercent(localSettings.sfxVolume)}</VolumeValue>
               </SliderContainer>
             </SettingItem>
 
@@ -328,7 +325,7 @@ export const SoundControl: React.FC<SoundControlProps> = ({ isOpen, onClose }) =
                   语音朗读
                 </ToggleLabel>
                 <Toggle
-                  $active={settings.speechEnabled}
+                  $active={localSettings.speechEnabled}
                   onClick={() => handleToggle('speechEnabled')}
                 />
               </ToggleContainer>
@@ -341,13 +338,13 @@ export const SoundControl: React.FC<SoundControlProps> = ({ isOpen, onClose }) =
                   min="0"
                   max="1"
                   step="0.1"
-                  value={settings.speechVolume}
+                  value={localSettings.speechVolume}
                   onChange={(e) =>
                     handleVolumeChange('speechVolume', parseFloat(e.target.value))
                   }
-                  disabled={!settings.enabled || !settings.speechEnabled}
+                  disabled={!localSettings.enabled || !localSettings.speechEnabled}
                 />
-                <VolumeValue>{formatPercent(settings.speechVolume)}</VolumeValue>
+                <VolumeValue>{formatPercent(localSettings.speechVolume)}</VolumeValue>
               </SliderContainer>
             </SettingItem>
 
@@ -361,7 +358,7 @@ export const SoundControl: React.FC<SoundControlProps> = ({ isOpen, onClose }) =
                   振动反馈
                 </ToggleLabel>
                 <Toggle
-                  $active={settings.vibrationEnabled}
+                  $active={localSettings.vibrationEnabled}
                   onClick={() => handleToggle('vibrationEnabled')}
                 />
               </ToggleContainer>

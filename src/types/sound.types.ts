@@ -30,7 +30,7 @@ export type SoundType =
 /**
  * 背景音乐类型
  */
-export type BGMType = 'menu' | 'battle' | 'victory' | 'story'
+export type BGMType = 'menu' | 'battle' | 'victory' | 'story' | 'collection'
 
 /**
  * 稀有度类型

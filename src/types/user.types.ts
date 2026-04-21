@@ -1,3 +1,15 @@
+import { DifficultyLevel } from './difficulty.types';
+
+/**
+ * 稀有度类型
+ */
+export type RarityLevel = 'common' | 'rare' | 'epic' | 'legendary' | 'bronze' | 'silver' | 'gold' | 'rainbow' | 'prismatic';
+
+/**
+ * 形态类型
+ */
+export type VariantType = 'base' | 'flame' | 'ultimate' | 'battle';
+
 /**
  * 关卡状态
  */
@@ -10,13 +22,16 @@ export interface LevelProgress {
 }
 
 /**
- * 收集的卡牌
+ * 收集的卡牌（支持多形态）
  */
 export interface CollectedCard {
-  characterId: string;
+  characterId: string;      // 基础角色 ID
+  variant: VariantType;  // 形态类型
+  rarity: RarityLevel;      // 该形态的稀有度
   collectedAt: string;
   levelId: string;
   stars: number;
+  difficulty: DifficultyLevel;  // 难度来源
 }
 
 /**

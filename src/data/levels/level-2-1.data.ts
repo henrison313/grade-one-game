@@ -28,7 +28,7 @@ export const level2_1Questions: Question[] = [
   // 题目 2：填空题 - 破十法步骤
   {
     type: QuestionType.FILL_BLANK,
-    question: '计算 14 - 8：\n先把 14 分成 10 和 4\n10 - 8 = 2\n2 + ___ = 6',
+    question: '计算 14 - 8：先把 14 分成 10 和 4，10 - 8 = 2，2 + {{___}} = 6',
     answer: '4',
     explanation: '14 分成 10 和 4，10 - 8 = 2，2 + 4 = 6！',
     hint: '14 可以分成 10 和几？',
@@ -67,7 +67,7 @@ export const level2_1Questions: Question[] = [
   // 题目 5：填空题
   {
     type: QuestionType.FILL_BLANK,
-    question: '计算 16 - 8：\n10 - 8 = 2\n2 + ___ = 8',
+    question: '计算 16 - 8：10 - 8 = 2，2 + {{___}} = 8',
     answer: '6',
     explanation: '10 - 8 = 2，2 + 6 = 8！',
     hint: '10 减 8 等于几？',

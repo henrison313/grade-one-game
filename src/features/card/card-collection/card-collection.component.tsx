@@ -1,14 +1,22 @@
-import React, { useState, useMemo } from 'react';
+/**
+ * 炫卡收集册组件 - 支持多形态分组展示
+ * 布局：方案 C - 形态独立卡片 + 分组标记
+ */
+
+import React, { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { ThemeColors, RarityConfig } from '@/config';
 import { storageService } from '@/services';
+import { useSound } from '@/shared/hooks';
 import { Button, Modal, CardSummoner } from '@/shared/components';
-import { getAllCharacters, getCharacterById } from '@/data/characters.data';
+import { getCharacterById } from '@/data/characters.data';
+import { getVariantsByCharacterId, getCharacterGroupColor, juliFengbaoVariants } from '@/data/character-variants.data';
 import CardDetail from '../card-detail/card-detail.component';
-import type { Character } from '@/types';
+import type { Character, CollectedCard, RarityLevel, VariantType } from '@/types';
 
-// 扩展稀有度配置以支持新类型
+// 扩展稀有度配置
 const ExtendedRarityConfig: Record<string, { name: string; color: string; glow: string }> = {
   ...RarityConfig,
   bronze: { name: '青铜', color: '#CD7F32', glow: 'rgba(205, 127, 50, 0.5)' },
@@ -22,34 +30,6 @@ const Container = styled.div`
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
-`;
-
-const SummonerSection = styled(motion.div)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  margin-bottom: 16px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-`;
-
-const SummonerLabel = styled.div`
-  margin-left: 16px;
-  text-align: left;
-`;
-
-const SummonerTitle = styled.h3`
-  font-size: 16px;
-  font-weight: 600;
-  color: ${ThemeColors.textLight};
-  margin-bottom: 4px;
-`;
-
-const SummonerCount = styled.p`
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
 `;
 
 const Header = styled.div`
@@ -95,137 +75,244 @@ const StatLabel = styled.div`
   color: ${ThemeColors.textSecondary};
 `;
 
-const CardsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 16px;
+const SummonerSection = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
 `;
 
-const CardSlot = styled(motion.div)<{ $collected: boolean }>`
-  aspect-ratio: 3/4;
-  background: ${(props) =>
-    props.$collected ? 'white' : 'rgba(255, 255, 255, 0.2)'};
-  border-radius: 16px;
+const SummonerLabel = styled.div`
+  margin-left: 16px;
+  text-align: left;
+`;
+
+const SummonerTitle = styled.h3`
+  font-size: 16px;
+  font-weight: 600;
+  color: ${ThemeColors.textLight};
+  margin-bottom: 4px;
+`;
+
+const SummonerCount = styled.p`
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+`;
+
+// 角色分组标题
+const GroupHeader = styled.div<{ $color: string }>`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 12px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  border-left: 4px solid ${(props) => props.$color};
+`;
+
+const GroupAvatar = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  cursor: ${(props) => (props.$collected ? 'pointer' : 'default')};
-  box-shadow: ${(props) =>
-    props.$collected ? '0 4px 12px rgba(0, 0, 0, 0.1)' : 'none'};
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+`;
+
+const GroupName = styled.div`
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+`;
+
+const GroupCount = styled.div`
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-left: auto;
+`;
+
+// 形态卡片网格（同一组内）
+const VariantGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+`;
+
+// 形态卡片
+const VariantCard = styled(motion.div)<{ $collected: boolean; $groupColor: string }>`
+  aspect-ratio: 3/4;
+  background: ${(props) => props.$collected ? 'white' : 'rgba(255, 255, 255, 0.1)'};
+  border-radius: 16px;
+  border-left: 4px solid ${(props) => props.$groupColor};
+  overflow: hidden;
+  cursor: ${(props) => props.$collected ? 'pointer' : 'default'};
+  box-shadow: ${(props) => props.$collected ? '0 4px 12px rgba(0, 0, 0, 0.1)' : 'none'};
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
+  opacity: ${(props) => props.$collected ? 1 : 0.5};
 `;
 
-const CardImage = styled.img`
-  width: 80%;
-  height: 60%;
+const VariantImage = styled.img`
+  width: 70%;
+  height: 55%;
   object-fit: contain;
 `;
 
-const CardName = styled.div`
-  font-size: 14px;
+const VariantName = styled.div`
+  font-size: 13px;
   font-weight: 600;
   color: ${ThemeColors.textPrimary};
   margin-top: 8px;
+  text-align: center;
 `;
 
-const CardRarity = styled.div<{ $rarity: string }>`
+const VariantLabel = styled.div`
+  font-size: 11px;
+  color: ${ThemeColors.textSecondary};
+`;
+
+const VariantRarity = styled.div<{ $rarity: RarityLevel }>`
   font-size: 10px;
   color: ${(props) => ExtendedRarityConfig[props.$rarity]?.color || '#9CA3AF'};
   margin-top: 4px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: ${(props) => ExtendedRarityConfig[props.$rarity]?.glow || 'transparent'};
 `;
 
-const QuestionMark = styled.div`
-  font-size: 48px;
-  color: rgba(255, 255, 255, 0.5);
+const EmptyPlaceholder = styled.div`
+  width: 70%;
+  height: 55%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: rgba(255, 255, 255, 0.3);
 `;
 
 const EmptyText = styled.div`
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.5);
   margin-top: 8px;
 `;
 
-const CardNumber = styled.div`
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  font-size: 10px;
-  color: ${ThemeColors.textSecondary};
-  background: rgba(0, 0, 0, 0.05);
-  padding: 2px 6px;
-  border-radius: 4px;
-`;
-
 const CardCollection: React.FC = () => {
+  const [selectedCard, setSelectedCard] = useState<CollectedCard | null>(null);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<{
+    image: string;
+    displayName: string;
+    rarity: RarityLevel;
+  } | null>(null);
+  const navigate = useNavigate();
   const userData = storageService.getUserData();
-  const allCharacters = getAllCharacters();
+  const { playBGM, stopBGM } = useSound();
 
-  // 计算收集统计
+  useEffect(() => {
+    playBGM('collection');
+    return () => stopBGM();
+  }, []);
+
+  // 收集统计
   const stats = useMemo(() => {
     const collected = userData.collectedCards.length;
-    const total = allCharacters.length;
+    const totalVariants = juliFengbaoVariants.length; // 目前只有巨力风暴有多个形态
     const totalStars = userData.totalStars;
 
-    // 按稀有度统计
-    const byRarity: Record<string, number> = {
-      common: 0,
-      rare: 0,
-      epic: 0,
-      legendary: 0,
-      bronze: 0,
-      silver: 0,
-      gold: 0,
-      rainbow: 0,
-      prismatic: 0,
-    };
-
+    const byRarity: Record<string, number> = {};
     userData.collectedCards.forEach((card) => {
-      const char = getCharacterById(card.characterId);
-      if (char) {
-        byRarity[char.rarity] = (byRarity[char.rarity] || 0) + 1;
-      }
+      byRarity[card.rarity] = (byRarity[card.rarity] || 0) + 1;
     });
 
-    return { collected, total, totalStars, byRarity };
-  }, [userData, allCharacters]);
+    return { collected, totalVariants, totalStars, byRarity };
+  }, [userData]);
 
-  // 获取最近收集的卡牌用于展示
-  const recentCards = useMemo(() => {
-    return userData.collectedCards
-      .slice(-3) // 最近3张
-      .map((card) => {
-        const char = getCharacterById(card.characterId);
-        return char
-          ? {
-              image: char.cardImage || char.robotImage,
-              rarity: char.rarity,
-            }
-          : null;
-      })
-      .filter((card): card is NonNullable<typeof card> => card !== null);
+  // 按角色分组已收集的卡片
+  const groupedCards = useMemo(() => {
+    const groups: Record<string, CollectedCard[]> = {};
+
+    userData.collectedCards.forEach((card) => {
+      if (!groups[card.characterId]) {
+        groups[card.characterId] = [];
+      }
+      groups[card.characterId].push(card);
+    });
+
+    return groups;
   }, [userData.collectedCards]);
 
-  // 检查角色是否已收集
-  const isCollected = (characterId: string) => {
-    return userData.collectedCards.some((card) => card.characterId === characterId);
+  // 获取角色所有可能的形态
+  const getCharacterVariants = (characterId: string) => {
+    return getVariantsByCharacterId(characterId);
   };
 
-  // 获取收集信息
-  const getCollectionInfo = (characterId: string) => {
-    return userData.collectedCards.find((card) => card.characterId === characterId);
+  // 检查某形态是否已收集
+  const isVariantCollected = (characterId: string, variant: VariantType) => {
+    return userData.collectedCards.some(
+      (card) => card.characterId === characterId && card.variant === variant
+    );
+  };
+
+  // 最近收集的卡片用于召唤器展示
+  const recentCards = useMemo(() => {
+    return userData.collectedCards
+      .slice(-3)
+      .map((card) => {
+        const char = getCharacterById(card.characterId);
+        const variant = getVariantsByCharacterId(card.characterId).find(
+          (v) => v.variant === card.variant
+        );
+        const image = variant?.image || char?.robotImage || '';
+        return {
+          image,
+          rarity: card.rarity,
+        };
+      })
+      .filter((card) => card.image);
+  }, [userData.collectedCards]);
+
+  // 处理卡片点击
+  const handleCardClick = (card: CollectedCard) => {
+    const character = getCharacterById(card.characterId);
+    if (character) {
+      // 获取形态信息
+      const variants = getVariantsByCharacterId(card.characterId);
+      const variant = variants.find((v) => v.variant === card.variant);
+
+      setSelectedCard(card);
+      setSelectedCharacter(character);
+      setSelectedVariant({
+        image: variant?.image || character.robotImage,
+        displayName: variant?.displayName || character.name,
+        rarity: card.rarity,
+      });
+    }
   };
 
   return (
     <Container>
-      {/* 召唤器展示区域 */}
+      {/* 召唤器展示 */}
       {stats.collected > 0 && (
         <SummonerSection
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ type: 'spring', stiffness: 200, damping: 20 }}
         >
           <CardSummoner mode="display" displayCards={recentCards} />
           <SummonerLabel>
@@ -237,81 +324,134 @@ const CardCollection: React.FC = () => {
 
       <Header>
         <Title>卡牌收集册</Title>
-        <BackButton onClick={() => window.history.back()}>返回</BackButton>
+        <BackButton onClick={() => navigate('/levels')}>返回</BackButton>
       </Header>
 
       <StatsBar>
         <StatItem>
-          <StatValue>{stats.collected} / {stats.total}</StatValue>
+          <StatValue>{stats.collected}</StatValue>
           <StatLabel>已收集</StatLabel>
         </StatItem>
         <StatItem>
           <StatValue>{stats.totalStars}</StatValue>
           <StatLabel>总星星</StatLabel>
         </StatItem>
-        <StatItem>
-          <StatValue>{stats.byRarity.legendary}</StatValue>
-          <StatLabel>传说</StatLabel>
-        </StatItem>
-        <StatItem>
-          <StatValue>{stats.byRarity.epic}</StatValue>
-          <StatLabel>史诗</StatLabel>
-        </StatItem>
-        <StatItem>
-          <StatValue>{stats.byRarity.rare}</StatValue>
-          <StatLabel>稀有</StatLabel>
-        </StatItem>
+        {/* 动态显示所有有数据的稀有度 */}
+        {Object.entries(ExtendedRarityConfig)
+          .filter(([key]) => (stats.byRarity[key] || 0) > 0)
+          .map(([key, config]) => (
+            <StatItem key={key}>
+              <StatValue style={{ color: config.color }}>
+                {stats.byRarity[key] || 0}
+              </StatValue>
+              <StatLabel>{config.name}</StatLabel>
+            </StatItem>
+          ))}
       </StatsBar>
 
-      <CardsGrid>
-        {allCharacters.map((character, index) => {
-          const collected = isCollected(character.id);
+      {/* 按角色分组展示 */}
+      {Object.entries(groupedCards).map(([characterId, cards]) => {
+        const character = getCharacterById(characterId);
+        if (!character) return null;
 
-          return (
-            <CardSlot
-              key={character.id}
-              $collected={collected}
-              onClick={() => collected && setSelectedCharacter(character)}
-              whileHover={collected ? { scale: 1.05 } : {}}
-              whileTap={collected ? { scale: 0.95 } : {}}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-            >
-              {collected ? (
-                <>
-                  <CardNumber>#{character.number}</CardNumber>
-                  <CardImage
-                    src={character.cardImage || character.robotImage}
-                    alt={character.name}
-                  />
-                  <CardName>{character.name}</CardName>
-                  <CardRarity $rarity={character.rarity}>
-                    {ExtendedRarityConfig[character.rarity]?.name || '普通'}
-                  </CardRarity>
-                </>
-              ) : (
-                <>
-                  <QuestionMark>?</QuestionMark>
-                  <EmptyText>未收集</EmptyText>
-                </>
-              )}
-            </CardSlot>
-          );
-        })}
-      </CardsGrid>
+        const groupColor = getCharacterGroupColor(characterId);
+        const variants = getCharacterVariants(characterId);
+        const collectedCount = cards.length;
+
+        return (
+          <div key={characterId}>
+            {/* 角色分组标题 */}
+            <GroupHeader $color={groupColor}>
+              <GroupAvatar>
+                <img src={character.robotImage} alt={character.name} />
+              </GroupAvatar>
+              <GroupName>{character.name}</GroupName>
+              <GroupCount>{collectedCount}/{variants.length || 1} 形态</GroupCount>
+            </GroupHeader>
+
+            {/* 形态卡片 */}
+            <VariantGrid>
+              {/* 显示已收集的形态 */}
+              {cards.map((card) => {
+                const variant = variants.find((v) => v.variant === card.variant);
+                const variantImage = variant?.image || character.robotImage;
+                const variantName = variant?.displayName || character.name;
+
+                return (
+                  <VariantCard
+                    key={`${card.characterId}-${card.variant}`}
+                    $collected={true}
+                    $groupColor={groupColor}
+                    onClick={() => handleCardClick(card)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    <VariantImage src={variantImage} alt={variantName} />
+                    <VariantName>{variantName}</VariantName>
+                    <VariantLabel>
+                      {card.variant === 'base' ? '基础' : card.variant === 'flame' ? '火焰' : '终极'}
+                    </VariantLabel>
+                    <VariantRarity $rarity={card.rarity}>
+                      {ExtendedRarityConfig[card.rarity]?.name || '普通'}
+                    </VariantRarity>
+                  </VariantCard>
+                );
+              })}
+
+              {/* 显示未收集的形态（占位） */}
+              {variants
+                .filter((v) => !isVariantCollected(characterId, v.variant))
+                .map((variant) => (
+                  <VariantCard
+                    key={`${characterId}-${variant.variant}-empty`}
+                    $collected={false}
+                    $groupColor={groupColor}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.5 }}
+                  >
+                    <EmptyPlaceholder>?</EmptyPlaceholder>
+                    <EmptyText>{variant.displayName}</EmptyText>
+                    <VariantLabel>
+                      {variant.variant === 'base' ? '基础' : variant.variant === 'flame' ? '火焰' : '终极'}
+                    </VariantLabel>
+                    <VariantRarity $rarity={variant.rarity}>
+                      未获得
+                    </VariantRarity>
+                  </VariantCard>
+                ))}
+            </VariantGrid>
+          </div>
+        );
+      })}
+
+      {/* 无卡片提示 */}
+      {userData.collectedCards.length === 0 && (
+        <div style={{ textAlign: 'center', padding: '40px', color: 'white' }}>
+          <p style={{ fontSize: 18 }}>还没有收集任何炫卡</p>
+          <p style={{ fontSize: 14, marginTop: 8 }}>完成关卡即可获得炫卡！</p>
+        </div>
+      )}
 
       {/* 卡牌详情弹窗 */}
       <Modal
-        isOpen={!!selectedCharacter}
-        onClose={() => setSelectedCharacter(null)}
+        isOpen={!!selectedCharacter && !!selectedCard}
+        onClose={() => {
+          setSelectedCharacter(null);
+          setSelectedCard(null);
+          setSelectedVariant(null);
+        }}
         showCloseButton
       >
-        {selectedCharacter && (
+        {selectedCharacter && selectedCard && selectedVariant && (
           <CardDetail
             character={selectedCharacter}
-            collectedAt={getCollectionInfo(selectedCharacter.id)?.collectedAt}
-            stars={getCollectionInfo(selectedCharacter.id)?.stars}
+            variantImage={selectedVariant.image}
+            variantName={selectedVariant.displayName}
+            variantRarity={selectedVariant.rarity}
+            collectedAt={selectedCard.collectedAt}
+            stars={selectedCard.stars}
           />
         )}
       </Modal>

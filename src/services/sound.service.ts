@@ -1,4 +1,4 @@
-import { soundConfig, bgmSceneConfig } from '@/config';
+import { soundConfig } from '@/config';
 import { storageService } from './storage.service';
 import type { SoundType, BGMType, RarityType, SoundSettings } from '@/types';
 
@@ -25,10 +25,66 @@ class SoundService {
   private bgmDucked: boolean = false;
   private preDuckVolume: number = 0;
   private audioFilesExist: Map<string, boolean> = new Map();
+  private audioUnlocked: boolean = false;
+  private pendingBGM: BGMType | null = null;
+
+  // BGM 请求 ID - 用于取消过期的请求
+  private currentBGMRequest: number = 0;
 
   constructor() {
     this.initAudioContext();
     this.loadSettings();
+    this.setupAudioUnlock();
+  }
+
+  /**
+   * 设置音频解锁（处理自动播放限制）
+   */
+  private setupAudioUnlock(): void {
+    const unlockEvents = ['click', 'touchstart', 'keydown'];
+    const unlockAudio = async () => {
+      if (this.audioUnlocked) return;
+
+      // 尝试恢复 AudioContext
+      if (this.audioContext?.state === 'suspended') {
+        try {
+          await this.audioContext.resume();
+        } catch (e) {
+          // ignore
+        }
+      }
+
+      // 播放一个无声音频来解锁
+      try {
+        const silentAudio = new Audio();
+        silentAudio.volume = 0.001;
+        await silentAudio.play();
+        silentAudio.pause();
+        this.audioUnlocked = true;
+        console.log('[SoundService] Audio unlocked');
+
+        // 如果有 pending BGM，播放它
+        if (this.pendingBGM) {
+          console.log(`[SoundService] Playing pending BGM: ${this.pendingBGM}`);
+          const type = this.pendingBGM;
+          this.pendingBGM = null;
+          this.playBGM(type);
+        }
+      } catch (e) {
+        // 忽略错误，下次交互再试
+      }
+
+      // 移除事件监听
+      if (this.audioUnlocked) {
+        unlockEvents.forEach(event => {
+          document.removeEventListener(event, unlockAudio);
+        });
+      }
+    };
+
+    unlockEvents.forEach(event => {
+      document.addEventListener(event, unlockAudio, { passive: true });
+    });
   }
 
   /**
@@ -102,25 +158,39 @@ class SoundService {
 
   /**
    * 检查音频文件是否存在
-   * 注意：只在文件存在时缓存，不存在时每次重新检测
+   * 使用 Audio 对象预加载来检测，比 fetch HEAD 更可靠
    */
   private async checkAudioFileExists(path: string): Promise<boolean> {
     // 如果缓存显示文件存在，直接返回
     if (this.audioFilesExist.get(path) === true) {
+      console.log(`[SoundService] File ${path} cached as existing`);
       return true;
     }
 
-    // 否则重新检测
-    try {
-      const response = await fetch(path, { method: 'HEAD' });
-      const exists = response.ok;
-      if (exists) {
+    // 使用 Audio 对象检测文件是否存在
+    return new Promise((resolve) => {
+      const audio = new Audio();
+
+      audio.addEventListener('canplaythrough', () => {
+        console.log(`[SoundService] File ${path} exists and can play`);
         this.audioFilesExist.set(path, true);
-      }
-      return exists;
-    } catch {
-      return false;
-    }
+        resolve(true);
+      }, { once: true });
+
+      audio.addEventListener('error', () => {
+        console.log(`[SoundService] File ${path} not found or error`);
+        resolve(false);
+      }, { once: true });
+
+      // 设置超时，避免长时间等待
+      setTimeout(() => {
+        console.log(`[SoundService] File ${path} check timeout`);
+        resolve(false);
+      }, 3000);
+
+      audio.src = path;
+      audio.load();
+    });
   }
 
   // ========== Web Audio API 生成音效 ==========
@@ -318,7 +388,7 @@ class SoundService {
   }
 
   /**
-   * 设置音量
+   * 设置音量（立即应用到正在播放的 BGM）
    */
   setVolume(type: 'sfx' | 'bgm' | 'speech', volume: number): void {
     const clampedVolume = Math.max(0, Math.min(1, volume));
@@ -329,7 +399,8 @@ class SoundService {
         break;
       case 'bgm':
         this.settings.bgmVolume = clampedVolume;
-        if (this.currentBGM && !this.bgmDucked) {
+        // 立即应用到正在播放的 BGM
+        if (this.currentBGM) {
           this.currentBGM.volume = clampedVolume;
         }
         break;
@@ -349,17 +420,20 @@ class SoundService {
   }
 
   /**
-   * 更新所有设置
+   * 更新所有设置（立即应用）
    */
   updateSettings(settings: Partial<SoundSettings>): void {
+    const oldSettings = { ...this.settings };
     this.settings = { ...this.settings, ...settings };
     this.saveSettings();
 
-    if (this.currentBGM && !this.bgmDucked) {
-      this.currentBGM.volume = this.settings.bgmVolume;
+    // 如果 BGM 音量变化，立即应用
+    if (settings.bgmVolume !== undefined && this.currentBGM && !this.bgmDucked) {
+      this.currentBGM.volume = settings.bgmVolume;
     }
 
-    if (!this.settings.enabled) {
+    // 如果总开关关闭，停止 BGM
+    if (settings.enabled === false && oldSettings.enabled !== false) {
       this.stopBGM();
     }
   }
@@ -435,15 +509,15 @@ class SoundService {
   private playGeneratedBGM(type: BGMType): void {
     if (!this.settings.enabled || !this.audioContext) return;
 
-    // 停止当前 BGM
-    this.stopBGM();
+    // 设置当前 BGM 类型（stopBGMInternal 已经在外部调用）
+    this.currentBGMType = type;
 
     // 简单的节拍生成器
     const baseFreq = type === 'menu' ? 440 : type === 'battle' ? 330 : type === 'victory' ? 523 : 392;
 
     // 创建循环节奏
     const playBeat = () => {
-      if (!this.settings.enabled || this.currentBGM) return;
+      if (!this.settings.enabled) return;
 
       const osc = this.audioContext!.createOscillator();
       const gain = this.audioContext!.createGain();
@@ -467,55 +541,138 @@ class SoundService {
     // 存储 interval ID 以便停止
     (this as any)._bgmIntervalId = intervalId;
 
-    console.log(`[SoundService] Playing generated ${type} BGM (audio files not found)`);
+    console.log(`[SoundService] Playing generated ${type} BGM`);
   }
 
   /**
-   * 播放背景音乐
+   * 播放背景音乐（简化版本，无队列）
    */
   async playBGM(type: BGMType): Promise<void> {
-    if (!this.settings.enabled) return;
-    if (this.currentBGMType === type && this.currentBGM && !this.currentBGM.paused) {
+    console.log(`[SoundService] playBGM requested: ${type}, current: ${this.currentBGMType}`);
+
+    if (!this.settings.enabled) {
+      console.log('[SoundService] Sound disabled, not playing BGM');
       return;
     }
 
+    // 生成新的请求 ID
+    const requestId = ++this.currentBGMRequest;
+
+    // 如果已经是当前播放的 BGM，直接返回
+    if (this.currentBGMType === type && this.currentBGM && !this.currentBGM.paused) {
+      console.log(`[SoundService] BGM ${type} already playing`);
+      return;
+    }
+
+    // 如果已暂停的同类型，恢复播放
+    if (this.currentBGMType === type && this.currentBGM && this.currentBGM.paused) {
+      console.log(`[SoundService] Resuming paused BGM ${type}`);
+      this.currentBGM.play().catch(() => {});
+      return;
+    }
+
+    // 切换到新类型：立即停止当前 BGM
+    if (this.currentBGMType && this.currentBGMType !== type) {
+      console.log(`[SoundService] Stopping BGM ${this.currentBGMType} to switch to ${type}`);
+      this.stopBGMInternal();
+    }
+
+    // 执行播放
+    await this._doPlayBGM(type, requestId);
+  }
+
+  /**
+   * 实际执行 BGM 播放（内部方法）
+   */
+  private async _doPlayBGM(type: BGMType, requestId: number): Promise<void> {
+    console.log(`[SoundService] _doPlayBGM: ${type}, path: ${soundConfig.bgmFiles[type]}, requestId: ${requestId}`);
+
+    // 立即检查是否是过期请求
+    if (requestId !== this.currentBGMRequest) {
+      console.log(`[SoundService] Request ${requestId} is stale (current: ${this.currentBGMRequest}), skipping`);
+      return;
+    }
+
+    // 动态导入配置（避免循环依赖）
+    const { bgmSceneConfig } = await import('@/config');
     const path = soundConfig.bgmFiles[type];
+
+    // 检查文件是否存在
     const fileExists = await this.checkAudioFileExists(path);
+    console.log(`[SoundService] File exists: ${fileExists}`);
 
     if (fileExists) {
-      // 使用音频文件
-      this.stopBGM();
+      // 再次检查请求是否过期（文件检查是异步的）
+      if (requestId !== this.currentBGMRequest) {
+        console.log(`[SoundService] Request ${requestId} became stale during file check, skipping`);
+        return;
+      }
+
+      // 设置当前 BGM 类型（在创建 audio 之前）
+      this.currentBGMType = type;
 
       const audio = new Audio(path);
       const config = bgmSceneConfig[type];
       audio.loop = config.loop;
       audio.volume = this.settings.bgmVolume;
 
+      // 设置状态
       this.currentBGM = audio;
-      this.currentBGMType = type;
 
-      audio.play().catch((error) => {
-        console.warn('BGM play failed:', error);
-        // 回退到生成音效
-        this.playGeneratedBGM(type);
+      await new Promise<void>((resolve) => {
+        const onCanPlay = () => {
+          console.log(`[SoundService] Audio ready, playing: ${path}`);
+          audio.play().then(() => {
+            console.log(`[SoundService] BGM ${type} started playing successfully`);
+            this.pendingBGM = null;
+          }).catch((error) => {
+            console.warn('[SoundService] BGM play failed:', error.name);
+            if (error.name === 'NotAllowedError') {
+              console.log(`[SoundService] Setting pending BGM: ${type}`);
+              this.pendingBGM = type;
+            } else {
+              this.stopBGMInternal();
+              this.playGeneratedBGM(type);
+            }
+          });
+          resolve();
+        };
+
+        const onError = () => {
+          console.warn(`[SoundService] Audio failed to load: ${path}`);
+          this.stopBGMInternal();
+          this.playGeneratedBGM(type);
+          resolve();
+        };
+
+        audio.addEventListener('canplaythrough', onCanPlay, { once: true });
+        audio.addEventListener('error', onError, { once: true });
+        audio.load();
       });
+
+      // 播放完成后再次检查请求是否过期
+      if (requestId !== this.currentBGMRequest) {
+        console.log(`[SoundService] Request ${requestId} completed but is stale, stopping BGM`);
+        this.stopBGMInternal();
+      }
     } else {
-      // 使用生成音效
+      console.log(`[SoundService] Falling back to generated BGM: ${type}`);
+      this.currentBGMType = type;
       this.playGeneratedBGM(type);
     }
   }
 
   /**
-   * 停止背景音乐
+   * 内部停止方法（不重置 Promise）
    */
-  stopBGM(): void {
+  private stopBGMInternal(): void {
+    console.log('[SoundService] stopBGMInternal called');
+
     // 停止音频文件 BGM
     if (this.currentBGM) {
       this.currentBGM.pause();
       this.currentBGM.currentTime = 0;
       this.currentBGM = null;
-      this.currentBGMType = null;
-      this.bgmDucked = false;
     }
 
     // 停止生成 BGM
@@ -523,6 +680,18 @@ class SoundService {
       clearInterval((this as any)._bgmIntervalId);
       (this as any)._bgmIntervalId = null;
     }
+
+    this.currentBGMType = null;
+    this.bgmDucked = false;
+  }
+
+  /**
+   * 停止背景音乐
+   */
+  stopBGM(): void {
+    console.log('[SoundService] stopBGM called');
+    this.currentBGMRequest++; // 使之前的请求失效
+    this.stopBGMInternal();
   }
 
   /**

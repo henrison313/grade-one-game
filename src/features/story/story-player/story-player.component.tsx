@@ -183,10 +183,19 @@ const StoryPlayer: React.FC<StoryPlayerProps> = ({
 
     // 稍后开始播放，让打字机效果先开始
     const speechTimer = setTimeout(() => {
+      const text = currentSegment.text;
+
+      // 如果文本为空，直接标记完成
+      if (!text || !text.trim()) {
+        setSpeechComplete(true);
+        return;
+      }
+
       speechService.speak(
-        currentSegment.text,
+        text,
         currentSegment.speaker,
         () => {
+          console.log('[StoryPlayer] 语音播放完成:', text.substring(0, 20));
           // 语音播放完成，标记可以切换
           setSpeechComplete(true);
         }

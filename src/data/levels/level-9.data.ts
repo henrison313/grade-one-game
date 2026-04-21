@@ -88,7 +88,7 @@ export const level9Questions: Question[] = [
   // 题目 6：填空题 - 人民币换算
   {
     type: QuestionType.FILL_BLANK,
-    question: '5 元 6 角 = _角',
+    question: '5 元 6 角 = {{___}}角',
     answer: '56',
     explanation: '5 元 6 角 = 56 角！5 元=50 角，50 角 +6 角=56 角。',
     hint: '1 元=10 角',

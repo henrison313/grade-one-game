@@ -17,7 +17,7 @@ import { QuestionType } from '@/types';
 
 export const fillBlankExample: FillBlankQuestionData = {
   type: QuestionType.FILL_BLANK,
-  question: '5 + 3 = ___',
+  question: '5 + 3 = {{___}}',
   answer: '8',
   explanation: '5加3等于8',
   hint: '用手指数一数',
@@ -25,7 +25,7 @@ export const fillBlankExample: FillBlankQuestionData = {
 
 export const fillBlankMultiAnswerExample: FillBlankQuestionData = {
   type: QuestionType.FILL_BLANK,
-  question: '___ + ___ = 10（填两个相同的数）',
+  question: '{{___}} + {{___}} = 10（填两个相同的数）',
   answer: ['5', '五'],
   explanation: '5加5等于10',
 };

@@ -44,7 +44,7 @@ export const level2_2Questions: Question[] = [
   {
     type: QuestionType.DRAG,
     question: '把算式拖到正确的答案上',
-    instruction: '将左侧的算式拖到右侧对应的答案上',
+    instruction: '将算式拖到下面对应的方框内',
     items: [
       { id: '1', name: '15 - 8' },
       { id: '2', name: '13 - 6' },

@@ -1,0 +1,34 @@
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="300" height="200" fill="#f8f9fa"/>
+
+  <!-- 图形1: 冰淇淋 - 三角形蛋筒 + 圆形冰淇淋球 -->
+  <!-- 三角形蛋筒 -->
+  <polygon points="50,100 30,170 70,170" fill="#D4A574" stroke="#8B6914" stroke-width="2"/>
+  <!-- 圆形冰淇淋球 -->
+  <circle cx="50" cy="80" r="30" fill="#FFB6C1" stroke="#FF69B4" stroke-width="2"/>
+  <!-- 小装饰点 -->
+  <circle cx="40" cy="70" r="4" fill="#FF6B6B"/>
+  <circle cx="55" cy="65" r="4" fill="#4CAF50"/>
+  <circle cx="60" cy="75" r="4" fill="#FFD700"/>
+
+  <!-- 图形2: 房子 - 三角形屋顶 + 方形主体（方形不需要圈） -->
+  <!-- 三角形屋顶 -->
+  <polygon points="150,60 110,100 190,100" fill="#EF4444" stroke="#B91C1C" stroke-width="2"/>
+  <!-- 方形主体（不需要圈） -->
+  <rect x="120" y="100" width="60" height="70" fill="#FFE4B5" stroke="#DEB887" stroke-width="2"/>
+  <!-- 圆形窗户 -->
+  <circle cx="135" cy="120" r="8" fill="#87CEEB" stroke="#4682B4" stroke-width="1"/>
+  <circle cx="165" cy="120" r="8" fill="#87CEEB" stroke="#4682B4" stroke-width="1"/>
+
+  <!-- 图形3: 小汽车 - 多个圆形轮子 + 三角形装饰 -->
+  <!-- 车身（长方形不需要圈） -->
+  <rect x="200" y="100" width="80" height="40" rx="10" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
+  <!-- 圆形轮子 -->
+  <circle cx="215" cy="145" r="12" fill="#333" stroke="#000" stroke-width="2"/>
+  <circle cx="265" cy="145" r="12" fill="#333" stroke="#000" stroke-width="2"/>
+  <!-- 三角形装饰（车灯） -->
+  <polygon points="280,110 290,120 280,130" fill="#FFD700" stroke="#FFA500" stroke-width="1"/>
+  <!-- 圆形车灯 -->
+  <circle cx="205" cy="115" r="6" fill="#FFD700" stroke="#FFA500" stroke-width="1"/>
+</svg>

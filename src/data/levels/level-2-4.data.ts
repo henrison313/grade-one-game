@@ -28,7 +28,7 @@ export const level2_4Questions: Question[] = [
   // 题目 2：填空题
   {
     type: QuestionType.FILL_BLANK,
-    question: '计算 15 - 6：\n10 - 6 = 4\n4 + ___ = 9',
+    question: '计算 15 - 6：\n10 - 6 = 4\n4 + {{___}} = 9',
     answer: '5',
     explanation: '10 - 6 = 4，4 + 5 = 9！',
     hint: '10 减 6 等于几？',
@@ -67,7 +67,7 @@ export const level2_4Questions: Question[] = [
   // 题目 5：填空题
   {
     type: QuestionType.FILL_BLANK,
-    question: '在___里填上合适的数：\n13 - ___ = 7',
+    question: '在方框里填上合适的数：\n13 - {{___}} = 7',
     answer: '6',
     explanation: '13 - 6 = 7！',
     hint: '想一想，13 减几等于 7？',

@@ -3,15 +3,15 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## 项目信息
-- 项目名称: 炫卡收集游戏
-- 项目类型: Web应用
-- 主要语言: TypeScript
-- 框架: React 19 + Vite
-- 包管理器: npm
-- 状态管理: localStorage + React state (无全局状态库)
-- 样式方案: styled-components
-- 动画: framer-motion
-- 路由: react-router-dom
+- 项目名称：炫卡收集游戏
+- 项目类型：Web 应用
+- 主要语言：TypeScript
+- 框架：React 19 + Vite
+- 包管理器：npm
+- 状态管理：localStorage + React state (无全局状态库)
+- 样式方案：styled-components
+- 动画：framer-motion
+- 路由：react-router-dom
 
 ## 项目概述
 
@@ -19,14 +19,48 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 炫卡斗士风格的卡牌收集机制激励学习
 - 数学课程基于人教版一年级下学期教材
 - 题目难度对标《黄冈小状元作业本》
-- 目标用户: ~7岁儿童，UI需简单、有趣、易操作
-- 离线可用: 核心玩法不依赖服务器
-- 回复语言: 所有回复均用中文
+- 目标用户：~7 岁儿童，UI 需简单、有趣、易操作
+- 离线可用：核心玩法不依赖服务器
+- 回复语言：所有回复均用中文
+
+## 音效系统配置
+
+### 音频资源目录
+```
+public/audio/
+  bg/         # 背景音乐 (BGM)
+  sfx/        # 音效 (SE)
+  ultimate/   # 绝招音效
+```
+
+### BGM 类型
+| 类型 | 用途 | 文件 |
+|------|------|------|
+| `menu` | 主界面 | menu-theme.mp3 |
+| `battle` | 战斗/答题 | battle-theme.mp3 |
+| `victory` | 胜利/关卡完成 | victory-theme.mp3 |
+| `story` | 剧情/关卡介绍 | story-theme.mp3 |
+| `collection` | 卡牌收集册 | collection-theme.mp3 |
+
+### 音效类型
+- 答题：`correct`, `wrong`, `click`, `combo-1`, `combo-5`, `combo-10`
+- 战斗：`card-reveal`, `star-earn`, `level-complete`, `victory`, `defeat`
+- 交互：`drag`, `drop`, `summon`, `transform`
+- 绝招：`ultimate-bronze`, `ultimate-silver`, `ultimate-gold`, `ultimate-rainbow`, `ultimate-prismatic`
+
+### 音量配置
+- 默认音量：音效 0.7, BGM 0.4, 语音 0.8
+- BGM 压低音量：0.15 (语音播放时)
+- 设置持久化：localStorage
+
+### 音频资源来源
+- Kenney Music Jingles: https://kenney.nl/assets/music-jingles
+- 格式要求：MP3 或 Ogg (浏览器兼容)
 
 ## 常用命令
 ```
 npm install       # 安装依赖
-npm run dev       # 启动开发环境 (默认端口3000)
+npm run dev       # 启动开发环境 (默认端口 3000)
 npm run build     # 构建生产版本 (完成任何修改后必须运行验证)
 npm run preview   # 预览生产版本
 npm run lint      # 代码检查
@@ -55,15 +89,15 @@ npm run lint      # 代码检查
 ## 命名规范
 
 ### 文件命名
-- 格式: `[功能]-[描述].[类型].ext`
+- 格式：`[功能]-[描述].[类型].ext`
 - 全小写，中划线分隔
-- 类型后缀: `.component`, `.service`, `.hook`, `.config`, `.types`
-- 示例: `story-player.component.tsx`, `speech.service.ts`, `use-sound.hook.ts`
+- 类型后缀：`.component`, `.service`, `.hook`, `.config`, `.types`
+- 示例：`story-player.component.tsx`, `speech.service.ts`, `use-sound.hook.ts`
 
 ### 文件夹命名
-- 格式: kebab-case (全小写，中划线分隔)
-- 禁止: 大写字母、空格
-- 层级: 最多 4 层深度
+- 格式：kebab-case (全小写，中划线分隔)
+- 禁止：大写字母、空格
+- 层级：最多 4 层深度
 - 单文件直接放父目录，不单独建文件夹
 
 ## 目录结构
@@ -75,6 +109,8 @@ src/
   config/         # 配置文件 (game.config, 主题颜色)
   types/          # 类型定义
   data/           # 静态数据 (characters, levels, questions, games-examples)
+docs/             # 版本规划、测试报告、PRD
+public/           # 图片素材
 ```
 
 ## 核心类型系统
@@ -137,9 +173,11 @@ IMPORTANT: 禁止重复实现已有功能
 
 IMPORTANT: 根本解决问题
 - 找到 root cause，从根本上解决
+- 正面面对问题，不绕过不回避
 - 禁止打补丁、用 hack、投机取巧
-- 废弃代码: 确认无引用 → 直接删除
+- 废弃代码：确认无引用 → 直接删除
 - 只改必要文件，不顺便改无关代码
+
 
 ## 禁止事项
 - 硬编码密钥、密码、敏感信息
@@ -150,11 +188,36 @@ IMPORTANT: 根本解决问题
 
 ## AI 协作协议
 
-- 遇到问题: 先分析根本原因，再提出方案
-- 不接受: "先这样绕过"、"加个判断跳过"
-- 修改前: 先阅读理解现有代码
-- 修改后: 说明改了什么、为什么改
-- 完成前必须验证: 运行 `npm run build` 确认无编译错误
+
+### 解决问题
+- 遇到问题：先分析根本原因，再提出方案
+- 不接受："先这样绕过"、"加个判断跳过"
+- 复杂修复：说明根本原因，等待确认后再动手
+
+### 代码质量
+- 发现重复代码：主动指出并提议合并
+- 发现死代码：主动指出并建议删除
+- 发现设计问题：指出问题本质，提供重构建议
+
+### 工作方式
+- 不确定时：询问确认，不要猜测
+- 修改前：先阅读理解现有代码
+- 修改后：说明改了什么、为什么改
+- 发现无关问题：指出但不"顺便"修复
+- 学到项目新知识时：发现值得记录的规范、命令、模式或坑点，主动提议更新 CLAUDE.md，需用户确认后才执行
+
+### 交付标准
+- 完整实现需求，不做简化版/演示版
+- 不遗留 TODO 或"后续可以扩展"
+- 代码可直接运行，不需要人工补充
+
+### 验证方式
+- 完成前必须验证：运行测试/检查，确认无错误，运行 `npm run build` 确认无编译错误
+- 验证失败时：查看错误、修复、重新验证，循环直到通过
+- 不要假设正确：能验证的就验证，不要说"应该没问题"
+- 新代码：确认有对应测试
+- 修改代码：运行相关测试
+- 删除代码：确认无引用
 
 ## 语言/框架特定规则
 
@@ -165,7 +228,7 @@ IMPORTANT: 根本解决问题
 - 路径导入使用别名 `@/` 而非相对路径
 
 ### React 组件
-- 组件文件命名: `[功能].component.tsx`
+- 组件文件命名：`[功能].component.tsx`
 - 使用函数组件 + Hooks
 - 样式使用 styled-components，定义在组件文件内
 - 动画使用 framer-motion

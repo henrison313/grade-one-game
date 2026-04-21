@@ -11,7 +11,7 @@ export const characters: Character[] = [
     title: '智慧导师',
     description: '炫卡世界的智慧导师，负责引导新战士完成训练。他的闪电速度代表着思维的敏捷。',
     vehicleImage: '/图片素材/炫蓝闪电 1.png',
-    robotImage: '/图片素材/炫蓝闪电 2.png',
+    robotImage: '/图片素材/炫蓝闪电-机器人2.jpeg',
     stats: {
       height: '3.8 米',
       weight: '2.8 吨',
@@ -35,7 +35,7 @@ export const characters: Character[] = [
     title: '力量守护者',
     description: '拥有强大力量的炫卡斗士，守护着"认识平面图形"关卡。他的变形能力让他在战斗中无往不利。',
     vehicleImage: '/图片素材/巨力风暴.png',
-    robotImage: '/图片素材/巨力风暴.png',
+    robotImage: '/图片素材/巨力风暴-机器人.jpeg',
     stats: {
       height: '4.2 米',
       weight: '3.5 吨',
@@ -506,7 +506,7 @@ export const characters: Character[] = [
     name: '重装赤魂王',
     title: '赤色帝王',
     description: '炫卡世界的最终 BOSS，拥有最强的力量和防御。',
-    vehicleImage: '/图片素材/重装赤魂王.png',
+    vehicleImage: '/图片素材/重装赤魂王 1.png',
     robotImage: '/图片素材/重装赤魂王.png',
     stats: {
       height: '6.0 米',
@@ -523,6 +523,54 @@ export const characters: Character[] = [
     number: '021',
     ultimateSkill: '赤魂灭世',
     attribute: '暗',
+  },
+  // 022: 超炫电光王 - 隐藏关卡 H1 守护者
+  {
+    id: 'chaoxuan-dianguangwang',
+    name: '超炫电光王',
+    title: '数位大师',
+    description: '来自数字王国的隐藏 BOSS，精通数位和数的组成。他的电光能力可以揭示数字的本质。',
+    vehicleImage: '/图片素材/超炫电光王.png',
+    robotImage: '/图片素材/超炫电光王.png',
+    stats: {
+      height: '4.5 米',
+      weight: '3.2 吨',
+      speed: '280km/h',
+      power: '9000 马力',
+    },
+    skills: [
+      { name: '数位透视', description: '看穿任何数的数位组成' },
+      { name: '电光启示', description: '释放电光启发智慧' },
+    ],
+    knowledge: ['100 以内数的认识', '数的组成', '数位理解'],
+    rarity: 'rainbow',
+    number: 'H1',
+    ultimateSkill: '超炫电光爆裂',
+    attribute: '电',
+  },
+  // 023: 炫蓝雷霆王 - 隐藏关卡 H2 守护者
+  {
+    id: 'xuanlan-leitingwang',
+    name: '炫蓝雷霆王',
+    title: '时空王者',
+    description: '炫蓝闪电的终极形态，从未来穿越而来的王者。掌握跨单元综合应用的终极力量。',
+    vehicleImage: '/图片素材/炫蓝雷霆王.png',
+    robotImage: '/图片素材/炫蓝雷霆王.png',
+    stats: {
+      height: '5.0 米',
+      weight: '4.0 吨',
+      speed: '350km/h',
+      power: '12000 马力',
+    },
+    skills: [
+      { name: '时空穿梭', description: '穿越时空预知未来' },
+      { name: '雷霆万钧', description: '释放万钧雷霆攻击' },
+    ],
+    knowledge: ['综合应用', '跨单元知识', '问题解决'],
+    rarity: 'prismatic',
+    number: 'H2',
+    ultimateSkill: '炫蓝雷霆灭世',
+    attribute: '雷电',
   },
 ];
 

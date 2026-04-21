@@ -26,8 +26,8 @@ const QuestionText = styled.h2`
 `;
 
 const QuestionImage = styled.img`
-  max-width: 100%;
-  max-height: 200px;
+  max-width: 30%;
+  max-height: 60px;
   margin: 0 auto 24px;
   border-radius: 12px;
 `;

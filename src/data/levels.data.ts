@@ -802,7 +802,7 @@ export const levels: Level[] = [
     description: '认识 100 以内的数，学习数的组成',
     thumbnail: '/图片素材/炫蓝闪电 1.png',
     status: 'locked',
-    guardian: getCharacterById('xuanlan-shandian-S') || characters[7],
+    guardian: getCharacterById('xuanlan-shandian-s') || characters[7],
     mentor: {
       id: 'xuanlan-shandian',
       name: '炫蓝闪电',
@@ -994,7 +994,7 @@ export const levels: Level[] = [
     description: '综合运用所学知识，挑战 BOSS',
     thumbnail: '/图片素材/重装赤魂王 1.png',
     status: 'locked',
-    guardian: getCharacterById('zhongzhuang-chihunwang') || characters[16],
+    guardian: getCharacterById('zhongzhang-chihunwang') || characters[16],
     mentor: {
       id: 'xuanlan-shandian',
       name: '炫蓝闪电',
@@ -1016,7 +1016,7 @@ export const levels: Level[] = [
     description: '认识人民币，学习元角分的换算',
     thumbnail: '/图片素材/喷射加仑.png',
     status: 'locked',
-    guardian: getCharacterById('penshe-jialun') || characters[17],
+    guardian: getCharacterById('penshi-jialun') || characters[17],
     mentor: {
       id: 'xuanlan-shandian',
       name: '炫蓝闪电',
@@ -1059,7 +1059,7 @@ export const levels: Level[] = [
     description: '发现图形和数字的规律',
     thumbnail: '/图片素材/暴击悟空.png',
     status: 'locked',
-    guardian: getCharacterById('baoji-wukong') || characters[19],
+    guardian: getCharacterById('penshi-jialun') || characters[17],
     mentor: {
       id: 'xuanlan-shandian',
       name: '炫蓝闪电',
@@ -1081,7 +1081,7 @@ export const levels: Level[] = [
     description: '综合复习本学期所有知识点',
     thumbnail: '/图片素材/炫卡斗士 Logo.png',
     status: 'locked',
-    guardian: getCharacterById('xuanka-doushi') || characters[20],
+    guardian: getCharacterById('tiebi-jueshi') || characters[18],
     mentor: {
       id: 'xuanlan-shandian',
       name: '炫蓝闪电',

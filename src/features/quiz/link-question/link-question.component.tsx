@@ -27,9 +27,10 @@ const LinkArea = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 600px;
+  max-width: 900px;
   padding: 20px;
   position: relative;
+  gap: 200px;
 `;
 
 // 左右列
@@ -61,7 +62,19 @@ const OptionItem = styled(motion.div)<{ selected?: boolean; matched?: boolean }>
   }
 `;
 
-// SVG 连线层
+// 不同的连线颜色（鲜艳、易区分）
+const LINE_COLORS = [
+  '#FF5252', // 红色
+  '#FF9800', // 橙色
+  '#FFEB3B', // 黄色
+  '#4CAF50', // 绿色
+  '#00BCD4', // 青色
+  '#3F51B5', // 靛蓝色
+  '#9C27B0', // 紫色
+  '#E91E63', // 粉红色
+];
+
+// SVG 连线层 - 置顶但不阻挡点击
 const SvgLayer = styled.svg`
   position: absolute;
   top: 0;
@@ -69,15 +82,15 @@ const SvgLayer = styled.svg`
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 0;
+  z-index: 100;
 `;
 
 // 连线
-const LinkLine = styled.line<{ isCorrect?: boolean }>`
-  stroke: ${({ isCorrect }) => (isCorrect ? '#10b981' : '#667eea')};
-  stroke-width: 3;
+const LinkLine = styled.line<{ color?: string }>`
+  stroke: ${({ color }) => color || '#667eea'};
+  stroke-width: 5;
   stroke-linecap: round;
-  opacity: 0.8;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
 `;
 
 // 状态栏
@@ -148,6 +161,21 @@ export const LinkQuestion: React.FC<LinkQuestionProps> = ({
   const [connections, setConnections] = useState<Array<{ leftId: string; rightId: string }>>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const [lineCoords, setLineCoords] = useState<Array<{ x1: number; y1: number; x2: number; y2: number }>>([]);
+
+  // 打乱右侧列的显示顺序（只在组件挂载时执行一次）
+  const [rightOptions] = useState(() => {
+    const rightItems = question.pairs.map(p => ({
+      id: p.id,
+      right: p.right,
+    }));
+    // Fisher-Yates 洗牌
+    const shuffled = [...rightItems];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  });
 
   // 处理左侧选项点击
   const handleLeftClick = (leftId: string) => {
@@ -231,18 +259,6 @@ export const LinkQuestion: React.FC<LinkQuestionProps> = ({
       <Hint>点击左侧选项，然后点击右侧选项进行连线</Hint>
 
       <LinkArea ref={containerRef}>
-        <SvgLayer>
-          {lineCoords.map((coord, index) => (
-            <LinkLine
-              key={index}
-              x1={coord.x1}
-              y1={coord.y1}
-              x2={coord.x2}
-              y2={coord.y2}
-            />
-          ))}
-        </SvgLayer>
-
         <Column>
           {question.pairs.map((pair) => (
             <OptionItem
@@ -260,19 +276,33 @@ export const LinkQuestion: React.FC<LinkQuestionProps> = ({
         </Column>
 
         <Column>
-          {question.pairs.map((pair) => (
+          {rightOptions.map((item) => (
             <OptionItem
-              key={pair.id}
-              id={`right-${pair.id}`}
-              matched={connections.some((c) => c.rightId === pair.right)}
-              onClick={() => handleRightClick(pair.right!)}
+              key={item.id}
+              id={`right-${item.id}`}
+              matched={connections.some((c) => c.rightId === item.id)}
+              onClick={() => handleRightClick(item.id)}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              {pair.right}
+              {item.right}
             </OptionItem>
           ))}
         </Column>
+
+        {/* SVG 连线层 - 放在最后确保在最上层 */}
+        <SvgLayer>
+          {lineCoords.map((coord, index) => (
+            <LinkLine
+              key={index}
+              x1={coord.x1}
+              y1={coord.y1}
+              x2={coord.x2}
+              y2={coord.y2}
+              color={LINE_COLORS[index % LINE_COLORS.length]}
+            />
+          ))}
+        </SvgLayer>
       </LinkArea>
 
       <SubmitButton

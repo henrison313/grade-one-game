@@ -38,6 +38,7 @@ export const soundConfig: SoundConfig = {
     battle: '/audio/bg/battle-theme.mp3',
     victory: '/audio/bg/victory-theme.mp3',
     story: '/audio/bg/story-theme.mp3',
+    collection: '/audio/bg/collection-theme.mp3',
   },
 
   // 默认音量配置
@@ -74,6 +75,11 @@ export const bgmSceneConfig = {
     type: 'story' as const,
     loop: true,
     volume: 0.35,
+  },
+  collection: {
+    type: 'collection' as const,
+    loop: true,
+    volume: 0.4,
   },
 }
 

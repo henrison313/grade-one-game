@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ThemeColors } from '@/config';
-import { Button } from '@/shared/components';
+import { Button, SoundControl } from '@/shared/components';
 import { storageService } from '@/services';
+import { useSound } from '@/shared/hooks';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -80,9 +81,33 @@ const StatValue = styled.span`
   color: ${ThemeColors.textPrimary};
 `;
 
+const SettingsButton = styled(motion.button)`
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+`;
+
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const userData = storageService.getUserData();
+  const { playBGM } = useSound();
+  const [showSettings, setShowSettings] = React.useState(false);
+
+  // 播放主菜单 BGM
+  useEffect(() => {
+    playBGM('menu');
+  }, [playBGM]);
 
   const handleStart = () => {
     navigate('/levels');
@@ -94,6 +119,14 @@ const HomePage: React.FC = () => {
 
   return (
     <Container>
+      <SettingsButton
+        onClick={() => setShowSettings(true)}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        🔊
+      </SettingsButton>
+
       <StatsBar
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -145,6 +178,8 @@ const HomePage: React.FC = () => {
           卡牌收集册
         </MenuButton>
       </ButtonsContainer>
+
+      <SoundControl isOpen={showSettings} onClose={() => setShowSettings(false)} />
     </Container>
   );
 };

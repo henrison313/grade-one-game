@@ -2,12 +2,23 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { ThemeColors, GameConfig } from '@/config';
-import { Button, StarDisplay } from '@/shared/components';
+import { GameConfig } from '@/config';
+import { StarDisplay } from '@/shared/components';
 import { useSound } from '@/shared/hooks';
 import { getLevelById } from '@/data/levels.data';
-import { CharacterTransform } from '@/features/character';
+import { getHiddenLevelById } from '@/data/hidden-levels.data';
 import { CardReveal } from '@/features/card';
+import { DifficultyLevel } from '@/types';
+
+// 🎨 Candy Kingdom 色彩方案
+const CandyColors = {
+  pink: '#FFB5BA',
+  mint: '#7FCCB0',
+  sky: '#89CFF0',
+  yellow: '#FFE66D',
+  coral: '#FF7F7F',
+  cream: '#FFF8E7',
+};
 
 const Container = styled.div`
   min-height: 100vh;
@@ -15,23 +26,33 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg,
+    rgba(255, 182, 193, 0.9) 0%,
+    rgba(255, 230, 109, 0.85) 30%,
+    rgba(127, 204, 176, 0.8) 50%,
+    rgba(137, 207, 240, 0.85) 70%,
+    rgba(230, 230, 250, 0.9) 100%
+  );
   padding: 20px;
 `;
 
 const ResultSection = styled(motion.div)`
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 24px;
-  padding: 32px;
+  background: ${CandyColors.cream};
+  border-radius: 32px;
+  padding: 36px;
   text-align: center;
   max-width: 400px;
   width: 100%;
+  border: 4px solid ${CandyColors.pink};
+  box-shadow:
+    0 8px 0 rgba(255, 182, 193, 0.25),
+    0 20px 40px rgba(255, 182, 193, 0.2);
 `;
 
 const ResultTitle = styled(motion.h1)`
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 700;
-  color: ${ThemeColors.success};
+  color: ${CandyColors.coral};
   margin-bottom: 16px;
 `;
 
@@ -42,38 +63,64 @@ const ResultStars = styled(motion.div)`
 const StarsCount = styled(motion.div)`
   font-size: 48px;
   font-weight: 700;
-  color: ${ThemeColors.star};
+  color: ${CandyColors.yellow};
   margin-top: 8px;
 `;
 
 const ResultMessage = styled(motion.p)`
   font-size: 18px;
-  color: ${ThemeColors.textSecondary};
-  margin-bottom: 24px;
+  color: #5A5A5A;
+  margin-bottom: 16px;
 `;
 
-const Phase = {
-  RESULT: 'result',
-  TRANSFORM: 'transform',
-  CARD_REVEAL: 'card_reveal',
-} as const;
-
-type PhaseType = (typeof Phase)[keyof typeof Phase];
+const AutoNextHint = styled(motion.div)`
+  font-size: 14px;
+  color: #7A7A7A;
+  margin-top: 8px;
+`;
 
 const LevelCompletePage: React.FC = () => {
   const { levelId } = useParams<{ levelId: string }>();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { playLevelComplete } = useSound();
+  const { playLevelComplete, playBGM, stopBGM } = useSound();
 
-  const [phase, setPhase] = useState<PhaseType>(Phase.RESULT);
+  const [showResult, setShowResult] = useState(true);
+  const [countdown, setCountdown] = useState(2);
 
-  const level = getLevelById(levelId || '1-1');
+  const level = getLevelById(levelId || '1-1') || getHiddenLevelById(levelId || '');
   const starsEarned = parseInt(searchParams.get('stars') || '0', 10);
+  const difficultyParam = searchParams.get('difficulty') || 'easy';
+  const difficulty = difficultyParam === 'medium' ? DifficultyLevel.MEDIUM
+    : difficultyParam === 'hard' ? DifficultyLevel.HARD
+    : DifficultyLevel.EASY;
 
   useEffect(() => {
     playLevelComplete();
-  }, [playLevelComplete]);
+    playBGM('victory');
+
+    // 2秒后自动进入炫卡收集
+    const countdownTimer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(countdownTimer);
+          setShowResult(false);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    const autoNextTimer = setTimeout(() => {
+      setShowResult(false);
+    }, 2000);
+
+    return () => {
+      clearInterval(countdownTimer);
+      clearTimeout(autoNextTimer);
+      stopBGM();
+    };
+  }, [playLevelComplete, playBGM, stopBGM]);
 
   if (!level) {
     return (
@@ -83,20 +130,9 @@ const LevelCompletePage: React.FC = () => {
     );
   }
 
-  const handleNext = () => {
-    setPhase(Phase.TRANSFORM);
-  };
-
-  const handleTransformComplete = () => {
-    setPhase(Phase.CARD_REVEAL);
-  };
-
   const handleCardRevealComplete = () => {
+    // 自动跳转到卡牌收集册页面
     navigate('/collection');
-  };
-
-  const handleReturn = () => {
-    navigate('/levels');
   };
 
   const maxStars = level.questions.length * GameConfig.starsPerQuestion;
@@ -104,16 +140,17 @@ const LevelCompletePage: React.FC = () => {
 
   return (
     <Container>
-      {phase === Phase.RESULT && (
+      {showResult && (
         <ResultSection
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
         >
           <ResultTitle
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            恭喜过关！
+            🎉 挑战成功！
           </ResultTitle>
 
           <ResultStars
@@ -144,38 +181,21 @@ const LevelCompletePage: React.FC = () => {
             你获得了 {percentage}% 的星星！
           </ResultMessage>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-            style={{ display: 'flex', gap: 12, justifyContent: 'center' }}
+          <AutoNextHint
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
           >
-            <Button variant="secondary" onClick={handleReturn}>
-              返回
-            </Button>
-            <Button variant="primary" onClick={handleNext}>
-              继续领奖
-            </Button>
-          </motion.div>
+            {countdown > 0 ? `${countdown}秒后自动收集炫卡...` : '正在进入炫卡收集...'}
+          </AutoNextHint>
         </ResultSection>
       )}
 
-      {phase === Phase.TRANSFORM && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          <CharacterTransform
-            character={level.guardian}
-            onComplete={handleTransformComplete}
-          />
-        </motion.div>
-      )}
-
-      {phase === Phase.CARD_REVEAL && (
+      {!showResult && (
         <CardReveal
           character={level.guardian}
           starsEarned={starsEarned}
+          difficulty={difficulty}
           onComplete={handleCardRevealComplete}
         />
       )}

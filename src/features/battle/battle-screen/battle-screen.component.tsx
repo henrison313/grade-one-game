@@ -1,13 +1,14 @@
 /**
  * 战斗界面组件
  * 功能：守护者图像展示、星星进度条、答题区域、绝招动画触发
+ * 增强版：支持故事叙事、武器进度、场景背景
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 import type { Level } from '@/types';
-import { QuestionType } from '@/types';
+import { QuestionType, DifficultyLevel } from '@/types';
 import UltimateAnimation from '@/features/battle/ultimate-animation/ultimate-animation.component';
 import ChoiceQuestion from '@/features/quiz/choice-question/choice-question.component';
 import MultiSelectQuestion from '@/features/quiz/multi-select-question/multi-select-question.component';
@@ -20,10 +21,15 @@ import ShapeMatchingGame from '@/features/quiz/shape-matching-game/shape-matchin
 import TangramGame from '@/features/quiz/tangram-game/tangram-game.component';
 import ComboMode from '@/features/quiz/combo-mode/combo-mode.component';
 import TimedQuestion from '@/features/quiz/timed-question/timed-question.component';
+import { useSound } from '@/shared/hooks';
+import { WeaponProgress, SceneBackground, QuestionStory } from '@/features/question-scene';
+import { QuestionStoryConfigs, DifficultyConfigs } from '@/config/question-story.config';
 
 interface BattleScreenProps {
   level: Level;
   onComplete: (stars: number, victory: boolean) => void;
+  /** 选择的难度（可选，默认新手模式） */
+  difficulty?: DifficultyLevel;
 }
 
 // 战斗容器
@@ -173,12 +179,28 @@ const QuestionDot = styled.div<{ active: boolean; completed: boolean }>`
 export const BattleScreen: React.FC<BattleScreenProps> = ({
   level,
   onComplete,
+  difficulty = DifficultyLevel.EASY,
 }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentStars, setCurrentStars] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [victory, setVictory] = useState(false);
   const [showUltimate, setShowUltimate] = useState(false);
+  // 武器进度相关状态
+  const [collectedParts, setCollectedParts] = useState<string[]>([]);
+  const { playBGM, stopBGM } = useSound();
+
+  // 获取当前难度的配置
+  const storyConfig = QuestionStoryConfigs[difficulty];
+  const difficultyConfig = DifficultyConfigs[difficulty];
+
+  // 播放战斗 BGM
+  useEffect(() => {
+    playBGM('battle');
+    return () => {
+      stopBGM();
+    };
+  }, [playBGM, stopBGM]);
 
   const totalQuestions = level.questions.length;
   const targetStars = level.totalStars * 0.9; // 90% 阈值
@@ -190,14 +212,21 @@ export const BattleScreen: React.FC<BattleScreenProps> = ({
   const handleAnswer = (_answer: any, bonusStars: number = 0) => {
     // 简化处理：假设答对
     const starsEarned = 10 + bonusStars;
-    setCurrentStars((prev) => prev + starsEarned);
+    const multipliedStars = Math.floor(starsEarned * difficultyConfig.starMultiplier);
+    setCurrentStars((prev) => prev + multipliedStars);
+
+    // 收集武器零件
+    const currentPart = storyConfig.weapon.parts[currentQuestionIndex];
+    if (currentPart) {
+      setCollectedParts((prev) => [...prev, currentPart.id]);
+    }
 
     // 下一题或结束
     if (currentQuestionIndex < totalQuestions - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
       // 所有题目完成，判定胜利
-      const isVictory = currentStars + starsEarned >= targetStars;
+      const isVictory = currentStars + multipliedStars >= targetStars;
       setVictory(isVictory);
       setShowResult(true);
 
@@ -348,6 +377,14 @@ export const BattleScreen: React.FC<BattleScreenProps> = ({
         <GuardianTitle>{level.guardian.title}</GuardianTitle>
       </GuardianArea>
 
+      {/* 武器组装进度 */}
+      <WeaponProgress
+        parts={storyConfig.weapon.parts}
+        currentIndex={currentQuestionIndex}
+        collectedParts={collectedParts}
+        difficulty={difficulty}
+      />
+
       {/* 星星进度条 */}
       <StarProgressContainer>
         <StarProgressLabel>
@@ -377,8 +414,18 @@ export const BattleScreen: React.FC<BattleScreenProps> = ({
         ))}
       </QuestionProgress>
 
-      {/* 问题区域 */}
-      <QuestionArea>{renderQuestion()}</QuestionArea>
+      {/* 故事叙事 */}
+      <QuestionStory
+        narrative={storyConfig.narratives[currentQuestionIndex]?.text || ''}
+        partName={storyConfig.weapon.parts[currentQuestionIndex]?.name}
+      />
+
+      {/* 问题区域（带场景背景） */}
+      <QuestionArea>
+        <SceneBackground scene={storyConfig.narratives[currentQuestionIndex]?.sceneBackground || 'forest'}>
+          {renderQuestion()}
+        </SceneBackground>
+      </QuestionArea>
 
       {/* 结果覆盖层 */}
       <AnimatePresence>

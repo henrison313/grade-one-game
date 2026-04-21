@@ -1,6 +1,6 @@
 import { GameConfig } from '@/config';
-import type { UserData } from '@/types';
-import { createDefaultUserData } from '@/types';
+import type { UserData, RarityLevel, VariantType } from '@/types';
+import { createDefaultUserData, DifficultyLevel } from '@/types';
 import { levels } from '@/data/levels.data';
 
 /**
@@ -56,6 +56,22 @@ class StorageService {
       speechVolume: parsed.settings?.speechVolume ?? defaultData.settings.speechVolume,
       speechEnabled: parsed.settings?.speechEnabled ?? defaultData.settings.speechEnabled,
     };
+
+    // V0.4: 迁移collectedCards旧格式数据（缺少variant/rarity/difficulty）
+    if (parsed.collectedCards && parsed.collectedCards.length > 0) {
+      merged.collectedCards = parsed.collectedCards.map((card) => {
+        // 如果旧数据缺少variant字段，添加默认值
+        if (!card.variant) {
+          return {
+            ...card,
+            variant: 'base' as const,
+            rarity: 'rare' as RarityLevel,
+            difficulty: DifficultyLevel.EASY,
+          };
+        }
+        return card;
+      });
+    }
 
     return merged;
   }
@@ -151,20 +167,32 @@ class StorageService {
   }
 
   /**
-   * 添加收集的卡牌
+   * 添加收集的卡牌（支持多形态）
    */
-  addCollectedCard(characterId: string, levelId: string, stars: number): void {
+  addCollectedCard(
+    characterId: string,
+    levelId: string,
+    stars: number,
+    variant: VariantType = 'base',
+    rarity: RarityLevel = 'rare',
+    difficulty: DifficultyLevel = DifficultyLevel.EASY
+  ): void {
     const data = this.getUserData();
 
-    // 检查是否已收集
-    if (data.collectedCards.some((card) => card.characterId === characterId)) {
+    // 检查是否已收集该形态
+    if (data.collectedCards.some(
+      (card) => card.characterId === characterId && card.variant === variant
+    )) {
       return;
     }
 
     data.collectedCards.push({
       characterId,
+      variant,
+      rarity,
       levelId,
       stars,
+      difficulty,
       collectedAt: new Date().toISOString(),
     });
 
@@ -172,10 +200,15 @@ class StorageService {
   }
 
   /**
-   * 检查是否已收集卡牌
+   * 检查是否已收集某形态卡牌
    */
-  hasCollectedCard(characterId: string): boolean {
+  hasCollectedCard(characterId: string, variant?: VariantType): boolean {
     const data = this.getUserData();
+    if (variant) {
+      return data.collectedCards.some(
+        (card) => card.characterId === characterId && card.variant === variant
+      );
+    }
     return data.collectedCards.some((card) => card.characterId === characterId);
   }
 

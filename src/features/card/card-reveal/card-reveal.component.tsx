@@ -5,10 +5,13 @@ import { ThemeColors, RarityConfig } from '@/config';
 import { useSound } from '@/shared/hooks';
 import { CardSummoner } from '@/shared/components';
 import type { Character } from '@/types';
+import { DifficultyLevel } from '@/types';
+import { getVariantByDifficulty } from '@/data/character-variants.data';
 
 interface CardRevealProps {
   character: Character;
   starsEarned: number;
+  difficulty?: DifficultyLevel;  // 使用枚举类型
   onComplete?: () => void;
 }
 
@@ -88,19 +91,6 @@ const StarsText = styled.span`
   color: ${ThemeColors.star};
 `;
 
-const ContinueButton = styled(motion.button)`
-  margin-top: 32px;
-  padding: 14px 40px;
-  background: linear-gradient(135deg, ${ThemeColors.primary} 0%, ${ThemeColors.primaryLight} 100%);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 18px;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
-`;
-
 const Sparkle = styled(motion.div)<{ $delay: number }>`
   position: absolute;
   width: 8px;
@@ -114,11 +104,17 @@ const Sparkle = styled(motion.div)<{ $delay: number }>`
 const CardReveal: React.FC<CardRevealProps> = ({
   character,
   starsEarned,
+  difficulty = DifficultyLevel.EASY,
   onComplete,
 }) => {
   const { playSummon } = useSound();
   const [isCapturing, setIsCapturing] = useState(false);
   const [showComplete, setShowComplete] = useState(false);
+
+  // 根据难度获取形态配置
+  const variant = getVariantByDifficulty(character.id, difficulty);
+  const variantRarity = variant?.rarity || character.rarity;
+  const variantName = variant?.displayName || character.name;
 
   useEffect(() => {
     // 播放召唤音效
@@ -133,13 +129,20 @@ const CardReveal: React.FC<CardRevealProps> = ({
     const completeTimer = setTimeout(() => {
       setIsCapturing(false);
       setShowComplete(true);
+
+      // 1.5秒后自动跳转
+      if (onComplete) {
+        setTimeout(() => {
+          onComplete();
+        }, 1500);
+      }
     }, 3000);
 
     return () => {
       clearTimeout(captureTimer);
       clearTimeout(completeTimer);
     };
-  }, [playSummon]);
+  }, [playSummon, onComplete]);
 
   // 生成背景闪光
   const sparkles = Array.from({ length: 15 }, (_, i) => ({
@@ -183,6 +186,9 @@ const CardReveal: React.FC<CardRevealProps> = ({
         <CardSummoner
           mode="capturing"
           character={character}
+          variantImage={variant?.image}
+          variantName={variant?.displayName}
+          variantRarity={variant?.rarity}
           isCapturing={isCapturing}
         />
 
@@ -195,12 +201,12 @@ const CardReveal: React.FC<CardRevealProps> = ({
           >
             <Congratulations>
               <CongratsText>恭喜获得新卡牌！</CongratsText>
-              <SubText>{character.name} 已收入炫卡召唤器</SubText>
+              <SubText>{variantName} 已收入炫卡召唤器</SubText>
             </Congratulations>
 
-            <CardName>{character.name}</CardName>
-            <CardRarity $rarity={character.rarity}>
-              {RarityConfig[character.rarity].name}
+            <CardName>{variantName}</CardName>
+            <CardRarity $rarity={variantRarity}>
+              {RarityConfig[variantRarity]?.name || '普通'}
             </CardRarity>
 
             <StarsDisplay
@@ -212,20 +218,6 @@ const CardReveal: React.FC<CardRevealProps> = ({
               <StarsText>{starsEarned} 星星</StarsText>
             </StarsDisplay>
           </CardInfo>
-        )}
-
-        {/* 继续按钮 */}
-        {showComplete && (
-          <ContinueButton
-            onClick={onComplete}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-          >
-            查看召唤器
-          </ContinueButton>
         )}
       </SummonerWrapper>
     </Container>

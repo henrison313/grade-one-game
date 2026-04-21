@@ -9,6 +9,12 @@ interface CardSummonerProps {
   mode: 'capturing' | 'display';
   /** 角色数据（捕获模式必需） */
   character?: Character;
+  /** 形态图片路径（优先使用） */
+  variantImage?: string;
+  /** 形态名称（优先使用） */
+  variantName?: string;
+  /** 形态稀有度（优先使用） */
+  variantRarity?: Character['rarity'];
   /** 是否正在捕获 */
   isCapturing?: boolean;
   /** 捕获完成回调 */
@@ -202,12 +208,20 @@ const HaloRing = styled(motion.div)<{ $size: 'large' | 'small'; $index: number }
 const CardSummoner: React.FC<CardSummonerProps> = ({
   mode,
   character,
+  variantImage,
+  variantName,
+  variantRarity,
   isCapturing = false,
   onCaptureComplete,
   displayCards = [],
 }) => {
   const [capturePhase, setCapturePhase] = useState<'initial' | 'shrinking' | 'absorbed'>('initial');
   const size = mode === 'capturing' ? 'large' : 'small';
+
+  // 优先使用形态参数，回退到角色基础属性
+  const displayImage = variantImage || character?.cardImage || character?.robotImage;
+  const displayName = variantName || character?.name;
+  const displayRarity = variantRarity || character?.rarity || 'rare';
 
   // 捕获动画流程
   useEffect(() => {
@@ -303,7 +317,7 @@ const CardSummoner: React.FC<CardSummonerProps> = ({
       <AnimatePresence>
         {mode === 'capturing' && character && isCapturing && capturePhase !== 'absorbed' && (
           <CardContainer
-            $rarity={character.rarity}
+            $rarity={displayRarity}
             initial={{ scale: 2.5, opacity: 0, y: -100 }}
             animate={
               capturePhase === 'shrinking'
@@ -316,8 +330,8 @@ const CardSummoner: React.FC<CardSummonerProps> = ({
               damping: 20,
             }}
           >
-            <CardImage src={character.cardImage || character.robotImage} alt={character.name} />
-            <CardName>{character.name}</CardName>
+            <CardImage src={displayImage} alt={displayName} />
+            <CardName>{displayName}</CardName>
           </CardContainer>
         )}
       </AnimatePresence>

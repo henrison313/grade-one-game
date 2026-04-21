@@ -170,9 +170,12 @@ export const StarRewardConfig = {
   basePerQuestion: 10,        // 每题基础奖励
   comboBonus: 2,              // 每连击额外奖励
   speedBonusPerSecond: 1,     // 限时模式剩余时间转换
-  perfectBonus: 30,           // 100% 正确率额外奖励
+  perfectBonus: 30,           // 100% 正确率额外奖励（R23）
   bossBonus: 100,             // BOSS 关卡专属奖励
   victoryThreshold: 0.9,      // 胜利阈值（90% 星星）
+  // V0.2.1 新增配置
+  speedModeBonus: 20,         // 极速模式额外奖励（R22）
+  attachmentBonus: 5,         // 附加题奖励（R24）
 } as const;
 
 /**

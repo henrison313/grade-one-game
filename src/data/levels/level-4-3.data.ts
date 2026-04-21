@@ -43,7 +43,7 @@ export const level4_3Questions: Question[] = [
   // 题目 3：填空题 - 两位数加减法
   {
     type: QuestionType.FILL_BLANK,
-    question: '计算 46 + 3：\n先算 6 + 3 = 9\n再算 40 + ___ = 49',
+    question: '计算 46 + 3：\n先算 6 + 3 = 9\n再算 40 + {{___}} = 49',
     answer: '9',
     explanation: '46 + 3，先算 6 + 3 = 9，再加 40，等于 49！',
     hint: '个位相加的结果加十位',

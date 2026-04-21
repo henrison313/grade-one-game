@@ -2,10 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { ThemeColors, RarityConfig } from '@/config';
-import type { Character } from '@/types';
+import type { Character, RarityLevel } from '@/types';
 
 interface CardDetailProps {
   character: Character;
+  /** 形态图片路径（优先使用） */
+  variantImage?: string;
+  /** 形态名称（优先使用） */
+  variantName?: string;
+  /** 形态稀有度（优先使用） */
+  variantRarity?: RarityLevel;
   collectedAt?: string;
   stars?: number;
   onClose?: () => void;
@@ -176,30 +182,38 @@ const StarsInfo = styled.div`
 
 const CardDetail: React.FC<CardDetailProps> = ({
   character,
+  variantImage,
+  variantName,
+  variantRarity,
   collectedAt,
   stars,
   onClose: _onClose,
 }) => {
+  // 优先使用形态参数，回退到角色基础属性
+  const displayImage = variantImage || character.cardImage || character.robotImage;
+  const displayName = variantName || character.name;
+  const displayRarity = variantRarity || character.rarity;
+
   return (
     <CardContainer
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
     >
-      <CardHeader $rarity={character.rarity}>
+      <CardHeader $rarity={displayRarity}>
         <CardNumber>#{character.number}</CardNumber>
-        <CardRarity>{RarityConfig[character.rarity].name}</CardRarity>
+        <CardRarity>{RarityConfig[displayRarity]?.name || '普通'}</CardRarity>
       </CardHeader>
 
       <CardImageWrapper>
         <CardImage
-          src={character.cardImage || character.robotImage}
-          alt={character.name}
+          src={displayImage}
+          alt={displayName}
         />
       </CardImageWrapper>
 
       <CardBody>
-        <CardName>{character.name}</CardName>
+        <CardName>{displayName}</CardName>
         <CardTitle>{character.title}</CardTitle>
         <CardDescription>{character.description}</CardDescription>
 

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { ThemeColors } from '@/config';
 import { useSound } from '@/shared/hooks';
+import { Shape } from '@/shared/components';
 import type { MultiSelectQuestionData, ChoiceOption } from '@/types';
 
 interface MultiSelectQuestionProps {
@@ -108,6 +109,13 @@ const OptionLabel = styled.span`
   flex: 1;
 `;
 
+const ShapeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+`;
+
 const CheckIcon = styled.span<{ $isCorrect: boolean }>`
   width: 24px;
   height: 24px;
@@ -118,6 +126,7 @@ const CheckIcon = styled.span<{ $isCorrect: boolean }>`
   align-items: center;
   justify-content: center;
   font-size: 14px;
+  flex-shrink: 0;
 `;
 
 const SubmitButton = styled(motion.button)`
@@ -213,6 +222,16 @@ const MultiSelectQuestion: React.FC<MultiSelectQuestionProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
+              {option.shape && (
+                <ShapeWrapper>
+                  <Shape
+                    type={option.shape}
+                    color={option.shapeColor || 'blue'}
+                    size="small"
+                    showLabel={false}
+                  />
+                </ShapeWrapper>
+              )}
               {option.image && <OptionImage src={option.image} alt={option.text} />}
               <OptionLabel>{option.text}</OptionLabel>
               {isAnswered && (state.isCorrect || state.isWrong) && (

@@ -43,14 +43,14 @@ export const level3_3Questions: Question[] = [
   // 题目 3：连线题 - 配对大小关系
   {
     type: QuestionType.LINK,
-    question: '把每组中较大的数连起来',
+    question: '把数对和较大的数连起来',
     pairs: [
-      { id: '1', left: '67 和 65', right: '>' },
-      { id: '2', left: '89 和 79', right: '>' },
-      { id: '3', left: '100 和 99', right: '>' },
-      { id: '4', left: '50 和 49', right: '>' },
+      { id: '1', left: '67 和 65', right: '67' },
+      { id: '2', left: '89 和 79', right: '89' },
+      { id: '3', left: '100 和 99', right: '100' },
+      { id: '4', left: '50 和 49', right: '50' },
     ],
-    explanation: '67>65，89>79，100>99，50>49！',
+    explanation: '67 比 65 大，89 比 79 大，100 比 99 大，50 比 49 大！',
   },
 
   // 题目 4：选择题 - 数的顺序
