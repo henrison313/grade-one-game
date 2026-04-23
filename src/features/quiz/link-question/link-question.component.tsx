@@ -13,6 +13,24 @@ interface LinkQuestionProps {
   onAnswer: (pairs: Array<{ leftId: string; rightId: string }>) => void;
 }
 
+// 题目文字
+const QuestionText = styled.h2`
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  margin-bottom: 12px;
+  line-height: 1.5;
+`;
+
+// 提示信息
+const Hint = styled.div`
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  margin: 10px 0;
+`;
+
 // 游戏容器
 const GameContainer = styled.div`
   display: flex;
@@ -121,14 +139,6 @@ const StatValue = styled.span`
   font-size: 24px;
   font-weight: bold;
   color: #333;
-`;
-
-// 提示信息
-const Hint = styled.div`
-  text-align: center;
-  color: #666;
-  font-size: 14px;
-  margin: 10px 0;
 `;
 
 // 提交按钮
@@ -247,6 +257,7 @@ export const LinkQuestion: React.FC<LinkQuestionProps> = ({
 
   return (
     <GameContainer>
+      {question.question && <QuestionText>{question.question}</QuestionText>}
       <StatusBar>
         <StatItem>
           <StatLabel>已连接</StatLabel>

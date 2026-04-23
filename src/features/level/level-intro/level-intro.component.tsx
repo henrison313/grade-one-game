@@ -9,7 +9,7 @@ import { getHiddenLevelById } from '@/data/hidden-levels.data';
 import { CharacterShow } from '@/features/character';
 import { StoryPlayer } from '@/features/story';
 import { DifficultyLevel } from '@/types';
-import { DifficultyConfigs } from '@/config/question-story.config';
+import { DifficultyConfigs, LevelStoryConfigs } from '@/config/question-story.config';
 
 // 🎨 糖果色系
 const CandyColors = {
@@ -394,6 +394,9 @@ const LevelIntroPage: React.FC = () => {
     navigate('/levels');
   };
 
+  // 根据关卡 ID 和难度获取对应的武器配置
+  const levelStoryConfig = LevelStoryConfigs[levelId || '1-1']?.[selectedDifficulty];
+  const currentWeaponConfig = levelStoryConfig?.weapon;
   const currentConfig = DifficultyConfigs[selectedDifficulty];
 
   return (
@@ -480,10 +483,10 @@ const LevelIntroPage: React.FC = () => {
                   initial={{ scale: 0.9 }}
                   animate={{ scale: 1 }}
                 >
-                  ⚔️ {currentConfig.weaponName} ⚔️
+                  ⚔️ {currentWeaponConfig?.name || currentConfig.weaponName} ⚔️
                 </WeaponName>
                 <WeaponPartsPreview>
-                  {currentConfig.weaponParts.slice(0, 4).map((part, idx) => (
+                  {(currentWeaponConfig?.parts || currentConfig.weaponParts).slice(0, 4).map((part, idx) => (
                     <PartChip key={part.id} $index={idx}>
                       {idx + 1}. {part.name}
                     </PartChip>
@@ -542,7 +545,7 @@ const LevelIntroPage: React.FC = () => {
                 marginTop: 8,
               }}
             >
-              ⚔️ 目标武器：{currentConfig.weaponName}
+              ⚔️ 目标武器：{currentWeaponConfig?.name || currentConfig.weaponName}
             </motion.p>
 
             <p style={{ fontSize: 14, color: '#7A7A7A', marginTop: 12 }}>

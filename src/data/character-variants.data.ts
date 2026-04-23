@@ -46,17 +46,17 @@ export const juliFengbaoVariants: CharacterVariant[] = [
 /**
  * 急救卫士的多形态配置
  */
-export const jiJiuWeiShiVariants: CharacterVariant[] = [
+export const baocheJiushiVariants: CharacterVariant[] = [
   {
-    characterId: 'ji-jiu-wei-shi',
+    characterId: 'baoche-jiushi',
     variant: 'base',
     rarity: 'rare',
-    image: '/图片素材/急救卫士 - 机器人.png',
+    image: '/图片素材/急救卫士-机器人.png',
     difficulty: DifficultyLevel.EASY,
     displayName: '急救卫士',
   },
   {
-    characterId: 'ji-jiu-wei-shi',
+    characterId: 'baoche-jiushi',
     variant: 'battle',
     rarity: 'gold',
     image: '/图片素材/急救卫士 - 战地形态.png',
@@ -64,7 +64,7 @@ export const jiJiuWeiShiVariants: CharacterVariant[] = [
     displayName: '急救卫士·战地形态',
   },
   {
-    characterId: 'ji-jiu-wei-shi',
+    characterId: 'baoche-jiushi',
     variant: 'ultimate',
     rarity: 'rainbow',
     image: '/图片素材/急救卫士 - 终极形态.png',
@@ -81,7 +81,7 @@ export const lieHuoXiuLuoVariants: CharacterVariant[] = [
     characterId: 'liehuo-xiuluo',
     variant: 'base',
     rarity: 'rare',
-    image: '/图片素材/烈火修罗 - 机器人.png',
+    image: '/图片素材/烈火修罗-机器人.png',
     difficulty: DifficultyLevel.EASY,
     displayName: '烈火修罗',
   },
@@ -108,7 +108,7 @@ export const lieHuoXiuLuoVariants: CharacterVariant[] = [
  */
 export const allCharacterVariants: CharacterVariant[] = [
   ...juliFengbaoVariants,
-  ...jiJiuWeiShiVariants,
+  ...baocheJiushiVariants,
   ...lieHuoXiuLuoVariants,
 ];
 
@@ -148,10 +148,9 @@ export function getVariantsByCharacterId(characterId: string): CharacterVariant[
  */
 export const characterGroupColors: Record<string, string> = {
   'juli-fengbao': '#3B82F6',    // 蓝色
-  'ji-jiu-wei-shi': '#FFFFFF',  // 白色（急救卫士主色调）
+  'baoche-jiushi': '#FFFFFF',  // 白色（急救卫士主色调）
   'liehuo-xiuluo': '#EF4444',   // 红色（烈火修罗主色调）
   'xuanlan-shandian': '#FFD700', // 金色
-  'baoche-jiushi': '#10B981',    // 绿色
   'anying-tegong': '#4B0082',    // 紫色
   // 其他角色...
 };

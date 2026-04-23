@@ -8,6 +8,8 @@ import { useSound } from '@/shared/hooks';
 import { getLevelById } from '@/data/levels.data';
 import { getHiddenLevelById } from '@/data/hidden-levels.data';
 import { level1_1QuestionsByDifficulty } from '@/data/levels/level-1-1-enhanced.data';
+import { level1_2QuestionsByDifficulty } from '@/data/levels/level-1-2-enhanced.data';
+import { level1_3QuestionsByDifficulty } from '@/data/levels/level-1-3-enhanced.data';
 import { ChoiceQuestion, DragQuestion, CircleQuestion, MultiSelectQuestion, FillBlankQuestion, ShapeComposeQuestion } from '@/features/quiz';
 import LinkQuestion from '../link-question/link-question.component';
 import MazeGame from '../maze-question/maze-question.component';
@@ -20,7 +22,7 @@ import AnswerFeedback from '../answer-feedback/answer-feedback.component';
 import WeaponShowcase from '@/features/battle/weapon-showcase/weapon-showcase.component';
 import BattleScene from '@/features/battle/battle-scene/battle-scene.component';
 import { WeaponProgress, SceneBackground, QuestionStory } from '@/features/question-scene';
-import { QuestionStoryConfigs, DifficultyConfigs } from '@/config/question-story.config';
+import { QuestionStoryConfigs, DifficultyConfigs, LevelStoryConfigs } from '@/config/question-story.config';
 import { characters } from '@/data/characters.data';
 import { getVariantByDifficulty } from '@/data/character-variants.data';
 import type { UserAnswer, Question, LinkQuestionData, DragQuestionData, ChoiceQuestionData, MultiSelectQuestionData } from '@/types';
@@ -278,11 +280,19 @@ const QuizGame: React.FC = () => {
 
   const level = getLevelById(levelId || '1-1') || getHiddenLevelById(levelId || '');
   const difficultyConfig = DifficultyConfigs[difficulty];
-  const storyConfig = QuestionStoryConfigs[difficulty];
+  // 根据关卡ID选择对应的故事配置
+  const storyConfig = LevelStoryConfigs[levelId || '1-1']?.[difficulty] || QuestionStoryConfigs[difficulty];
 
   const questions = useMemo(() => {
+    // 根据关卡ID选择对应的分难度题目数据
     if (levelId === '1-1' && level1_1QuestionsByDifficulty[difficulty]) {
       return level1_1QuestionsByDifficulty[difficulty];
+    }
+    if (levelId === '1-2' && level1_2QuestionsByDifficulty[difficulty]) {
+      return level1_2QuestionsByDifficulty[difficulty];
+    }
+    if (levelId === '1-3' && level1_3QuestionsByDifficulty[difficulty]) {
+      return level1_3QuestionsByDifficulty[difficulty];
     }
     return level?.questions || [];
   }, [levelId, level, difficulty]);

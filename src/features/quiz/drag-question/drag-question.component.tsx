@@ -275,6 +275,8 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
   const renderItem = (item: DragItem, isPlaced: boolean) => (
     <DraggableItem
       key={item.id}
+      data-testid="drag-item"
+      data-item-id={item.id}
       $isPlaced={isPlaced}
       $hasShape={!!item.shape}
       draggable={!isAnswered && !isPlaced}
@@ -318,6 +320,7 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
     return (
       <DropTarget
         key={target.id}
+        data-testid="drop-target"
         data-target-id={target.id}
         $hasItem={state.hasItem}
         $isCorrect={state.isCorrect}

@@ -1,0 +1,1007 @@
+{
+  "config": {
+    "configFile": "/Users/Henrison/Desktop/grade-one-game/playwright.config.ts",
+    "rootDir": "/Users/Henrison/Desktop/grade-one-game/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/Henrison/Desktop/grade-one-game/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/Henrison/Desktop/grade-one-game/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 120000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "test-reports/html"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-reports/results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:3000",
+      "reuseExistingServer": true,
+      "timeout": 60000
+    }
+  },
+  "suites": [
+    {
+      "title": "all-levels.spec.ts",
+      "file": "all-levels.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "所有关卡测试",
+          "file": "all-levels.spec.ts",
+          "line": 31,
+          "column": 6,
+          "specs": [
+            {
+              "title": "关卡 2-1 - easy",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 42113,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "开始测试 2-1 - 暗影特工 - 20以内退位减法 - easy\n"
+                        },
+                        {
+                          "text": "第 1 题: 15 - 9 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "第 2 题: 计算 14 - 8：先把 14 分成 10 和 4，10 - 8 = 2，2 +  = 6...\n"
+                        },
+                        {
+                          "text": "题目类型: fill_blank, 处理: 成功\n"
+                        },
+                        {
+                          "text": "第 3 题: 13 - 7 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "第 4 题: 17 - 9 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "检测到完成页面\n"
+                        },
+                        {
+                          "text": "测试完成: 通过, 题目数: 4, 错误: 0\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-23T00:13:36.128Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5b31b6d9b2d22abbd823-626da703518433de9744",
+              "file": "all-levels.spec.ts",
+              "line": 60,
+              "column": 7
+            },
+            {
+              "title": "关卡 2-1 - medium",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 43921,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "开始测试 2-1 - 暗影特工 - 20以内退位减法 - medium\n"
+                        },
+                        {
+                          "text": "第 1 题: 15 - 9 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "第 2 题: 计算 14 - 8：先把 14 分成 10 和 4，10 - 8 = 2，2 +  = 6...\n"
+                        },
+                        {
+                          "text": "题目类型: fill_blank, 处理: 成功\n"
+                        },
+                        {
+                          "text": "第 3 题: 13 - 7 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "检测到完成页面\n"
+                        },
+                        {
+                          "text": "测试完成: 通过, 题目数: 3, 错误: 0\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-23T00:14:19.028Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5b31b6d9b2d22abbd823-72243ab9b61f1cc029d9",
+              "file": "all-levels.spec.ts",
+              "line": 60,
+              "column": 7
+            },
+            {
+              "title": "关卡 2-1 - hard",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 45689,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "开始测试 2-1 - 暗影特工 - 20以内退位减法 - hard\n"
+                        },
+                        {
+                          "text": "第 1 题: 15 - 9 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "第 2 题: 计算 14 - 8：先把 14 分成 10 和 4，10 - 8 = 2，2 +  = 6...\n"
+                        },
+                        {
+                          "text": "题目类型: fill_blank, 处理: 成功\n"
+                        },
+                        {
+                          "text": "第 3 题: 13 - 7 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "检测到完成页面\n"
+                        },
+                        {
+                          "text": "测试完成: 通过, 题目数: 3, 错误: 0\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-23T00:15:03.094Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5b31b6d9b2d22abbd823-3c020f6c640cdc558769",
+              "file": "all-levels.spec.ts",
+              "line": 60,
+              "column": 7
+            },
+            {
+              "title": "关卡 2-2 - easy",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2133,
+                      "error": {
+                        "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n    at /Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts:33:16",
+                        "location": {
+                          "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                          "column": 16,
+                          "line": 33
+                        },
+                        "snippet": "  31 | test.describe('所有关卡测试', () => {\n  32 |   test.beforeEach(async ({ page }) => {\n> 33 |     await page.goto('/');\n     |                ^\n  34 |     await page.evaluate(() => localStorage.clear());\n  35 |\n  36 |     // 等待页面稳定后，尝试移除 vite-error-overlay（如果存在）"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                            "column": 16,
+                            "line": 33
+                          },
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n\n  31 | test.describe('所有关卡测试', () => {\n  32 |   test.beforeEach(async ({ page }) => {\n> 33 |     await page.goto('/');\n     |                ^\n  34 |     await page.evaluate(() => localStorage.clear());\n  35 |\n  36 |     // 等待页面稳定后，尝试移除 vite-error-overlay（如果存在）\n    at /Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts:33:16"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-23T00:15:48.822Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-2---easy-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-2---easy-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-2---easy-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-2---easy-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                        "column": 16,
+                        "line": 33
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "5b31b6d9b2d22abbd823-16b6956e5793f0ee7a2e",
+              "file": "all-levels.spec.ts",
+              "line": 60,
+              "column": 7
+            },
+            {
+              "title": "关卡 2-2 - medium",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1907,
+                      "error": {
+                        "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n    at /Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts:33:16",
+                        "location": {
+                          "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                          "column": 16,
+                          "line": 33
+                        },
+                        "snippet": "  31 | test.describe('所有关卡测试', () => {\n  32 |   test.beforeEach(async ({ page }) => {\n> 33 |     await page.goto('/');\n     |                ^\n  34 |     await page.evaluate(() => localStorage.clear());\n  35 |\n  36 |     // 等待页面稳定后，尝试移除 vite-error-overlay（如果存在）"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                            "column": 16,
+                            "line": 33
+                          },
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n\n  31 | test.describe('所有关卡测试', () => {\n  32 |   test.beforeEach(async ({ page }) => {\n> 33 |     await page.goto('/');\n     |                ^\n  34 |     await page.evaluate(() => localStorage.clear());\n  35 |\n  36 |     // 等待页面稳定后，尝试移除 vite-error-overlay（如果存在）\n    at /Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts:33:16"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-23T00:15:57.752Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-2---medium-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-2---medium-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-2---medium-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-2---medium-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                        "column": 16,
+                        "line": 33
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "5b31b6d9b2d22abbd823-00b72fc66a4bcc9158b2",
+              "file": "all-levels.spec.ts",
+              "line": 60,
+              "column": 7
+            },
+            {
+              "title": "关卡 2-2 - hard",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1842,
+                      "error": {
+                        "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n    at /Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts:33:16",
+                        "location": {
+                          "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                          "column": 16,
+                          "line": 33
+                        },
+                        "snippet": "  31 | test.describe('所有关卡测试', () => {\n  32 |   test.beforeEach(async ({ page }) => {\n> 33 |     await page.goto('/');\n     |                ^\n  34 |     await page.evaluate(() => localStorage.clear());\n  35 |\n  36 |     // 等待页面稳定后，尝试移除 vite-error-overlay（如果存在）"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                            "column": 16,
+                            "line": 33
+                          },
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n\n  31 | test.describe('所有关卡测试', () => {\n  32 |   test.beforeEach(async ({ page }) => {\n> 33 |     await page.goto('/');\n     |                ^\n  34 |     await page.evaluate(() => localStorage.clear());\n  35 |\n  36 |     // 等待页面稳定后，尝试移除 vite-error-overlay（如果存在）\n    at /Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts:33:16"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-23T00:16:07.601Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-2---hard-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-2---hard-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-2---hard-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-2---hard-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                        "column": 16,
+                        "line": 33
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "5b31b6d9b2d22abbd823-0c3f157d7e38a654276e",
+              "file": "all-levels.spec.ts",
+              "line": 60,
+              "column": 7
+            },
+            {
+              "title": "关卡 2-3 - easy",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1812,
+                      "error": {
+                        "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n    at /Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts:33:16",
+                        "location": {
+                          "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                          "column": 16,
+                          "line": 33
+                        },
+                        "snippet": "  31 | test.describe('所有关卡测试', () => {\n  32 |   test.beforeEach(async ({ page }) => {\n> 33 |     await page.goto('/');\n     |                ^\n  34 |     await page.evaluate(() => localStorage.clear());\n  35 |\n  36 |     // 等待页面稳定后，尝试移除 vite-error-overlay（如果存在）"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                            "column": 16,
+                            "line": 33
+                          },
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n\n  31 | test.describe('所有关卡测试', () => {\n  32 |   test.beforeEach(async ({ page }) => {\n> 33 |     await page.goto('/');\n     |                ^\n  34 |     await page.evaluate(() => localStorage.clear());\n  35 |\n  36 |     // 等待页面稳定后，尝试移除 vite-error-overlay（如果存在）\n    at /Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts:33:16"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-23T00:16:16.551Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-3---easy-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-3---easy-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-3---easy-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-3---easy-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                        "column": 16,
+                        "line": 33
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "5b31b6d9b2d22abbd823-8ce89f384c914f7fa658",
+              "file": "all-levels.spec.ts",
+              "line": 60,
+              "column": 7
+            },
+            {
+              "title": "关卡 2-3 - medium",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2426,
+                      "error": {
+                        "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n    at /Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts:33:16",
+                        "location": {
+                          "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                          "column": 16,
+                          "line": 33
+                        },
+                        "snippet": "  31 | test.describe('所有关卡测试', () => {\n  32 |   test.beforeEach(async ({ page }) => {\n> 33 |     await page.goto('/');\n     |                ^\n  34 |     await page.evaluate(() => localStorage.clear());\n  35 |\n  36 |     // 等待页面稳定后，尝试移除 vite-error-overlay（如果存在）"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                            "column": 16,
+                            "line": 33
+                          },
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n\n  31 | test.describe('所有关卡测试', () => {\n  32 |   test.beforeEach(async ({ page }) => {\n> 33 |     await page.goto('/');\n     |                ^\n  34 |     await page.evaluate(() => localStorage.clear());\n  35 |\n  36 |     // 等待页面稳定后，尝试移除 vite-error-overlay（如果存在）\n    at /Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts:33:16"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-23T00:16:27.854Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-3---medium-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-3---medium-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-3---medium-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-3---medium-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                        "column": 16,
+                        "line": 33
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "5b31b6d9b2d22abbd823-6d145e3de1eed9d406b7",
+              "file": "all-levels.spec.ts",
+              "line": 60,
+              "column": 7
+            },
+            {
+              "title": "关卡 2-3 - hard",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2105,
+                      "error": {
+                        "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n    at /Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts:33:16",
+                        "location": {
+                          "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                          "column": 16,
+                          "line": 33
+                        },
+                        "snippet": "  31 | test.describe('所有关卡测试', () => {\n  32 |   test.beforeEach(async ({ page }) => {\n> 33 |     await page.goto('/');\n     |                ^\n  34 |     await page.evaluate(() => localStorage.clear());\n  35 |\n  36 |     // 等待页面稳定后，尝试移除 vite-error-overlay（如果存在）"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                            "column": 16,
+                            "line": 33
+                          },
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"load\"\u001b[22m\n\n\n  31 | test.describe('所有关卡测试', () => {\n  32 |   test.beforeEach(async ({ page }) => {\n> 33 |     await page.goto('/');\n     |                ^\n  34 |     await page.evaluate(() => localStorage.clear());\n  35 |\n  36 |     // 等待页面稳定后，尝试移除 vite-error-overlay（如果存在）\n    at /Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts:33:16"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-23T00:16:45.775Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-3---hard-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-3---hard-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-3---hard-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-3---hard-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/Henrison/Desktop/grade-one-game/tests/e2e/all-levels.spec.ts",
+                        "column": 16,
+                        "line": 33
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "5b31b6d9b2d22abbd823-68f359d191dbdb4c71b3",
+              "file": "all-levels.spec.ts",
+              "line": 60,
+              "column": 7
+            },
+            {
+              "title": "关卡 2-4 - easy",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 90619,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "开始测试 2-4 - 裂变骑士 - easy\n"
+                        },
+                        {
+                          "text": "第 1 题: 19 - 9 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "第 2 题: 计算 15 - 6：\n10 - 6 = 4\n4 +  = 9...\n"
+                        },
+                        {
+                          "text": "题目类型: fill_blank, 处理: 成功\n"
+                        },
+                        {
+                          "text": "检测到反馈\n"
+                        },
+                        {
+                          "text": "第 3 题: 11 - 2 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "第 4 题: 14 - 5 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "检测到完成页面\n"
+                        },
+                        {
+                          "text": "测试完成: 通过, 题目数: 4, 错误: 0\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-23T00:16:54.416Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5b31b6d9b2d22abbd823-398168fdaf40ee42f6f8",
+              "file": "all-levels.spec.ts",
+              "line": 60,
+              "column": 7
+            },
+            {
+              "title": "关卡 2-4 - medium",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 59515,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "开始测试 2-4 - 裂变骑士 - medium\n"
+                        },
+                        {
+                          "text": "第 1 题: 19 - 9 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "第 2 题: 计算 15 - 6：\n10 - 6 = 4\n4 +  = 9...\n"
+                        },
+                        {
+                          "text": "题目类型: fill_blank, 处理: 成功\n"
+                        },
+                        {
+                          "text": "检测到反馈\n"
+                        },
+                        {
+                          "text": "第 3 题: 11 - 2 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "检测到完成页面\n"
+                        },
+                        {
+                          "text": "测试完成: 通过, 题目数: 3, 错误: 0\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-23T00:18:26.231Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5b31b6d9b2d22abbd823-052d5c9cc543f6fe6245",
+              "file": "all-levels.spec.ts",
+              "line": 60,
+              "column": 7
+            },
+            {
+              "title": "关卡 2-4 - hard",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 2004580,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 180000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "message": "Error: apiRequestContext._wrapApiCall: ENOENT: no such file or directory, open '/Users/Henrison/Desktop/grade-one-game/test-results/.playwright-artifacts-6/traces/5b31b6d9b2d22abbd823-6ae986e5fb4bd617fe18-recording2.trace'"
+                        },
+                        {
+                          "message": "Error: ENOENT: no such file or directory, open '/Users/Henrison/Desktop/grade-one-game/test-results/.playwright-artifacts-6/0da21795b718fe9713c9719863991450.zip'"
+                        },
+                        {
+                          "message": "\u001b[31mTest timeout of 120000ms exceeded.\u001b[39m"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "开始测试 2-4 - 裂变骑士 - hard\n"
+                        },
+                        {
+                          "text": "第 1 题: 19 - 9 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "第 2 题: 计算 15 - 6：\n10 - 6 = 4\n4 +  = 9...\n"
+                        },
+                        {
+                          "text": "题目类型: fill_blank, 处理: 成功\n"
+                        },
+                        {
+                          "text": "检测到反馈\n"
+                        },
+                        {
+                          "text": "第 3 题: 11 - 2 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "第 4 题: 19 - 9 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "第 5 题: 计算 15 - 6：\n10 - 6 = 4\n4 +  = 9...\n"
+                        },
+                        {
+                          "text": "题目类型: fill_blank, 处理: 成功\n"
+                        },
+                        {
+                          "text": "检测到反馈\n"
+                        },
+                        {
+                          "text": "第 6 题: 11 - 2 = ?...\n"
+                        },
+                        {
+                          "text": "题目类型: choice, 处理: 成功\n"
+                        },
+                        {
+                          "text": "测试完成: 通过, 题目数: 6, 错误: 1\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-23T00:19:25.920Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/Henrison/Desktop/grade-one-game/test-results/all-levels-所有关卡测试-关卡-2-4---hard-chromium/error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "5b31b6d9b2d22abbd823-6ae986e5fb4bd617fe18",
+              "file": "all-levels.spec.ts",
+              "line": 60,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-04-23T00:13:28.569Z",
+    "duration": 2524450.783,
+    "expected": 5,
+    "skipped": 0,
+    "unexpected": 7,
+    "flaky": 0
+  }
+}

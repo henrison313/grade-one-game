@@ -12,9 +12,12 @@ import { storageService } from '@/services';
 import { useSound } from '@/shared/hooks';
 import { Button, Modal, CardSummoner } from '@/shared/components';
 import { getCharacterById } from '@/data/characters.data';
-import { getVariantsByCharacterId, getCharacterGroupColor, juliFengbaoVariants } from '@/data/character-variants.data';
+import { getVariantsByCharacterId, getCharacterGroupColor, juliFengbaoVariants, baocheJiushiVariants, lieHuoXiuLuoVariants } from '@/data/character-variants.data';
 import CardDetail from '../card-detail/card-detail.component';
-import type { Character, CollectedCard, RarityLevel, VariantType } from '@/types';
+import type { Character, CollectedCard, RarityLevel } from '@/types';
+
+// 所有可收集的角色 ID
+const allCollectibleCharacters = ['juli-fengbao', 'baoche-jiushi', 'liehuo-xiuluo'];
 
 // 扩展稀有度配置
 const ExtendedRarityConfig: Record<string, { name: string; color: string; glow: string }> = {
@@ -233,7 +236,7 @@ const CardCollection: React.FC = () => {
   // 收集统计
   const stats = useMemo(() => {
     const collected = userData.collectedCards.length;
-    const totalVariants = juliFengbaoVariants.length; // 目前只有巨力风暴有多个形态
+    const totalVariants = juliFengbaoVariants.length + baocheJiushiVariants.length + lieHuoXiuLuoVariants.length;
     const totalStars = userData.totalStars;
 
     const byRarity: Record<string, number> = {};
@@ -261,13 +264,6 @@ const CardCollection: React.FC = () => {
   // 获取角色所有可能的形态
   const getCharacterVariants = (characterId: string) => {
     return getVariantsByCharacterId(characterId);
-  };
-
-  // 检查某形态是否已收集
-  const isVariantCollected = (characterId: string, variant: VariantType) => {
-    return userData.collectedCards.some(
-      (card) => card.characterId === characterId && card.variant === variant
-    );
   };
 
   // 最近收集的卡片用于召唤器展示
@@ -349,14 +345,15 @@ const CardCollection: React.FC = () => {
           ))}
       </StatsBar>
 
-      {/* 按角色分组展示 */}
-      {Object.entries(groupedCards).map(([characterId, cards]) => {
+      {/* 按角色分组展示（显示所有可收集角色，包括未收集的） */}
+      {allCollectibleCharacters.map((characterId) => {
         const character = getCharacterById(characterId);
         if (!character) return null;
 
         const groupColor = getCharacterGroupColor(characterId);
         const variants = getCharacterVariants(characterId);
-        const collectedCount = cards.length;
+        const collectedCards = groupedCards[characterId] || [];
+        const collectedCount = collectedCards.length;
 
         return (
           <div key={characterId}>
@@ -366,61 +363,63 @@ const CardCollection: React.FC = () => {
                 <img src={character.robotImage} alt={character.name} />
               </GroupAvatar>
               <GroupName>{character.name}</GroupName>
-              <GroupCount>{collectedCount}/{variants.length || 1} 形态</GroupCount>
+              <GroupCount>{collectedCount}/{variants.length} 形态</GroupCount>
             </GroupHeader>
 
             {/* 形态卡片 */}
             <VariantGrid>
-              {/* 显示已收集的形态 */}
-              {cards.map((card) => {
-                const variant = variants.find((v) => v.variant === card.variant);
-                const variantImage = variant?.image || character.robotImage;
-                const variantName = variant?.displayName || character.name;
+              {/* 显示所有形态：已收集的显示图片，未收集的显示占位符 */}
+              {variants.map((variant) => {
+                const collectedCard = collectedCards.find((c) => c.variant === variant.variant);
+                const isCollected = !!collectedCard;
+                const variantImage = variant.image;
+                const variantName = variant.displayName;
 
-                return (
-                  <VariantCard
-                    key={`${card.characterId}-${card.variant}`}
-                    $collected={true}
-                    $groupColor={groupColor}
-                    onClick={() => handleCardClick(card)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                  >
-                    <VariantImage src={variantImage} alt={variantName} />
-                    <VariantName>{variantName}</VariantName>
-                    <VariantLabel>
-                      {card.variant === 'base' ? '基础' : card.variant === 'flame' ? '火焰' : '终极'}
-                    </VariantLabel>
-                    <VariantRarity $rarity={card.rarity}>
-                      {ExtendedRarityConfig[card.rarity]?.name || '普通'}
-                    </VariantRarity>
-                  </VariantCard>
-                );
+                if (isCollected && collectedCard) {
+                  // 已收集：显示正常卡片
+                  return (
+                    <VariantCard
+                      key={`${characterId}-${variant.variant}`}
+                      $collected={true}
+                      $groupColor={groupColor}
+                      onClick={() => handleCardClick(collectedCard)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      <VariantImage src={variantImage} alt={variantName} />
+                      <VariantName>{variantName}</VariantName>
+                      <VariantLabel>
+                        {variant.variant === 'base' ? '基础' : variant.variant === 'flame' ? '火焰' : variant.variant === 'battle' ? '战地' : '终极'}
+                      </VariantLabel>
+                      <VariantRarity $rarity={variant.rarity}>
+                        {ExtendedRarityConfig[variant.rarity]?.name || '普通'}
+                      </VariantRarity>
+                    </VariantCard>
+                  );
+                } else {
+                  // 未收集：显示占位符
+                  return (
+                    <VariantCard
+                      key={`${characterId}-${variant.variant}-empty`}
+                      $collected={false}
+                      $groupColor={groupColor}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 0.5 }}
+                    >
+                      <EmptyPlaceholder>?</EmptyPlaceholder>
+                      <EmptyText>{variantName}</EmptyText>
+                      <VariantLabel>
+                        {variant.variant === 'base' ? '基础' : variant.variant === 'flame' ? '火焰' : variant.variant === 'battle' ? '战地' : '终极'}
+                      </VariantLabel>
+                      <VariantRarity $rarity={variant.rarity}>
+                        未获得
+                      </VariantRarity>
+                    </VariantCard>
+                  );
+                }
               })}
-
-              {/* 显示未收集的形态（占位） */}
-              {variants
-                .filter((v) => !isVariantCollected(characterId, v.variant))
-                .map((variant) => (
-                  <VariantCard
-                    key={`${characterId}-${variant.variant}-empty`}
-                    $collected={false}
-                    $groupColor={groupColor}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.5 }}
-                  >
-                    <EmptyPlaceholder>?</EmptyPlaceholder>
-                    <EmptyText>{variant.displayName}</EmptyText>
-                    <VariantLabel>
-                      {variant.variant === 'base' ? '基础' : variant.variant === 'flame' ? '火焰' : '终极'}
-                    </VariantLabel>
-                    <VariantRarity $rarity={variant.rarity}>
-                      未获得
-                    </VariantRarity>
-                  </VariantCard>
-                ))}
             </VariantGrid>
           </div>
         );

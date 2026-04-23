@@ -59,7 +59,7 @@ export const characters: Character[] = [
     title: '生命守护者',
     description: '医疗救援型炫卡斗士，永远在第一时间赶赴现场救助伤员。',
     vehicleImage: '/图片素材/急救卫士.png',
-    robotImage: '/图片素材/急救卫士.png',
+    robotImage: '/图片素材/急救卫士-机器人.png',
     stats: {
       height: '3.5 米',
       weight: '2.2 吨',
@@ -82,7 +82,7 @@ export const characters: Character[] = [
     title: '火焰战士',
     description: '操控火焰的炫卡斗士，在烈火中锻造出强大的意志。',
     vehicleImage: '/图片素材/烈火修罗.png',
-    robotImage: '/图片素材/烈火修罗.png',
+    robotImage: '/图片素材/烈火修罗-机器人.png',
     stats: {
       height: '4.0 米',
       weight: '3.0 吨',

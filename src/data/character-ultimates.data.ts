@@ -60,7 +60,7 @@ export const characterUltimates: Record<string, UltimateAnimationParams> = {
   },
 
   // 002: 急救卫士（新手形态）
-  'ji-jiu-wei-shi': {
+  'baoche-jiushi': {
     name: '治疗射线',
     animationParams: {
       scale: { from: 1, to: 1.1 },
@@ -77,7 +77,7 @@ export const characterUltimates: Record<string, UltimateAnimationParams> = {
   },
 
   // 002-2: 急救卫士·战地形态（挑战模式）
-  'ji-jiu-wei-shi-battle': {
+  'baoche-jiushi-battle': {
     name: '巨钳重压',
     animationParams: {
       scale: { from: 1, to: 1.2 },
@@ -94,7 +94,7 @@ export const characterUltimates: Record<string, UltimateAnimationParams> = {
   },
 
   // 002-3: 急救卫士·终极形态（高手模式）
-  'ji-jiu-wei-shi-ultimate': {
+  'baoche-jiushi-ultimate': {
     name: '巨钳休克',
     animationParams: {
       scale: { from: 1, to: 1.3 },

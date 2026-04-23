@@ -1,5 +1,32 @@
-import type { Question, QuestionType } from '@/types';
+import type { Question, QuestionType, WeaponPart } from '@/types';
 import { DifficultyLevel } from '@/types';
+
+/**
+ * 第三关（1-3 七巧板）消防主题武器零件配置
+ */
+export const level1_3EasyWeaponParts: WeaponPart[] = [
+  { id: 'easy-fire-core', name: '水炮核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
+  { id: 'easy-fire-connector', name: '水管连接器', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
+  { id: 'easy-fire-nozzle', name: '水枪喷头', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
+  { id: 'easy-fire-stabilizer', name: '灭火器稳定器', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
+  { id: 'easy-fire-complete', name: '炫光水炮枪完成', shapeType: 'composite', iconImage: '/assets/weapons/easy-weapon.png' },
+];
+
+export const level1_3MediumWeaponParts: WeaponPart[] = [
+  { id: 'fire-medium-core', name: '灭火台核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
+  { id: 'fire-medium-scope', name: '灭火瞄准镜', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
+  { id: 'fire-medium-block', name: '灭火稳定块', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
+  { id: 'fire-medium-body', name: '灭火锤外壳', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
+  { id: 'fire-medium-complete', name: '闪电灭火锤完成', shapeType: 'composite', iconImage: '/assets/weapons/medium-weapon.png' },
+];
+
+export const level1_3HardWeaponParts: WeaponPart[] = [
+  { id: 'fire-hard-ring', name: '消防能量环', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
+  { id: 'fire-hard-prism', name: '消防聚焦棱', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
+  { id: 'fire-hard-stabilizer', name: '消防稳定器', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
+  { id: 'fire-hard-barrel', name: '消防炮身', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
+  { id: 'fire-hard-complete', name: '雷霆消防炮完成', shapeType: 'composite', iconImage: '/assets/weapons/hard-weapon.png' },
+];
 
 /**
  * 关卡 1-3 低难度题目：炫光水炮枪
@@ -33,7 +60,7 @@ export const level1_3EasyQuestions: Question[] = [
       { id: 'd', text: '平行四边形' },
     ],
     correctAnswer: 'c',
-    explanation: '七巧板里没有圆形！七巧板由三角形、正方形和平行四边形组成，都是直边的图形。',
+    explanation: '七巧板里没有圆形！七巧板由三角形、正方形和平行四边形组成，都是直边的图形。就像消防水管的喷头都是直边的设计一样！',
     hint: '七巧板都是直边的图形',
   },
 
@@ -116,7 +143,7 @@ export const level1_3EasyQuestions: Question[] = [
       { id: 'square-pos', name: '正方形', accepts: ['square'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
       { id: 'parallelogram-pos', name: '平行四边形', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
     ],
-    explanation: '太棒了！七巧板由 5 个三角形、1 个正方形和 1 个平行四边形组成！炫光水炮枪组装完成！',
+    explanation: '太棒了！七巧板由 5 个三角形、1 个正方形和 1 个平行四边形组成！就像消防站配备了完整的灭火设备一样！炫光水炮枪组装完成，准备出发灭火！',
     hint: '仔细看看每个图形的样子！',
   },
 ];
@@ -152,7 +179,7 @@ export const level1_3MediumQuestions: Question[] = [
       { id: '4', left: '正方形', right: '1 个' },
       { id: '5', left: '平行四边形', right: '1 个' },
     ],
-    explanation: '七巧板由 2 个大三角形、2 个小三角形、1 个中三角形、1 个正方形和 1 个平行四边形组成！',
+    explanation: '七巧板由 2 个大三角形、2 个小三角形、1 个中三角形、1 个正方形和 1 个平行四边形组成！就像消防站有不同型号的水枪一样，每种图形都有自己的作用！',
   },
 
   // 第 3 题：圈画可拼出的图案（商场场景）
@@ -212,7 +239,7 @@ export const level1_3MediumQuestions: Question[] = [
     type: 'fill_blank' as QuestionType.FILL_BLANK,
     question: '七巧板由{{___}}个三角形、{{___}}个正方形和{{___}}个平行四边形组成',
     answer: ['5', '五', '1', '一', '1', '一'],
-    explanation: '七巧板由 5 个三角形、1 个正方形和 1 个平行四边形组成！',
+    explanation: '七巧板由 5 个三角形、1 个正方形和 1 个平行四边形组成！就像消防车配备 5 个消防栓、1 个水箱和 1 个灭火器一样！',
     hint: '想想七巧板一共有几块',
   },
 
@@ -250,31 +277,7 @@ export const level1_3HardQuestions: Question[] = [
     hint: '想想怎么把三角形对折',
   },
 
-  // 第 2 题：图形组合几何关系（居民楼场景）
-  {
-    type: 'choice' as QuestionType.CHOICE,
-    question: '用七巧板拼成的正方形，面积是原来小三角形的几倍？',
-    options: [
-      { id: 'a', text: '2 倍' },
-      { id: 'b', text: '4 倍' },
-      { id: 'c', text: '8 倍' },
-      { id: 'd', text: '16 倍' },
-    ],
-    correctAnswer: 'd',
-    explanation: '七巧板拼成的正方形面积是小三角形的 16 倍！因为七巧板由 16 个相同大小的小三角形组成！',
-    hint: '七巧板一共有 7 块，但可以分成 16 个小三角形',
-  },
-
-  // 第 3 题：图形组合计算（商场场景）
-  {
-    type: 'fill_blank' as QuestionType.FILL_BLANK,
-    question: '用两个小三角形和一个正方形可以拼成{{___}}种不同的图形',
-    answer: ['多', '很多', '无数', '3', '4', '5'],
-    explanation: '用两个小三角形和一个正方形可以拼成很多种不同的图形！可以拼成长方形、平行四边形、梯形等等！',
-    hint: '试试不同的拼法',
-  },
-
-  // 第 4 题：七巧板面积问题（工厂场景）
+  // 第 2 题：面积比较（居民楼场景）
   {
     type: 'choice' as QuestionType.CHOICE,
     question: '七巧板中哪个图形的面积最大？',
@@ -285,8 +288,32 @@ export const level1_3HardQuestions: Question[] = [
       { id: 'd', text: '小三角形' },
     ],
     correctAnswer: 'a',
-    explanation: '七巧板中大三角形的面积最大！两个大三角形各占七巧板总面积的 1/4！',
-    hint: '想想哪个图形在七巧板中占的地方最大',
+    explanation: '七巧板中大三角形的面积最大！就像消防车最大的水箱储存最多的灭火用水一样！',
+    hint: '看看哪个图形占的地方最大',
+  },
+
+  // 第 3 题：图形组合计算（商场场景）
+  {
+    type: 'fill_blank' as QuestionType.FILL_BLANK,
+    question: '用两个小三角形和一个正方形可以拼成{{___}}种不同的图形',
+    answer: ['多', '很多', '无数', '3', '4', '5'],
+    explanation: '用两个小三角形和一个正方形可以拼成很多种不同的图形！可以拼成长方形、平行四边形、梯形等等！就像消防车的水管可以组合成不同的灭火路线一样！',
+    hint: '试试不同的拼法',
+  },
+
+  // 第 4 题：图形数量问题（工厂场景）
+  {
+    type: 'choice' as QuestionType.CHOICE,
+    question: '七巧板中哪种图形的数量最多？',
+    options: [
+      { id: 'a', text: '三角形' },
+      { id: 'b', text: '正方形' },
+      { id: 'c', text: '平行四边形' },
+      { id: 'd', text: '圆形' },
+    ],
+    correctAnswer: 'a',
+    explanation: '七巧板中三角形最多，有 5 个！就像消防站里消防栓最多一样，三角形是七巧板的主力图形！',
+    hint: '数一数每种图形有几个',
   },
 
   // 第 5 题：创意拼图 - 房子（烟花广场场景）
