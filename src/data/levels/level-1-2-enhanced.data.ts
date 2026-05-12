@@ -78,19 +78,22 @@ export const level1_2EasyQuestions: Question[] = [
       { id: 'wheel1', name: '轮子', shape: 'circle', group: 'wheel' },
       { id: 'wheel2', name: '轮子', shape: 'circle', group: 'wheel' },
       { id: 'window', name: '窗户', shape: 'square' },
-      { id: 'roof', name: '车顶', shape: 'rectangle' },
+      { id: 'roof', name: '螺旋桨', shape: 'rectangle' },
     ],
+    // 使用绝对定位布局
+    useAbsoluteLayout: true,
+    layoutSize: { width: 700, height: 350 },
     targets: [
-      // 车顶在最上方
-      { id: 'roof-pos', name: '顶部螺旋桨罩', accepts: ['roof'], position: { x: 260, y: 10 }, size: { width: 220, height: 70 } },
-      // 窗户在中间
-      { id: 'window-pos', name: '驾驶舱窗户', accepts: ['window'], position: { x: 290, y: 95 }, size: { width: 160, height: 110 } },
-      // 轮子在下方 - 两个轮子位置都可以接受任意轮子
-      { id: 'wheel1-pos', name: '左侧轮子', accepts: ['wheel1', 'wheel2'], group: 'wheel', position: { x: 160, y: 220 }, size: { width: 120, height: 110 } },
-      { id: 'wheel2-pos', name: '右侧轮子', accepts: ['wheel1', 'wheel2'], group: 'wheel', position: { x: 460, y: 220 }, size: { width: 120, height: 110 } },
+      // 螺旋桨在最上方（横条形）
+      { id: 'roof-pos', name: '螺旋桨', accepts: ['roof'], position: { x: 150, y: 30 }, size: { width: 400, height: 50 } },
+      // 驾驶舱窗户在中间
+      { id: 'window-pos', name: '驾驶舱窗户', accepts: ['window'], position: { x: 280, y: 100 }, size: { width: 140, height: 100 } },
+      // 轮子在下方两侧 - 直升机形态
+      { id: 'wheel1-pos', name: '左侧滑橇', accepts: ['wheel1', 'wheel2'], group: 'wheel', position: { x: 180, y: 250 }, size: { width: 100, height: 80 } },
+      { id: 'wheel2-pos', name: '右侧滑橇', accepts: ['wheel1', 'wheel2'], group: 'wheel', position: { x: 420, y: 250 }, size: { width: 100, height: 80 } },
     ],
-    explanation: '救援直升机拼好了！轮子在下方，窗户在中间，车顶在最上方！螺旋桨开始转动，准备执行救援任务！',
-    hint: '想一想直升机的结构：轮子在下，窗户在中，顶部有螺旋桨',
+    explanation: '救援直升机拼好了！螺旋桨在最上方，窗户在中间，滑橇在下方两侧！螺旋桨开始转动，准备执行救援任务！',
+    hint: '想一想直升机的结构：螺旋桨在上，窗户在中，滑橇在下',
   },
 ];
 

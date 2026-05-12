@@ -123,6 +123,10 @@ export interface DragQuestionData {
   connections?: DragConnection[]; // 可选：目标之间的连线
   targetLabels?: string[]; // 可选：目标区域的显示标签
   calculation?: DragCalculation; // 可选：计算结果配置
+  /** 使用绝对定位布局（根据 target.position 定位） */
+  useAbsoluteLayout?: boolean;
+  /** 绝对定位容器的尺寸 */
+  layoutSize?: { width: number; height: number };
   explanation: string;
   hint?: string;
 }

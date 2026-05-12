@@ -146,6 +146,49 @@ const TargetsContainer = styled.div`
   gap: 20px;
 `;
 
+// 绝对定位布局容器
+const AbsoluteLayoutContainer = styled.div<{ $size: { width: number; height: number } }>`
+  position: relative;
+  width: ${(props) => props.$size.width}px;
+  height: ${(props) => props.$size.height}px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+`;
+
+// 绝对定位的目标框
+const AbsoluteDropTarget = styled(motion.div)<{
+  $hasItem: boolean;
+  $isCorrect: boolean;
+  $isWrong: boolean;
+  $size: { width: number; height: number };
+  $position: { x: number; y: number };
+}>`
+  position: absolute;
+  left: ${(props) => props.$position.x}px;
+  top: ${(props) => props.$position.y}px;
+  width: ${(props) => props.$size.width}px;
+  height: ${(props) => props.$size.height}px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px;
+  background: ${(props) => {
+    if (props.$isCorrect) return 'rgba(16, 185, 129, 0.2)';
+    if (props.$isWrong) return 'rgba(239, 68, 68, 0.2)';
+    return 'rgba(255, 255, 255, 0.8)';
+  }};
+  border: 2px dashed ${(props) => {
+    if (props.$isCorrect) return ThemeColors.success;
+    if (props.$isWrong) return ThemeColors.error;
+    return ThemeColors.primaryLight;
+  }};
+  border-radius: 8px;
+  transition: all 0.2s ease;
+`;
+
 // 连线 SVG 层
 const ConnectionSvg = styled.svg`
   position: absolute;
@@ -879,6 +922,70 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
     );
   };
 
+  // 渲染绝对定位的目标
+  const renderAbsoluteTarget = (target: DragTarget) => {
+    const state = getTargetState(target);
+    const placedItemIds = placements[target.id] || [];
+    const placedItems = placedItemIds.map((id) => question.items.find((i) => i.id === id)).filter(Boolean) as DragItem[];
+
+    return (
+      <AbsoluteDropTarget
+        key={target.id}
+        data-testid="drop-target"
+        data-target-id={target.id}
+        $hasItem={state.hasItem}
+        $isCorrect={state.isCorrect}
+        $isWrong={state.isWrong}
+        $size={target.size}
+        $position={target.position}
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={(e) => {
+          e.preventDefault();
+          handleDrop(target.id);
+        }}
+        whileHover={{ scale: 1.02 }}
+      >
+        <TargetName>{target.name}</TargetName>
+        <PlacedItemsContainer>
+          {placedItems.map((item) => (
+            <PlacedItem
+              key={item.id}
+              $removable={!isAnswered}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+              onMouseDown={() => handleMouseDown(item.id)}
+              onMouseUp={() => handleMouseUp(item.id)}
+              onMouseLeave={handleLongPressEnd}
+              whileHover={!isAnswered ? { scale: 1.05 } : {}}
+              whileTap={!isAnswered ? { scale: 0.95 } : {}}
+              title={!isAnswered ? "长按旋转，单击移除" : ""}
+            >
+              {!isAnswered && <RemoveIcon>×</RemoveIcon>}
+              {item.shape ? (
+                <div
+                  style={{
+                    transform: `rotate(${getItemRotation(item.id, item.rotation || 0)}deg)`,
+                    cursor: isAnswered ? 'default' : 'pointer',
+                    padding: '4px'
+                  }}
+                >
+                  <ShapeSVG shape={item.shape} size={50} />
+                </div>
+              ) : (
+                <PlacedText>{item.name}</PlacedText>
+              )}
+            </PlacedItem>
+          ))}
+        </PlacedItemsContainer>
+      </AbsoluteDropTarget>
+    );
+  };
+
+  // 判断是否使用绝对定位布局
+  const useAbsoluteLayout = question.useAbsoluteLayout;
+  const layoutSize = question.layoutSize || { width: 700, height: 350 };
+
   return (
     <QuestionContainer>
       <QuestionText>{question.question}</QuestionText>
@@ -1023,6 +1130,10 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
               })}
             </DigitGroupsContainer>
           </>
+        ) : useAbsoluteLayout ? (
+          <AbsoluteLayoutContainer $size={layoutSize}>
+            {question.targets.map(renderAbsoluteTarget)}
+          </AbsoluteLayoutContainer>
         ) : (
           <TargetsContainer>
             {/* 连线层 */}
