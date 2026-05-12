@@ -43,8 +43,8 @@ export const level5_2Questions: Question[] = [
   // 题目 3：填空题 - 竖式计算
   {
     type: QuestionType.FILL_BLANK,
-    question: '用竖式计算 87 - 34：\n  8 7\n- 3 4\n-----\n  □ □\n个位是_，十位是_',
-    answer: '3,5',
+    question: '用竖式计算 87 - 34：\n  8 7\n- 3 4\n-----\n  □ □\n个位是{{___}}，十位是{{___}}',
+    answer: ['3', '5'],
     explanation: '87 - 34 = 53！个位 7-4=3，十位 8-3=5。',
     hint: '从个位减起',
   },

@@ -2,6 +2,16 @@ import type { RarityLevel, VariantType } from '@/types';
 import { DifficultyLevel } from '@/types';
 
 /**
+ * 角色形态属性
+ */
+export interface VariantStats {
+  height: string;
+  weight: string;
+  speed: string;
+  power: string;
+}
+
+/**
  * 角色形态配置
  */
 export interface CharacterVariant {
@@ -11,6 +21,7 @@ export interface CharacterVariant {
   image: string;
   difficulty: DifficultyLevel;
   displayName: string;
+  stats?: VariantStats;
 }
 
 /**
@@ -21,25 +32,28 @@ export const juliFengbaoVariants: CharacterVariant[] = [
     characterId: 'juli-fengbao',
     variant: 'base',
     rarity: 'rare',
-    image: '/图片素材/巨力风暴-机器人.jpeg',
+    image: '/assets/character/巨力风暴-机器人.jpeg',
     difficulty: DifficultyLevel.EASY,
     displayName: '巨力风暴',
+    stats: { height: '4.2 米', weight: '3.5 吨', speed: '120km/h', power: '8500 马力' },
   },
   {
     characterId: 'juli-fengbao',
     variant: 'flame',
     rarity: 'gold',
-    image: '/图片素材/巨力风暴-机器人-火.jpeg',
+    image: '/assets/character/巨力风暴-火焰形态.jpeg',
     difficulty: DifficultyLevel.MEDIUM,
     displayName: '巨力风暴·火焰形态',
+    stats: { height: '4.5 米', weight: '3.8 吨', speed: '150km/h', power: '10000 马力' },
   },
   {
     characterId: 'juli-fengbao',
     variant: 'ultimate',
     rarity: 'rainbow',
-    image: '/图片素材/巨力风暴-机器人-终极.jpeg',
+    image: '/assets/character/巨力风暴-终极形态.jpeg',
     difficulty: DifficultyLevel.HARD,
     displayName: '巨力风暴·终极形态',
+    stats: { height: '4.8 米', weight: '4.2 吨', speed: '180km/h', power: '12000 马力' },
   },
 ];
 
@@ -51,25 +65,28 @@ export const baocheJiushiVariants: CharacterVariant[] = [
     characterId: 'baoche-jiushi',
     variant: 'base',
     rarity: 'rare',
-    image: '/图片素材/急救卫士-机器人.png',
+    image: '/assets/character/急救卫士-机器人.png',
     difficulty: DifficultyLevel.EASY,
     displayName: '急救卫士',
+    stats: { height: '3.5 米', weight: '2.2 吨', speed: '180km/h', power: '4500 马力' },
   },
   {
     characterId: 'baoche-jiushi',
     variant: 'battle',
     rarity: 'gold',
-    image: '/图片素材/急救卫士 - 战地形态.png',
+    image: '/assets/character/急救卫士 - 战地形态.png',
     difficulty: DifficultyLevel.MEDIUM,
     displayName: '急救卫士·战地形态',
+    stats: { height: '3.8 米', weight: '2.5 吨', speed: '220km/h', power: '5500 马力' },
   },
   {
     characterId: 'baoche-jiushi',
     variant: 'ultimate',
     rarity: 'rainbow',
-    image: '/图片素材/急救卫士 - 终极形态.png',
+    image: '/assets/character/急救卫士 - 终极形态.png',
     difficulty: DifficultyLevel.HARD,
     displayName: '急救卫士·终极形态',
+    stats: { height: '4.0 米', weight: '2.8 吨', speed: '260km/h', power: '6800 马力' },
   },
 ];
 
@@ -81,25 +98,655 @@ export const lieHuoXiuLuoVariants: CharacterVariant[] = [
     characterId: 'liehuo-xiuluo',
     variant: 'base',
     rarity: 'rare',
-    image: '/图片素材/烈火修罗-机器人.png',
+    image: '/assets/character/烈火修罗-机器人.png',
     difficulty: DifficultyLevel.EASY,
     displayName: '烈火修罗',
+    stats: { height: '4.0 米', weight: '3.0 吨', speed: '200km/h', power: '7000 马力' },
   },
   {
     characterId: 'liehuo-xiuluo',
     variant: 'flame',
     rarity: 'gold',
-    image: '/图片素材/烈火修罗 - 烈焰形态.png',
+    image: '/assets/character/烈火修罗-熔岩战甲.png',
     difficulty: DifficultyLevel.MEDIUM,
-    displayName: '烈火修罗·烈焰形态',
+    displayName: '烈火修罗·熔岩战甲',
+    stats: { height: '4.3 米', weight: '3.4 吨', speed: '240km/h', power: '8500 马力' },
   },
   {
     characterId: 'liehuo-xiuluo',
     variant: 'ultimate',
     rarity: 'rainbow',
-    image: '/图片素材/烈火修罗 - 终极形态.png',
+    image: '/assets/character/烈火修罗-焚天魔神.png',
     difficulty: DifficultyLevel.HARD,
-    displayName: '烈火修罗·终极形态',
+    displayName: '烈火修罗·焚天魔神',
+    stats: { height: '4.6 米', weight: '3.8 吨', speed: '280km/h', power: '10000 马力' },
+  },
+];
+
+/**
+ * 暗影特工的多形态配置
+ */
+export const anYingTeGongVariants: CharacterVariant[] = [
+  {
+    characterId: 'anying-tegong',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/暗影特工-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '暗影特工',
+    stats: { height: '3.2 米', weight: '1.8 吨', speed: '280km/h', power: '5500 马力' },
+  },
+  {
+    characterId: 'anying-tegong',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/暗影特工-幽冥猎手.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '暗影特工·幽冥猎手',
+    stats: { height: '3.5 米', weight: '2.0 吨', speed: '320km/h', power: '6800 马力' },
+  },
+  {
+    characterId: 'anying-tegong',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/暗影特工-虚空暗神.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '暗影特工·虚空暗神',
+    stats: { height: '3.8 米', weight: '2.3 吨', speed: '380km/h', power: '8500 马力' },
+  },
+];
+
+/**
+ * 喷射加仑的多形态配置
+ */
+export const penSheJiaLunVariants: CharacterVariant[] = [
+  {
+    characterId: 'penshi-jialun',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/喷射加仑-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '喷射加仑',
+    stats: { height: '3.8 米', weight: '2.5 吨', speed: '350km/h', power: '6000 马力' },
+  },
+  {
+    characterId: 'penshi-jialun',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/喷射加仑-海啸战士.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '喷射加仑·海啸战士',
+    stats: { height: '4.0 米', weight: '2.8 吨', speed: '420km/h', power: '7500 马力' },
+  },
+  {
+    characterId: 'penshi-jialun',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/喷射加仑-深海霸主.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '喷射加仑·深海霸主',
+    stats: { height: '4.3 米', weight: '3.2 吨', speed: '500km/h', power: '9500 马力' },
+  },
+];
+
+/**
+ * 暴烈重卡的多形态配置
+ */
+export const baoLieZhongKaVariants: CharacterVariant[] = [
+  {
+    characterId: 'baolie-zhongka',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/暴烈重卡-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '暴烈重卡',
+    stats: { height: '4.5 米', weight: '5.0 吨', speed: '100km/h', power: '9000 马力' },
+  },
+  {
+    characterId: 'baolie-zhongka',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/暴烈重卡-冲撞战车.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '暴烈重卡·冲撞战车',
+    stats: { height: '5.0 米', weight: '5.8 吨', speed: '130km/h', power: '11000 马力' },
+  },
+  {
+    characterId: 'baolie-zhongka',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/暴烈重卡-毁灭战神.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '暴烈重卡·毁灭战神',
+    stats: { height: '5.5 米', weight: '6.5 吨', speed: '160km/h', power: '14000 马力' },
+  },
+];
+
+/**
+ * 铁臂爵士的多形态配置
+ */
+export const tieBiJueShiVariants: CharacterVariant[] = [
+  {
+    characterId: 'tiebi-jueshi',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/铁臂爵士-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '铁臂爵士',
+    stats: { height: '5.0 米', weight: '4.0 吨', speed: '80km/h', power: '8000 马力' },
+  },
+  {
+    characterId: 'tiebi-jueshi',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/铁臂爵士-钢铁战神.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '铁臂爵士·钢铁战神',
+    stats: { height: '5.5 米', weight: '4.5 吨', speed: '100km/h', power: '10000 马力' },
+  },
+  {
+    characterId: 'tiebi-jueshi',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/铁臂爵士-泰坦巨人.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '铁臂爵士·泰坦巨人',
+    stats: { height: '6.0 米', weight: '5.2 吨', speed: '120km/h', power: '13000 马力' },
+  },
+];
+
+/**
+ * 裂变骑士的多形态配置
+ */
+export const lieBianQiShiVariants: CharacterVariant[] = [
+  {
+    characterId: 'liebian-qishi',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/裂变骑士-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '裂变骑士',
+    stats: { height: '3.6 米', weight: '2.0 吨', speed: '250km/h', power: '5000 马力' },
+  },
+  {
+    characterId: 'liebian-qishi',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/裂变骑士-量子战将.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '裂变骑士·量子战将',
+    stats: { height: '3.9 米', weight: '2.3 吨', speed: '300km/h', power: '6500 马力' },
+  },
+  {
+    characterId: 'liebian-qishi',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/裂变骑士-无限分身.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '裂变骑士·无限分身',
+    stats: { height: '4.2 米', weight: '2.6 吨', speed: '360km/h', power: '8200 马力' },
+  },
+];
+
+/**
+ * 深海天锚的多形态配置
+ */
+export const shenHaiTianMaoVariants: CharacterVariant[] = [
+  {
+    characterId: 'shenhai-tianmao',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/深海天锚-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '深海天锚',
+    stats: { height: '4.2 米', weight: '3.8 吨', speed: '150km/h', power: '8000 马力' },
+  },
+  {
+    characterId: 'shenhai-tianmao',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/深海天锚-海洋猎手.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '深海天锚·海洋猎手',
+    stats: { height: '4.5 米', weight: '4.2 吨', speed: '180km/h', power: '9500 马力' },
+  },
+  {
+    characterId: 'shenhai-tianmao',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/深海天锚-海神波塞冬.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '深海天锚·海神波塞冬',
+    stats: { height: '4.8 米', weight: '4.6 吨', speed: '220km/h', power: '11500 马力' },
+  },
+];
+
+/**
+ * 重力金刚的多形态配置
+ */
+export const zhongLiJinGangVariants: CharacterVariant[] = [
+  {
+    characterId: 'zhongli-jingang',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/重力金刚-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '重力金刚',
+    stats: { height: '4.8 米', weight: '4.5 吨', speed: '100km/h', power: '8500 马力' },
+  },
+  {
+    characterId: 'zhongli-jingang',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/重力金刚-引力主宰.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '重力金刚·引力主宰',
+    stats: { height: '5.2 米', weight: '5.0 吨', speed: '130km/h', power: '10500 马力' },
+  },
+  {
+    characterId: 'zhongli-jingang',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/重力金刚-黑洞吞噬者.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '重力金刚·黑洞吞噬者',
+    stats: { height: '5.6 米', weight: '5.5 吨', speed: '160km/h', power: '13000 马力' },
+  },
+];
+
+/**
+ * 玄铁战神的多形态配置
+ */
+export const xuanTieZhanShenVariants: CharacterVariant[] = [
+  {
+    characterId: 'xuantie-zhanshen',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/玄铁战神-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '玄铁战神',
+    stats: { height: '5.5 米', weight: '6.0 吨', speed: '90km/h', power: '10000 马力' },
+  },
+  {
+    characterId: 'xuantie-zhanshen',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/玄铁战神-钢铁霸主.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '玄铁战神·钢铁霸主',
+    stats: { height: '6.0 米', weight: '6.8 吨', speed: '110km/h', power: '12500 马力' },
+  },
+  {
+    characterId: 'xuantie-zhanshen',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/玄铁战神-万磁之王.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '玄铁战神·万磁之王',
+    stats: { height: '6.5 米', weight: '7.5 吨', speed: '140km/h', power: '15000 马力' },
+  },
+];
+
+/**
+ * 炫蓝闪电S的多形态配置
+ */
+export const xuanLanShanDianSVariants: CharacterVariant[] = [
+  {
+    characterId: 'xuanlan-shandian-s',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/炫蓝闪电S-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '炫蓝闪电S・基础形态',
+    stats: { height: '3.8 米', weight: '2.0 吨', speed: '300km/h', power: '6000 马力' },
+  },
+  {
+    characterId: 'xuanlan-shandian-s',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/炫蓝闪电S-超音速战神.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '炫蓝闪电S・超音速战神',
+    stats: { height: '4.0 米', weight: '2.3 吨', speed: '380km/h', power: '7500 马力' },
+  },
+  {
+    characterId: 'xuanlan-shandian-s',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/炫蓝闪电 S-光速王者.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '炫蓝闪电S・光速王者',
+    stats: { height: '4.2 米', weight: '2.6 吨', speed: '450km/h', power: '9000 马力' },
+  },
+];
+
+/**
+ * 焰龙战神的多形态配置
+ */
+export const yanLongZhanShenVariants: CharacterVariant[] = [
+  {
+    characterId: 'yanlong-zhanshen',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/焰龙战神-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '焰龙战神',
+    stats: { height: '4.5 米', weight: '3.5 吨', speed: '200km/h', power: '8000 马力' },
+  },
+  {
+    characterId: 'yanlong-zhanshen',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/焰龙战神-龙炎战甲.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '焰龙战神·龙炎战甲',
+    stats: { height: '4.8 米', weight: '3.8 吨', speed: '250km/h', power: '10000 马力' },
+  },
+  {
+    characterId: 'yanlong-zhanshen',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/焰龙战神-远古龙王.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '焰龙战神·远古龙王',
+    stats: { height: '5.2 米', weight: '4.2 吨', speed: '320km/h', power: '12500 马力' },
+  },
+];
+
+/**
+ * 霹雳火影的多形态配置
+ */
+export const piLiHuoYingVariants: CharacterVariant[] = [
+  {
+    characterId: 'pili-huoying',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/霹雳火影-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '霹雳火影',
+    stats: { height: '3.5 米', weight: '1.8 吨', speed: '280km/h', power: '5500 马力' },
+  },
+  {
+    characterId: 'pili-huoying',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/霹雳火影-雷遁忍者.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '霹雳火影·雷遁忍者',
+    stats: { height: '3.8 米', weight: '2.0 吨', speed: '350km/h', power: '7000 马力' },
+  },
+  {
+    characterId: 'pili-huoying',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/霹雳火影-雷霆影神.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '霹雳火影·雷霆影神',
+    stats: { height: '4.0 米', weight: '2.3 吨', speed: '420km/h', power: '8500 马力' },
+  },
+];
+
+/**
+ * 猎空悍将的多形态配置
+ */
+export const lieKongHanJiangVariants: CharacterVariant[] = [
+  {
+    characterId: 'liekong-hanjiang',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/猎空悍将-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '猎空悍将',
+    stats: { height: '4.0 米', weight: '2.5 吨', speed: '350km/h', power: '6500 马力' },
+  },
+  {
+    characterId: 'liekong-hanjiang',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/猎空悍将-天空猎手.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '猎空悍将·天空猎手',
+    stats: { height: '4.3 米', weight: '2.8 吨', speed: '420km/h', power: '8000 马力' },
+  },
+  {
+    characterId: 'liekong-hanjiang',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/猎空悍将-天空之王.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '猎空悍将·天空之王',
+    stats: { height: '4.6 米', weight: '3.2 吨', speed: '500km/h', power: '10000 马力' },
+  },
+];
+
+/**
+ * 钢臂力士的多形态配置
+ */
+export const gangBiLiShiVariants: CharacterVariant[] = [
+  {
+    characterId: 'gangbi-lishi',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/钢臂力士-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '钢臂力士',
+    stats: { height: '5.0 米', weight: '5.0 吨', speed: '80km/h', power: '9000 马力' },
+  },
+  {
+    characterId: 'gangbi-lishi',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/钢臂力士-泰坦战士.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '钢臂力士·泰坦战士',
+    stats: { height: '5.5 米', weight: '5.8 吨', speed: '100km/h', power: '11000 马力' },
+  },
+  {
+    characterId: 'gangbi-lishi',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/钢臂力士-毁灭巨人.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '钢臂力士·毁灭巨人',
+    stats: { height: '6.0 米', weight: '6.5 吨', speed: '130km/h', power: '14000 马力' },
+  },
+];
+
+/**
+ * 星际游侠的多形态配置
+ */
+export const xingJiYouXiaVariants: CharacterVariant[] = [
+  {
+    characterId: 'xingji-youxia',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/星际游侠-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '星际游侠',
+    stats: { height: '4.2 米', weight: '2.8 吨', speed: '400km/h', power: '7500 马力' },
+  },
+  {
+    characterId: 'xingji-youxia',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/星际游侠-银河战士.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '星际游侠·银河战士',
+    stats: { height: '4.5 米', weight: '3.2 吨', speed: '500km/h', power: '9500 马力' },
+  },
+  {
+    characterId: 'xingji-youxia',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/星际游侠-宇宙之王.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '星际游侠·宇宙之王',
+    stats: { height: '4.8 米', weight: '3.6 吨', speed: '600km/h', power: '12000 马力' },
+  },
+];
+
+/**
+ * 爆旋洛克的多形态配置
+ */
+export const baoXuanLuoKeVariants: CharacterVariant[] = [
+  {
+    characterId: 'baoxuan-luoke',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/爆旋洛克-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '爆旋洛克',
+    stats: { height: '3.8 米', weight: '2.5 吨', speed: '200km/h', power: '6000 马力' },
+  },
+  {
+    characterId: 'baoxuan-luoke',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/爆旋洛克-旋风战神.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '爆旋洛克·旋风战神',
+    stats: { height: '4.0 米', weight: '2.8 吨', speed: '250km/h', power: '7500 马力' },
+  },
+  {
+    characterId: 'baoxuan-luoke',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/爆旋洛克-风暴之王.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '爆旋洛克·风暴之王',
+    stats: { height: '4.3 米', weight: '3.2 吨', speed: '320km/h', power: '9500 马力' },
+  },
+];
+
+/**
+ * 深海霸王的多形态配置
+ */
+export const shenHaiBaWangVariants: CharacterVariant[] = [
+  {
+    characterId: 'shenhai-bawang',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/深海霸王-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '深海霸王',
+    stats: { height: '4.5 米', weight: '4.0 吨', speed: '180km/h', power: '8500 马力' },
+  },
+  {
+    characterId: 'shenhai-bawang',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/深海霸王-海洋霸主.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '深海霸王·海洋霸主',
+    stats: { height: '4.8 米', weight: '4.5 吨', speed: '220km/h', power: '10500 马力' },
+  },
+  {
+    characterId: 'shenhai-bawang',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/深海霸王-波塞冬神.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '深海霸王·波塞冬神',
+    stats: { height: '5.2 米', weight: '5.0 吨', speed: '280km/h', power: '13000 马力' },
+  },
+];
+
+/**
+ * 银翼骑士的多形态配置
+ */
+export const yinYiQiShiVariants: CharacterVariant[] = [
+  {
+    characterId: 'yinyi-qishi',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/银翼骑士-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '银翼骑士',
+    stats: { height: '4.0 米', weight: '2.8 吨', speed: '280km/h', power: '6500 马力' },
+  },
+  {
+    characterId: 'yinyi-qishi',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/银翼骑士-白银圣骑.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '银翼骑士·白银圣骑',
+    stats: { height: '4.3 米', weight: '3.2 吨', speed: '350km/h', power: '8000 马力' },
+  },
+  {
+    characterId: 'yinyi-qishi',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/银翼骑士-圣光之王.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '银翼骑士·圣光之王',
+    stats: { height: '4.6 米', weight: '3.6 吨', speed: '420km/h', power: '10000 马力' },
+  },
+];
+
+/**
+ * 重装赤魂王的多形态配置
+ */
+export const zhongZhuangChiHunWangVariants: CharacterVariant[] = [
+  {
+    characterId: 'zhongzhang-chihunwang',
+    variant: 'base',
+    rarity: 'rare',
+    image: '/assets/character/重装赤魂王-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '重装赤魂王',
+    stats: { height: '5.5 米', weight: '6.0 吨', speed: '120km/h', power: '11000 马力' },
+  },
+  {
+    characterId: 'zhongzhang-chihunwang',
+    variant: 'flame',
+    rarity: 'gold',
+    image: '/assets/character/重装赤魂王-赤色帝王.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '重装赤魂王·赤色帝王',
+    stats: { height: '6.0 米', weight: '7.0 吨', speed: '150km/h', power: '14000 马力' },
+  },
+  {
+    characterId: 'zhongzhang-chihunwang',
+    variant: 'ultimate',
+    rarity: 'rainbow',
+    image: '/assets/character/重装赤魂王-灭世魔神.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '重装赤魂王·灭世魔神',
+    stats: { height: '6.5 米', weight: '8.0 吨', speed: '200km/h', power: '18000 马力' },
+  },
+];
+
+/**
+ * 超炫电光王的多形态配置（隐藏关卡 H1）
+ */
+export const chaoXuanDianGuangWangVariants: CharacterVariant[] = [
+  {
+    characterId: 'chaoxuan-dianguangwang',
+    variant: 'base',
+    rarity: 'gold',
+    image: '/assets/character/超炫电光王-机器人.png',
+    difficulty: DifficultyLevel.EASY,
+    displayName: '超炫电光王',
+    stats: { height: '4.8 米', weight: '3.8 吨', speed: '280km/h', power: '10000 马力' },
+  },
+  {
+    characterId: 'chaoxuan-dianguangwang',
+    variant: 'flame',
+    rarity: 'rainbow',
+    image: '/assets/character/超炫电光王-数位战神.png',
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '超炫电光王·数位战神',
+    stats: { height: '5.2 米', weight: '4.2 吨', speed: '320km/h', power: '12500 马力' },
+  },
+  {
+    characterId: 'chaoxuan-dianguangwang',
+    variant: 'ultimate',
+    rarity: 'prismatic',
+    image: '/assets/character/超炫电光王-闪电之神.png',
+    difficulty: DifficultyLevel.HARD,
+    displayName: '超炫电光王·闪电之神',
+    stats: { height: '5.5 米', weight: '4.5 吨', speed: '380km/h', power: '15000 马力' },
   },
 ];
 
@@ -110,6 +757,25 @@ export const allCharacterVariants: CharacterVariant[] = [
   ...juliFengbaoVariants,
   ...baocheJiushiVariants,
   ...lieHuoXiuLuoVariants,
+  ...anYingTeGongVariants,
+  ...penSheJiaLunVariants,
+  ...baoLieZhongKaVariants,
+  ...tieBiJueShiVariants,
+  ...lieBianQiShiVariants,
+  ...shenHaiTianMaoVariants,
+  ...zhongLiJinGangVariants,
+  ...xuanTieZhanShenVariants,
+  ...xuanLanShanDianSVariants,
+  ...yanLongZhanShenVariants,
+  ...piLiHuoYingVariants,
+  ...lieKongHanJiangVariants,
+  ...gangBiLiShiVariants,
+  ...xingJiYouXiaVariants,
+  ...baoXuanLuoKeVariants,
+  ...shenHaiBaWangVariants,
+  ...yinYiQiShiVariants,
+  ...zhongZhuangChiHunWangVariants,
+  ...chaoXuanDianGuangWangVariants,
 ];
 
 /**
@@ -152,7 +818,24 @@ export const characterGroupColors: Record<string, string> = {
   'liehuo-xiuluo': '#EF4444',   // 红色（烈火修罗主色调）
   'xuanlan-shandian': '#FFD700', // 金色
   'anying-tegong': '#4B0082',    // 紫色
-  // 其他角色...
+  'penshi-jialun': '#06B6D4',    // 青色
+  'baolie-zhongka': '#F97316',   // 橙色
+  'tiebi-jueshi': '#6B7280',     // 灰色
+  'liebian-qishi': '#8B5CF6',    // 紫罗兰
+  'shenhai-tianmao': '#0EA5E9',  // 天蓝色
+  'zhongli-jingang': '#6366F1',  // 靛蓝色
+  'xuantie-zhanshen': '#374151', // 深灰色
+  'xuanlan-shandian-s': '#FBBF24', // 金黄色
+  'yanlong-zhanshen': '#DC2626', // 深红色
+  'pili-huoying': '#7C3AED',     // 紫色
+  'liekong-hanjiang': '#0284C7', // 深蓝色
+  'gangbi-lishi': '#78716C',     // 石灰色
+  'xingji-youxia': '#7C3AED',    // 紫罗兰
+  'baoxuan-luoke': '#059669',    // 绿色
+  'shenhai-bawang': '#0369A1',   // 深蓝色
+  'yinyi-qishi': '#D1D5DB',      // 银色
+  'zhongzhang-chihunwang': '#B91C1C', // 暗红色
+  'chaoxuan-dianguangwang': '#00BFFF', // 深天蓝色（超炫电光王）
 };
 
 /**

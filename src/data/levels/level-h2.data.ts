@@ -45,7 +45,7 @@ export const levelH2Questions: Question[] = [
   {
     type: QuestionType.FILL_BLANK,
     question: '找规律填数：2、5、10、17、26、{{___}}。这个数表示小明有{{___}}元零花钱。',
-    answer: '37,37',
+    answer: ['37', '37'],
     explanation: '规律是：相邻两数的差分别是 3、5、7、9、11（每次 +2）。所以 26+11=37。小明有 37 元零花钱。',
     hint: '相邻两数的差有什么规律？3、5、7、9、...',
   },

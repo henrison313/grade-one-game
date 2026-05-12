@@ -14,19 +14,19 @@ export const levelH1Questions: Question[] = [
   // 题目 1：数位理解 - 用圆片摆数
   {
     type: QuestionType.DRAG,
-    question: '用 3 个圆片在数位表上能摆出哪些数？',
-    instruction: '把圆片拖到十位或个位，看看能组成哪些不同的数。',
+    question: '我们来学习数位表！十位上的圆片代表几十，个位上的圆片代表几个。你有3个圆片，试着把它们拖到十位和个位，看看能摆出什么数？',
+    instruction: '把3个圆片拖到【十位】或【个位】，每种摆法表示一个数。例如：3个圆片都放在十位，表示30。',
     items: [
-      { id: 'piece-1', name: '圆片①' },
-      { id: 'piece-2', name: '圆片②' },
-      { id: 'piece-3', name: '圆片③' },
+      { id: 'piece-1', name: '圆片1', shape: 'circle' as const },
+      { id: 'piece-2', name: '圆片2', shape: 'circle' as const },
+      { id: 'piece-3', name: '圆片3', shape: 'circle' as const },
     ],
     targets: [
-      { id: 'tens', name: '十位', accepts: ['piece-1', 'piece-2', 'piece-3'], position: { x: 100, y: 150 }, size: { width: 120, height: 80 } },
-      { id: 'ones', name: '个位', accepts: ['piece-1', 'piece-2', 'piece-3'], position: { x: 250, y: 150 }, size: { width: 120, height: 80 } },
+      { id: 'tens', name: '十位（代表几十）', accepts: ['piece-1', 'piece-2', 'piece-3'], position: { x: 100, y: 150 }, size: { width: 180, height: 140 } },
+      { id: 'ones', name: '个位（代表几个）', accepts: ['piece-1', 'piece-2', 'piece-3'], position: { x: 320, y: 150 }, size: { width: 180, height: 140 } },
     ],
-    explanation: '3 个圆片可以摆出：30（3 个都在十位）、21（2 个十位 1 个个位）、12（1 个十位 2 个个位）、3（3 个都在个位）。',
-    hint: '试着把不同数量的圆片放在十位和个位',
+    explanation: '3个圆片可以摆出4个数：30（3个在十位）、21（2个在十位+1个在个位）、12（1个在十位+2个在个位）、3（3个在个位）！规律：圆片数+1=能摆出的数的个数！',
+    hint: '试试把圆片都放在十位，表示几？都放在个位，表示几？',
   },
 
   // 题目 2：最大最小 - 滑动调整数位
@@ -47,8 +47,8 @@ export const levelH1Questions: Question[] = [
   // 题目 3：规律发现 - 填写发现
   {
     type: QuestionType.FILL_BLANK,
-    question: '用 4 个圆片能摆出{{___}}个不同的数。（提示：分别是 40、31、22、13、4）',
-    answer: '5',
+    question: '用 4 个圆片能摆出{{___}}个不同的数。',
+    answer: ['5'],
     explanation: '用 4 个圆片可以摆出 5 个不同的数：40、31、22、13、4。圆片数 +1=能摆出的数的个数！',
     hint: '数一数能摆出几个不同的数',
   },
@@ -72,7 +72,7 @@ export const levelH1Questions: Question[] = [
   {
     type: QuestionType.FILL_BLANK,
     question: '用 9 个圆片能摆出{{___}}个不同的数。（请在 30 秒内填写答案）',
-    answer: '10',
+    answer: ['10'],
     explanation: '用 9 个圆片可以摆出 10 个不同的数：90、81、72、63、54、45、36、27、18、9。规律是：圆片数 +1=能摆出的数的个数！',
     hint: '9 个圆片，最大的数是 90，最小的是 9，中间还有几个数？',
   },

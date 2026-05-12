@@ -88,8 +88,8 @@ export const level6Questions: Question[] = [
   // 题目 6：填空题 - 数的顺序
   {
     type: QuestionType.FILL_BLANK,
-    question: '按规律填数：25、30、35、_、_、50',
-    answer: '40,45',
+    question: '按规律填数：25、30、35、{{___}}、{{___}}、50',
+    answer: ['40', '45'],
     explanation: '规律是每次加 5：25、30、35、40、45、50！',
     hint: '每个数比前一个数多 5',
   },

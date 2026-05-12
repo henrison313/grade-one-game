@@ -61,7 +61,7 @@ export const level2_1EasyQuestions: Question[] = [
   {
     type: 'fill_blank' as QuestionType.FILL_BLANK,
     question: '计算 14 - 9：先把 14 分成 10 和 {{___}}，10 - 9 = 1，1 + 4 = {{___}}',
-    answer: ['4', '四', '5', '五'],
+    answer: ['4', '5'], // 第一个空填4，第二个空填5
     explanation: '破十法步骤：14 分成 10 和 4，10 - 9 = 1，1 + 4 = 5！第二道密码门打开了！',
     hint: '14 的个位是几？最后的结果是几？',
   },
@@ -85,19 +85,21 @@ export const level2_1EasyQuestions: Question[] = [
   {
     type: 'drag' as QuestionType.DRAG,
     question: '把算式拖到正确的答案上！',
-    instruction: '将算式拖到对应的答案位置',
+    instruction: '将算式拖到对应的答案框中',
     items: [
-      { id: 'eq1', name: '12 - 9', shape: 'rectangle' },
-      { id: 'eq2', name: '11 - 9', shape: 'rectangle' },
-      { id: 'eq3', name: '10 - 9', shape: 'rectangle' },
+      { id: 'eq1', name: '12 - 9', displayText: '12 - 9' },
+      { id: 'eq2', name: '11 - 9', displayText: '11 - 9' },
+      { id: 'eq3', name: '10 - 9', displayText: '10 - 9' },
     ],
     targets: [
-      { id: 'ans1', name: '3', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: 'ans2', name: '2', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: 'ans3', name: '1', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
+      // 水平排列在一行，缩小尺寸
+      { id: 'ans3', name: '答案 1', accepts: ['eq3'], position: { x: 80, y: 80 }, size: { width: 100, height: 60 } },
+      { id: 'ans2', name: '答案 2', accepts: ['eq2'], position: { x: 210, y: 80 }, size: { width: 100, height: 60 } },
+      { id: 'ans1', name: '答案 3', accepts: ['eq1'], position: { x: 340, y: 80 }, size: { width: 100, height: 60 } },
     ],
+    targetLabels: ['= 1', '= 2', '= 3'], // 显示答案标签
     explanation: '12 - 9 = 3（破十法：10 - 9 = 1，1 + 2 = 3），11 - 9 = 2，10 - 9 = 1！第四道密码门通过！',
-    hint: '用破十法计算每个算式',
+    hint: '用破十法计算每个算式，然后把算式拖到正确的答案上',
   },
 
   // 第 5 题：综合计算（第 5 道密码门 - 终极）
@@ -132,7 +134,7 @@ export const level2_1MediumQuestions: Question[] = [
       { id: 'c', text: '10' },
       { id: 'd', text: '11' },
     ],
-    correctAnswer: 'a',
+    correctAnswer: 'b', // 18-9=9
     explanation: '用破十法：18 分成 10 和 8，10 - 9 = 1，1 + 8 = 9！秘密基地入口密码破解！',
     hint: '把 18 分成 10 和 8',
   },
@@ -170,7 +172,7 @@ export const level2_1MediumQuestions: Question[] = [
   {
     type: 'fill_blank' as QuestionType.FILL_BLANK,
     question: '计算 16 - 9：先用 {{___}} - 9 = 1，再把 {{___}} + {{___}} = 7',
-    answer: ['10', '十', '1', '一', '6', '六'],
+    answer: ['10', '1', '6'], // 三个空分别是：10, 1, 6
     explanation: '破十法详细步骤：先 10 - 9 = 1，再把 1 + 6 = 7！暗影实验室密码解锁！',
     hint: '破十法先把十几拆成 10 和几',
   },
@@ -180,12 +182,12 @@ export const level2_1MediumQuestions: Question[] = [
     type: 'circle' as QuestionType.CIRCLE,
     question: '圈出结果大于 5 的算式！',
     instruction: '点击圈出结果大于 5 的算式',
-    image: '/assets/shapes/subtraction-examples.svg',
+    // 不使用静态SVG，改用动态绘制
     answerAreas: [
       { id: 'eq1', x: 80, y: 100, radius: 40, label: '18 - 9' },
-      { id: 'eq2', x: 160, y: 100, radius: 40, label: '17 - 9' },
-      { id: 'eq3', x: 240, y: 100, radius: 40, label: '16 - 9' },
-      { id: 'eq4', x: 320, y: 100, radius: 40, label: '15 - 9' },
+      { id: 'eq2', x: 200, y: 100, radius: 40, label: '17 - 9' },
+      { id: 'eq3', x: 320, y: 100, radius: 40, label: '16 - 9' },
+      { id: 'eq4', x: 440, y: 100, radius: 40, label: '15 - 9' },
     ],
     tolerance: 10,
     explanation: '18 - 9 = 9 > 5，17 - 9 = 8 > 5，16 - 9 = 7 > 5，15 - 9 = 6 > 5！这些算式结果都大于 5！暗影突击枪组装完成，暗影特工觉醒！',
@@ -203,7 +205,7 @@ export const level2_1HardQuestions: Question[] = [
   {
     type: 'fill_blank' as QuestionType.FILL_BLANK,
     question: '计算 19 - 9：把 19 分成 {{___}} 和 {{___}}，用 {{___}} - 9 = 1，最后 {{___}} + 9 = {{___}}',
-    answer: ['10', '十', '9', '九', '10', '十', '1', '一', '10', '十'],
+    answer: ['10', '9', '10', '1', '10'],
     explanation: '19 - 9 破十法完整步骤：把 19 分成 10 和 9，用 10 - 9 = 1，最后 1 + 9 = 10！时空裂缝入口通过！',
     hint: '19 分成 10 和 9，按步骤填写',
   },
@@ -229,16 +231,16 @@ export const level2_1HardQuestions: Question[] = [
     question: '把算式按结果从小到大排列！',
     instruction: '将算式拖到正确顺序位置',
     items: [
-      { id: 'eq1', name: '12 - 9', shape: 'rectangle' },
-      { id: 'eq2', name: '14 - 9', shape: 'rectangle' },
-      { id: 'eq3', name: '16 - 9', shape: 'rectangle' },
-      { id: 'eq4', name: '18 - 9', shape: 'rectangle' },
+      { id: 'eq1', name: '12 - 9' },
+      { id: 'eq2', name: '14 - 9' },
+      { id: 'eq3', name: '16 - 9' },
+      { id: 'eq4', name: '18 - 9' },
     ],
     targets: [
-      { id: 'pos1', name: '最小', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: 'pos2', name: '第二', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: 'pos3', name: '第三', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: 'pos4', name: '最大', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
+      { id: 'pos1', name: '最小', accepts: ['eq1'], position: { x: 80, y: 30 }, size: { width: 170, height: 150 } },
+      { id: 'pos2', name: '第二', accepts: ['eq2'], position: { x: 330, y: 30 }, size: { width: 170, height: 150 } },
+      { id: 'pos3', name: '第三', accepts: ['eq3'], position: { x: 80, y: 210 }, size: { width: 170, height: 150 } },
+      { id: 'pos4', name: '最大', accepts: ['eq4'], position: { x: 330, y: 210 }, size: { width: 170, height: 150 } },
     ],
     explanation: '12 - 9 = 3（最小），14 - 9 = 5（第二），16 - 9 = 7（第三），18 - 9 = 9（最大）！时空迷宫通过！',
     hint: '用破十法计算结果后排序',
@@ -259,21 +261,31 @@ export const level2_1HardQuestions: Question[] = [
     hint: '破十法是先把十几拆成 10 和几',
   },
 
-  // 第 5 题：拼出破十法示意图（终极形态觉醒）
+  // 第 5 题：终极挑战（终极形态觉醒）
   {
-    type: 'shape_compose' as QuestionType.SHAPE_COMPOSE,
-    question: '用图形拼出破十法计算 15 - 9 的示意图！',
-    instruction: '把图形拖到画布中，拼出破十法的分解步骤：一个大方形代表 15，分成一个小方形（10）和一个圆形（5）',
+    type: 'drag' as QuestionType.DRAG,
+    question: '用破十法计算 15 - 9：把 15 分成 10 和 5，把正确的数字拖到对应位置！',
+    instruction: '把数字卡片拖到正确的位置',
     items: [
-      { id: 'big-square', name: '15', shape: 'square' },
-      { id: 'ten-square', name: '10', shape: 'square' },
-      { id: 'five-circle', name: '5', shape: 'circle' },
-      { id: 'one-triangle', name: '1', shape: 'triangle' },
-      { id: 'result-circle', name: '6', shape: 'circle' },
+      { id: 'num15', name: '15' },
+      { id: 'num10', name: '10' },
+      { id: 'num5', name: '5' },
+      { id: 'num1', name: '1' },
+      { id: 'num6', name: '6' },
     ],
-    canvasSize: { width: 300, height: 200 },
-    requiredCounts: { square: 2, circle: 2, triangle: 1 },
-    explanation: '破十法示意图：15 分成 10 和 5，10 减 9 得 1，1 加 5 得 6！雷霆暗影炮组装完成，暗影特工终极形态觉醒！',
+    targets: [
+      { id: 'total', name: '被减数', accepts: ['num15'], position: { x: 50, y: 30 }, size: { width: 100, height: 60 } },
+      { id: 'ten', name: '10', accepts: ['num10'], position: { x: 50, y: 120 }, size: { width: 100, height: 60 } },
+      { id: 'one', name: '个位', accepts: ['num5'], position: { x: 180, y: 120 }, size: { width: 100, height: 60 } },
+      { id: 'result1', name: '10-9=', accepts: ['num1'], position: { x: 50, y: 210 }, size: { width: 100, height: 60 } },
+      { id: 'result2', name: '1+5=', accepts: ['num6'], position: { x: 180, y: 210 }, size: { width: 100, height: 60 } },
+    ],
+    connections: [
+      { from: 'total', to: 'ten' },
+      { from: 'total', to: 'one' },
+    ],
+    explanation: '破十法：15 分成 10 和 5，10 - 9 = 1，1 + 5 = 6！雷霆暗影炮组装完成，暗影特工终极形态觉醒！',
+    hint: '先找到被减数 15，再找 10 和 5',
   },
 ];
 

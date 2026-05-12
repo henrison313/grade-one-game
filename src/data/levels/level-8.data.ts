@@ -59,7 +59,7 @@ export const level8Questions: Question[] = [
   {
     type: QuestionType.FILL_BLANK,
     question: '按规律填数：5、10、15、20、{{___}}、30',
-    answer: '25',
+    answer: ['25'],
     explanation: '规律是每次加 5，所以 20+5=25！',
     hint: '这是 5 的倍数数列',
   },

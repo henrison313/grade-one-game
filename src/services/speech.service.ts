@@ -41,6 +41,13 @@ const VOICE_PRESETS: Record<string, VoiceConfig> = {
 };
 
 /**
+ * 检测是否为移动设备
+ */
+const isMobileDevice = (): boolean => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
+
+/**
  * 语音服务
  * 使用 Web Speech API 实现中文语音播放
  */
@@ -51,10 +58,74 @@ class SpeechService {
   private chineseVoice: SpeechSynthesisVoice | null = null;
   private priorityMode: boolean = true; // 播放时压低 BGM
   private bgmWasPlaying: boolean = false;
+  private speechUnlocked: boolean = false;
+  private voicesLoaded: boolean = false;
 
   constructor() {
     this.initSynth();
     this.loadSettings();
+    this.setupSpeechUnlock();
+  }
+
+  /**
+   * 设置语音解锁（处理移动端自动播放限制）
+   * 移动端浏览器需要用户交互才能播放语音
+   */
+  private setupSpeechUnlock(): void {
+    if (typeof window === 'undefined') return;
+
+    // 桌面端通常不需要解锁
+    if (!isMobileDevice()) {
+      this.speechUnlocked = true;
+      return;
+    }
+
+    const unlockEvents = ['click', 'touchstart', 'keydown'];
+
+    const unlockSpeech = () => {
+      if (this.speechUnlocked) return;
+
+      // 尝试播放并立即停止一个空的语音来解锁
+      if (this.synth) {
+        const utterance = new SpeechSynthesisUtterance('');
+        utterance.volume = 0;
+        utterance.rate = 10; // 快速播放
+
+        utterance.onend = () => {
+          this.speechUnlocked = true;
+          console.log('[SpeechService] Speech unlocked on mobile');
+        };
+
+        utterance.onerror = () => {
+          // 即使失败也标记为尝试过
+          this.speechUnlocked = true;
+        };
+
+        try {
+          this.synth.speak(utterance);
+          // 立即取消，只是为了解锁
+          setTimeout(() => {
+            if (this.synth && !this.speechUnlocked) {
+              this.synth.cancel();
+              this.speechUnlocked = true;
+            }
+          }, 100);
+        } catch (e) {
+          console.warn('[SpeechService] Unlock attempt failed:', e);
+        }
+      }
+
+      // 移除事件监听
+      if (this.speechUnlocked) {
+        unlockEvents.forEach(event => {
+          document.removeEventListener(event, unlockSpeech);
+        });
+      }
+    };
+
+    unlockEvents.forEach(event => {
+      document.addEventListener(event, unlockSpeech, { passive: true });
+    });
   }
 
   /**
@@ -71,6 +142,11 @@ class SpeechService {
       // 使用 onvoiceschanged 属性以兼容更多浏览器
       if (this.synth.onvoiceschanged !== undefined) {
         this.synth.onvoiceschanged = () => this.loadVoices();
+      }
+
+      // 移动端：页面加载后延迟再次加载语音
+      if (isMobileDevice()) {
+        setTimeout(() => this.loadVoices(), 1000);
       }
     } else {
       console.warn('Web Speech API not supported');
@@ -99,6 +175,15 @@ class SpeechService {
     if (!this.synth) return;
 
     const voices = this.synth.getVoices();
+
+    if (voices.length === 0) {
+      // 移动端可能需要等待
+      if (isMobileDevice()) {
+        console.log('[SpeechService] No voices available yet, will retry');
+      }
+      return;
+    }
+
     // 优先选择普通话语音，按优先级排序
     const chineseVoices = voices.filter(
       (voice) =>
@@ -113,6 +198,8 @@ class SpeechService {
       const voice = chineseVoices.find((v) => v.name.includes(provider));
       if (voice) {
         this.chineseVoice = voice;
+        this.voicesLoaded = true;
+        console.log('[SpeechService] Using voice:', voice.name);
         return;
       }
     }
@@ -120,6 +207,16 @@ class SpeechService {
     // 使用第一个可用的中文语音
     if (chineseVoices.length > 0) {
       this.chineseVoice = chineseVoices[0];
+      this.voicesLoaded = true;
+      console.log('[SpeechService] Using first Chinese voice:', chineseVoices[0].name);
+    } else {
+      // 移动端可能没有中文语音，使用默认语音
+      console.warn('[SpeechService] No Chinese voice found, using default');
+      // 尝试使用任何可用的语音
+      if (voices.length > 0) {
+        this.chineseVoice = voices[0];
+        this.voicesLoaded = true;
+      }
     }
   }
 
@@ -165,6 +262,27 @@ class SpeechService {
   }
 
   /**
+   * 清理文本用于语音朗读
+   * 移除不需要朗读的符号，保留基本断句标点
+   */
+  private cleanTextForSpeech(text: string): string {
+    return text
+      // 移除双引号（中文和英文）
+      .replace(/["""]/g, '')
+      // 移除书名号
+      .replace(/[《》]/g, '')
+      // 移除方括号
+      .replace(/[【】\[\]]/g, '')
+      // 移除波浪号
+      .replace(/[~~]/g, '')
+      // 将省略号替换为逗号（帮助断句）
+      .replace(/[……]{2,}/g, '，')
+      // 移除多余空格
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  /**
    * 播放语音
    * @param text 要朗读的文本
    * @param speaker 说话人（用于匹配音色）
@@ -176,8 +294,20 @@ class SpeechService {
       return;
     }
 
+    // 移动端检查是否已解锁
+    if (isMobileDevice() && !this.speechUnlocked) {
+      console.log('[SpeechService] Speech not unlocked yet on mobile, skipping');
+      onEnd?.();
+      return;
+    }
+
     // 停止当前播放
     this.stop();
+
+    // 移动端：确保 resume 被调用（Android bug workaround）
+    if (isMobileDevice()) {
+      this.synth.resume();
+    }
 
     // 如果需要压低 BGM
     if (this.priorityMode && soundService.isBGMPlaying()) {
@@ -185,7 +315,10 @@ class SpeechService {
       soundService.duckBGM();
     }
 
-    const utterance = new SpeechSynthesisUtterance(text);
+    // 预处理文本：移除不需要朗读的符号
+    const cleanedText = this.cleanTextForSpeech(text);
+
+    const utterance = new SpeechSynthesisUtterance(cleanedText);
 
     // 设置语音
     if (this.chineseVoice) {
@@ -200,20 +333,36 @@ class SpeechService {
     utterance.volume = this.volume;
 
     // 设置回调
+    utterance.onstart = () => {
+      console.log('[SpeechService] Speech started');
+    };
+
     utterance.onend = () => {
+      console.log('[SpeechService] Speech ended');
       this.onSpeechEnd();
       onEnd?.();
     };
 
     utterance.onerror = (event) => {
       if (event.error !== 'canceled') {
-        console.warn('Speech error:', event.error);
+        console.warn('[SpeechService] Speech error:', event.error);
       }
       this.onSpeechEnd();
       onEnd?.();
     };
 
+    console.log('[SpeechService] Speaking:', cleanedText.slice(0, 50) + '...');
     this.synth.speak(utterance);
+
+    // 移动端：Android 有时需要这个 workaround
+    if (isMobileDevice()) {
+      // 强制触发播放
+      setTimeout(() => {
+        if (this.synth && !this.synth.speaking && this.synth.pending) {
+          this.synth.resume();
+        }
+      }, 100);
+    }
   }
 
   /**
@@ -255,6 +404,20 @@ class SpeechService {
    */
   resume(): void {
     this.synth?.resume();
+  }
+
+  /**
+   * 检查语音是否已解锁（移动端）
+   */
+  isUnlocked(): boolean {
+    return this.speechUnlocked;
+  }
+
+  /**
+   * 检查语音是否已加载
+   */
+  isVoicesLoaded(): boolean {
+    return this.voicesLoaded;
   }
 }
 

@@ -260,42 +260,25 @@ const SkipButton = styled(motion.button)`
   }
 `;
 
-// 招术配置（官方设定）
-// 炫蓝闪电绝招：爆裂轰击、闪电扣杀、百万伏特拳、无限爆裂
-// 巨力风暴绝招：超级能量冲击、超级能量护盾、超级触地攻击
-const LightningUltimates = {
-  easy: [
-    { name: '百万伏特拳', effect: 'flicker', color: '#FFD700' },
-    { name: '爆裂轰击', effect: 'pulse', color: '#89CFF0' },
-  ],
-  medium: [
-    { name: '闪电扣杀', effect: 'shake', color: '#FFD700' },
-    { name: '百万伏特拳', effect: 'swirl', color: '#89CFF0' },
-  ],
-  hard: [
-    { name: '无限爆裂', effect: 'shake', color: '#FFD700' },
-    { name: '闪电扣杀', effect: 'swirl', color: '#E6E6FA' },
-  ],
-};
+// 为每个难度级别生成随机招术
+const getUltimateByCharacterAndDifficulty = (character: Character, difficulty: DifficultyLevel) => {
+  // 根据角色和难度生成不同的终极技能
+  const ultimatesByDifficulty = {
+    easy: [
+      { name: character.ultimateSkill, effect: 'pulse', color: '#7FCCB0' },
+      { name: `强化版 ${character.ultimateSkill}`, effect: 'swirl', color: '#89CFF0' },
+    ],
+    medium: [
+      { name: `进阶版 ${character.ultimateSkill}`, effect: 'shake', color: '#FF4500' },
+      { name: character.ultimateSkill, effect: 'swirl', color: '#E6E6FA' },
+    ],
+    hard: [
+      { name: `终极版 ${character.ultimateSkill}`, effect: 'swirl', color: '#EC4899' },
+      { name: `完美版 ${character.ultimateSkill}`, effect: 'shake', color: '#7FCCB0' },
+    ],
+  };
 
-const StormUltimates = {
-  easy: [
-    { name: '超级能量冲击', effect: 'pulse', color: '#7FCCB0' },
-    { name: '超级能量护盾', effect: 'swirl', color: '#89CFF0' },
-  ],
-  medium: [
-    { name: '烈焰风暴冲击', effect: 'shake', color: '#FF4500' },  // 火焰形态
-    { name: '超级触地攻击', effect: 'swirl', color: '#E6E6FA' },
-  ],
-  hard: [
-    { name: '宇宙风暴毁灭', effect: 'swirl', color: '#EC4899' },  // 终极形态（彩虹效果）
-    { name: '超级无敌能量护盾', effect: 'shake', color: '#7FCCB0' },
-  ],
-};
-
-// 随机选择招术
-const getRandomUltimate = (ultimates: typeof LightningUltimates, difficulty: DifficultyLevel) => {
-  const moves = ultimates[difficulty];
+  const moves = ultimatesByDifficulty[difficulty];
   return moves[Math.floor(Math.random() * moves.length)];
 };
 
@@ -305,6 +288,9 @@ interface BattleSceneProps {
   difficulty: DifficultyLevel;
   weaponComplete?: boolean;  // 武器是否完成
   weaponImage?: string;      // 武器图片（如果完成）
+  enemyWeaponImage?: string; // 敌人武器图片
+  isUpgrade?: boolean;       // 是否是升级关卡
+  isFusion?: boolean;        // 是否是合体关卡（H1）
   onComplete: () => void;
 }
 
@@ -314,21 +300,35 @@ export const BattleScene: React.FC<BattleSceneProps> = ({
   difficulty,
   weaponComplete = false,
   weaponImage,
+  enemyWeaponImage,
+  isUpgrade = false,
+  isFusion = false,
   onComplete,
 }) => {
+  // 使用 isFusion 变量避免 TypeScript 警告
+  const fusionMode = isFusion;
   const [phase, setPhase] = useState<'entry' | 'heroUltimate' | 'enemyUltimate' | 'collision' | 'victory'>('entry');
   const { playCardReveal, playStarEarn, playCorrect, playVictory, playBGM } = useSound();
 
-  // 根据难度获取巨力风暴形态图片
+  // 根据难度获取主角形态图片和名字
+  const heroVariant = useMemo(() => {
+    return getVariantByDifficulty(hero.id, difficulty);
+  }, [hero.id, difficulty]);
+
+  const heroImage = heroVariant?.image || hero.robotImage || hero.vehicleImage;
+  const heroDisplayName = heroVariant?.displayName || hero.name;
+
+  // 根据难度获取敌人形态图片
   const enemyVariant = useMemo(() => {
     return getVariantByDifficulty(enemy.id, difficulty);
   }, [enemy.id, difficulty]);
 
   const enemyImage = enemyVariant?.image || enemy.robotImage || enemy.vehicleImage;
+  const enemyDisplayName = enemyVariant?.displayName || enemy.name;
 
   // 随机选择招术
-  const heroMove = useMemo(() => getRandomUltimate(LightningUltimates, difficulty), [difficulty]);
-  const enemyMove = useMemo(() => getRandomUltimate(StormUltimates, difficulty), [difficulty]);
+  const heroMove = useMemo(() => getUltimateByCharacterAndDifficulty(hero, difficulty), [hero, difficulty]);
+  const enemyMove = useMemo(() => getUltimateByCharacterAndDifficulty(enemy, difficulty), [enemy, difficulty]);
 
   // 动画时序
   useEffect(() => {
@@ -433,8 +433,8 @@ export const BattleScene: React.FC<BattleSceneProps> = ({
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             <FighterImage
-              src={hero.robotImage || hero.vehicleImage}
-              alt={hero.name}
+              src={heroImage}
+              alt={heroDisplayName}
               animate={{
                 scale: phase === 'heroUltimate' ? 1.2 : 1,
               }}
@@ -474,29 +474,49 @@ export const BattleScene: React.FC<BattleSceneProps> = ({
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            {hero.name}
+            {heroDisplayName}
           </FighterName>
         </CharacterBox>
 
         {/* 巨力风暴（右侧） */}
         <CharacterBox $side="right">
-          <FighterImage
-            src={enemyImage}
-            alt={enemy.name}
+          <CharacterWeaponBox
             initial={{ x: 200, opacity: 0 }}
             animate={{
               x: phase === 'enemyUltimate' ? -50 : phase === 'collision' ? -100 : 0,
               opacity: 1,
-              scale: phase === 'enemyUltimate' ? 1.2 : 1,
             }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-          />
+          >
+            <FighterImage
+              src={enemyImage}
+              alt={enemy.name}
+              animate={{
+                scale: phase === 'enemyUltimate' ? 1.2 : 1,
+              }}
+              transition={{ duration: 0.3 }}
+            />
+            {/* 敌人武器展示 */}
+            {enemyWeaponImage && (
+              <WeaponImage
+                src={enemyWeaponImage}
+                alt={`${enemy.name}武器`}
+                $firing={phase === 'enemyUltimate'}
+                initial={{ opacity: 0 }}
+                animate={{
+                  opacity: 1,
+                  scale: phase === 'enemyUltimate' ? 1.2 : 1,
+                }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+              />
+            )}
+          </CharacterWeaponBox>
           <FighterName
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            {enemy.name}
+            {enemyDisplayName}
           </FighterName>
         </CharacterBox>
 
@@ -553,7 +573,7 @@ export const BattleScene: React.FC<BattleSceneProps> = ({
             animate={{ opacity: 1, scale: 1.2 }}
             transition={{ type: 'spring', stiffness: 150 }}
           >
-            🏆 战斗胜利！
+            {fusionMode ? '✨ 合体成功！' : isUpgrade ? '⬆️ 升级成功！' : '🏆 战斗胜利！'}
           </UltimateDisplay>
         )}
       </AnimatePresence>
@@ -578,7 +598,12 @@ export const BattleScene: React.FC<BattleSceneProps> = ({
           : '绝招碰撞！能量爆发！'
         )
         }
-        {phase === 'victory' && `${hero.name} 获得胜利！即将获得炫卡...`
+        {phase === 'victory' && (isFusion
+          ? `十一位炫卡斗士成功合体！超炫电光王觉醒！`
+          : isUpgrade
+          ? `${hero.name} 升级成功！即将进化为炫蓝闪电S...`
+          : `${hero.name} 获得胜利！即将获得炫卡...`
+        )
         }
       </BattleAnnouncement>
 

@@ -69,25 +69,28 @@ export const level1_2EasyQuestions: Question[] = [
     hint: '数一数每个图形有几个角',
   },
 
-  // 第 5 题：长方形与正方形区别（救援直升机场景）
+  // 第 5 题：直升机图形拼组（救援直升机场景）
   {
     type: 'drag' as QuestionType.DRAG,
-    question: '把图形拖到正确的名称上！',
-    instruction: '将图形拖到对应的位置',
+    question: '把图形拖到直升机上，拼出完整的图案！',
+    instruction: '将图形拖到正确的位置',
     items: [
-      { id: 'circle', name: '⬤', shape: 'circle' },
-      { id: 'triangle', name: '▲', shape: 'triangle' },
-      { id: 'square', name: '◼', shape: 'square' },
-      { id: 'rectangle', name: '▬', shape: 'rectangle' },
+      { id: 'wheel1', name: '轮子', shape: 'circle', group: 'wheel' },
+      { id: 'wheel2', name: '轮子', shape: 'circle', group: 'wheel' },
+      { id: 'window', name: '窗户', shape: 'square' },
+      { id: 'roof', name: '车顶', shape: 'rectangle' },
     ],
     targets: [
-      { id: '圆形', name: '圆形', accepts: ['circle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: '三角形', name: '三角形', accepts: ['triangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: '正方形', name: '正方形', accepts: ['square'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: '长方形', name: '长方形', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
+      // 车顶在最上方
+      { id: 'roof-pos', name: '顶部螺旋桨罩', accepts: ['roof'], position: { x: 260, y: 10 }, size: { width: 220, height: 70 } },
+      // 窗户在中间
+      { id: 'window-pos', name: '驾驶舱窗户', accepts: ['window'], position: { x: 290, y: 95 }, size: { width: 160, height: 110 } },
+      // 轮子在下方 - 两个轮子位置都可以接受任意轮子
+      { id: 'wheel1-pos', name: '左侧轮子', accepts: ['wheel1', 'wheel2'], group: 'wheel', position: { x: 160, y: 220 }, size: { width: 120, height: 110 } },
+      { id: 'wheel2-pos', name: '右侧轮子', accepts: ['wheel1', 'wheel2'], group: 'wheel', position: { x: 460, y: 220 }, size: { width: 120, height: 110 } },
     ],
-    explanation: '太棒了！圆形圆圆的，三角形有三个角，正方形四条边一样长，长方形两条长两条短！炫光医疗箱组装完成！',
-    hint: '仔细看看每个图形的样子！',
+    explanation: '救援直升机拼好了！轮子在下方，窗户在中间，车顶在最上方！螺旋桨开始转动，准备执行救援任务！',
+    hint: '想一想直升机的结构：轮子在下，窗户在中，顶部有螺旋桨',
   },
 ];
 
@@ -125,18 +128,44 @@ export const level1_2MediumQuestions: Question[] = [
   },
 
   // 第 3 题：圈画可拼成正方形的图形（建筑工地场景）
+  // 使用 inlineShapes 动态渲染多个图形，而不是静态SVG
   {
     type: 'circle' as QuestionType.CIRCLE,
     question: '圈出能拼成正方形的图形！',
     instruction: '点击圈出可以拼成正方形的两个三角形',
-    image: '/assets/shapes/triangle-pair.svg',
-    answerAreas: [
-      { id: 't1', x: 80, y: 100, radius: 40, label: '三角形 1' },
-      { id: 't2', x: 160, y: 100, radius: 40, label: '三角形 2' },
+    // 不使用静态SVG，改用 inlineShapes 动态渲染
+    inlineShapes: [
+      // 第一行（水平间距110px）
+      { id: 't1', type: 'triangle', x: 70, y: 50, size: 50, color: '#FF6B6B', label: '三角形1', rotation: 0 },
+      { id: 't2', type: 'triangle', x: 180, y: 50, size: 50, color: '#FF6B6B', label: '三角形2', rotation: 180 },
+      { id: 'c1', type: 'circle', x: 290, y: 50, size: 50, color: '#4ECDC4', label: '圆形' },
+      { id: 's1', type: 'square', x: 400, y: 50, size: 50, color: '#95E1D3', label: '正方形' },
+      // 第二行（垂直间距110px）
+      { id: 't3', type: 'triangle', x: 125, y: 160, size: 45, color: '#FFA07A', label: '三角形3', rotation: 90 },
+      { id: 'r1', type: 'rectangle', x: 235, y: 160, width: 60, height: 40, color: '#F7DC6F', label: '长方形' },
+      { id: 't4', type: 'triangle', x: 345, y: 160, size: 45, color: '#FFA07A', label: '三角形4', rotation: 270 },
+      // 第三行（垂直间距110px）
+      { id: 'c2', type: 'circle', x: 180, y: 270, size: 45, color: '#4ECDC4', label: '圆形2' },
+      { id: 's2', type: 'square', x: 290, y: 270, size: 45, color: '#95E1D3', label: '正方形2' },
     ],
+    answerAreas: [
+      // 第一行：各种形状（水平间距100px）
+      { id: 't1', x: 70, y: 50, radius: 35, label: '三角形1' },
+      { id: 't2', x: 180, y: 50, radius: 35, label: '三角形2' },
+      { id: 'c1', x: 290, y: 50, radius: 35, label: '圆形' },
+      { id: 's1', x: 400, y: 50, radius: 35, label: '正方形' },
+      // 第二行：更多形状（垂直间距110px）
+      { id: 't3', x: 125, y: 160, radius: 35, label: '三角形3' },
+      { id: 'r1', x: 235, y: 160, radius: 35, label: '长方形' },
+      { id: 't4', x: 345, y: 160, radius: 35, label: '三角形4' },
+      // 第三行：干扰项（垂直间距110px）
+      { id: 'c2', x: 180, y: 270, radius: 35, label: '圆形2' },
+      { id: 's2', x: 290, y: 270, radius: 35, label: '正方形2' },
+    ],
+    correctAnswers: ['t1', 't2'], // 正确的两个三角形
     tolerance: 10,
-    explanation: '你找到了！两个相同的三角形可以拼成一个正方形，就像急救卫士的方形绷带！',
-    hint: '找找看哪两个三角形可以拼在一起',
+    explanation: '你找到了！两个相同的直角三角形可以拼成一个正方形，就像急救卫士的方形绷带！',
+    hint: '找找看哪两个三角形形状相同、大小一样，可以拼在一起成正方形',
   },
 
   // 第 4 题：图形组合可能性（游乐场场景）
@@ -154,25 +183,32 @@ export const level1_2MediumQuestions: Question[] = [
     hint: '想想用积木拼一拼！',
   },
 
-  // 第 5 题：组合图形识别（救援直升机场景）
+  // 第 5 题：组合图形识别（救援直升机场景）- 救护车拼图
   {
     type: 'drag' as QuestionType.DRAG,
     question: '把图形拖到救护车上，拼出完整的图案！',
-    instruction: '将图形拖到正确的位置',
+    instruction: '将图形拖到正确的位置，拼出一辆救护车',
     items: [
-      { id: 'wheel1', name: '轮子', shape: 'circle' },
-      { id: 'wheel2', name: '轮子', shape: 'circle' },
+      { id: 'body', name: '车身', shape: 'rectangle' },
+      { id: 'wheel1', name: '前轮', shape: 'circle' },
+      { id: 'wheel2', name: '后轮', shape: 'circle' },
       { id: 'window', name: '窗户', shape: 'square' },
-      { id: 'roof', name: '车顶', shape: 'rectangle' },
+      { id: 'light', name: '警灯', shape: 'circle' },
     ],
     targets: [
-      { id: 'wheel1-pos', name: '轮子位置 1', accepts: ['circle'], position: { x: 50, y: 150 }, size: { width: 40, height: 40 } },
-      { id: 'wheel2-pos', name: '轮子位置 2', accepts: ['circle'], position: { x: 150, y: 150 }, size: { width: 40, height: 40 } },
-      { id: 'window-pos', name: '窗户位置', accepts: ['square'], position: { x: 100, y: 80 }, size: { width: 40, height: 40 } },
-      { id: 'roof-pos', name: '车顶位置', accepts: ['rectangle'], position: { x: 80, y: 40 }, size: { width: 80, height: 30 } },
+      // 车顶警灯 - 最上方中央（接受任意圆形：警灯、前轮、后轮）
+      { id: 'light-pos', name: '警灯', accepts: ['light', 'wheel1', 'wheel2'], position: { x: 320, y: 20 }, size: { width: 60, height: 40 } },
+      // 车身 - 中间主体（只能放车身）
+      { id: 'body-pos', name: '车身', accepts: ['body'], position: { x: 180, y: 70 }, size: { width: 340, height: 100 } },
+      // 窗户 - 车身上方（只能放窗户）
+      { id: 'window-pos', name: '窗户', accepts: ['window'], position: { x: 220, y: 90 }, size: { width: 80, height: 60 } },
+      // 前轮 - 左下方（接受任意圆形）
+      { id: 'wheel1-pos', name: '前轮', accepts: ['wheel1', 'wheel2', 'light'], position: { x: 220, y: 180 }, size: { width: 70, height: 70 } },
+      // 后轮 - 右下方（接受任意圆形）
+      { id: 'wheel2-pos', name: '后轮', accepts: ['wheel2', 'wheel1', 'light'], position: { x: 410, y: 180 }, size: { width: 70, height: 70 } },
     ],
-    explanation: '救护车拼好了！圆形做轮子，正方形做窗户，长方形做车顶！闪电手术刀组装完成！',
-    hint: '想想救护车是什么样子',
+    explanation: '救护车拼好了！长方形做车身，圆形做轮子和警灯，正方形做窗户！警灯在最上面，窗户在车身侧面，两个轮子分别在前后！闪电手术刀组装完成！',
+    hint: '救护车的样子：上面是警灯，中间是车身和窗户，下面是两个轮子',
   },
 ];
 
@@ -185,7 +221,7 @@ export const level1_2HardQuestions: Question[] = [
   {
     type: 'fill_blank' as QuestionType.FILL_BLANK,
     question: '把一个正方形分成 4 个相同的图形，可以分成{{___}}个相同的小正方形',
-    answer: ['4', '四'],
+    answer: ['4'],
     explanation: '正方形可以分成 4 个相同的小正方形！就像把急救箱分成 4 个小格子一样！',
     hint: '想想怎么把正方形对折两次',
   },
@@ -205,11 +241,17 @@ export const level1_2HardQuestions: Question[] = [
     hint: '在纸上画一个正方形试试剪掉一个角',
   },
 
-  // 第 3 题：图形对折问题（建筑工地场景）
+  // 第 3 题：图形对折问题（建筑工地场景）- 改为选择题
   {
-    type: 'fill_blank' as QuestionType.FILL_BLANK,
-    question: '长方形对折一次后变成{{___}}形',
-    answer: ['长方', '小长方'],
+    type: 'choice' as QuestionType.CHOICE,
+    question: '长方形对折一次后变成什么形状？',
+    options: [
+      { id: 'a', text: '圆形' },
+      { id: 'b', text: '正方形' },
+      { id: 'c', text: '长方形' },
+      { id: 'd', text: '三角形' },
+    ],
+    correctAnswer: 'c',
     explanation: '长方形对折一次后还是长方形，只是变小了！就像把绷带对折一样！',
     hint: '拿一张长方形的纸折一折试试',
   },

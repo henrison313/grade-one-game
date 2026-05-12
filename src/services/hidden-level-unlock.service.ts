@@ -42,12 +42,17 @@ class HiddenLevelUnlockService {
 
   /**
    * 隐藏关卡 H2 解锁条件
+   * 通过前面八个单元关卡，星星数达到满星的90%
    */
   private h2Conditions: UnlockCondition[] = [
     {
-      type: 'accuracy',
-      targetLevel: '9',
-      minAccuracy: 0.9, // 90% 正确率
+      type: 'levels_completed',
+      targetLevels: ['1-1', '1-2', '1-3', '2-1', '2-2', '2-3', '2-4', '3-1', '3-2', '3-3', '3-4', '4-1', '4-2', '4-3', '5-1', '5-2', '6', '7-1', '7-2', '8'],
+      minStars: 3, // 每个关卡至少 3 星
+    },
+    {
+      type: 'stars_collected',
+      minStars: 90, // 总星星达到满星的90%（假设满星100）
     },
   ];
 

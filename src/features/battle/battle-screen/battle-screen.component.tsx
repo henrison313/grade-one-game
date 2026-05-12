@@ -23,7 +23,8 @@ import ComboMode from '@/features/quiz/combo-mode/combo-mode.component';
 import TimedQuestion from '@/features/quiz/timed-question/timed-question.component';
 import { useSound } from '@/shared/hooks';
 import { WeaponProgress, SceneBackground, QuestionStory } from '@/features/question-scene';
-import { QuestionStoryConfigs, DifficultyConfigs } from '@/config/question-story.config';
+import { QuestionStoryConfigs, DifficultyConfigs, LevelStoryConfigs } from '@/config/question-story.config';
+import { getWeaponImageByLevel, getWeaponPartsByLevel } from '@/data/weapon-configs.data';
 
 interface BattleScreenProps {
   level: Level;
@@ -190,9 +191,23 @@ export const BattleScreen: React.FC<BattleScreenProps> = ({
   const [collectedParts, setCollectedParts] = useState<string[]>([]);
   const { playBGM, stopBGM } = useSound();
 
-  // 获取当前难度的配置
-  const storyConfig = QuestionStoryConfigs[difficulty];
+  // 获取当前难度的配置（优先使用关卡特定配置）
+  const baseStoryConfig = LevelStoryConfigs[level.id]?.[difficulty] || QuestionStoryConfigs[difficulty];
   const difficultyConfig = DifficultyConfigs[difficulty];
+
+  // 获取关卡特定的武器配置（根据守护者角色动态获取）
+  const levelWeaponImage = getWeaponImageByLevel(level.id, difficulty);
+  const levelWeaponParts = getWeaponPartsByLevel(level.id, difficulty);
+
+  // 合并配置：使用关卡特定的武器图片和零件
+  const storyConfig = {
+    ...baseStoryConfig,
+    weapon: {
+      ...baseStoryConfig.weapon,
+      parts: levelWeaponParts,
+      completeImage: levelWeaponImage,
+    },
+  };
 
   // 播放战斗 BGM
   useEffect(() => {
@@ -383,6 +398,7 @@ export const BattleScreen: React.FC<BattleScreenProps> = ({
         currentIndex={currentQuestionIndex}
         collectedParts={collectedParts}
         difficulty={difficulty}
+        weaponImage={storyConfig.weapon.completeImage}
       />
 
       {/* 星星进度条 */}
@@ -436,10 +452,12 @@ export const BattleScreen: React.FC<BattleScreenProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <ResultTitle>{victory ? '胜利!' : '失败!'}</ResultTitle>
+            <ResultTitle>{victory ? (level.id === 'H1' || level.id === 'h1' ? '合体成功!' : '胜利!') : '失败!'}</ResultTitle>
             <ResultMessage>
               {victory
-                ? `你获得了 ${currentStars} 颗星星，成功击败了 ${level.guardian.name}!`
+                ? (level.id === 'H1' || level.id === 'h1'
+                    ? `你获得了 ${currentStars} 颗星星，十一位炫卡斗士成功合体成为${level.guardian.name}!`
+                    : `你获得了 ${currentStars} 颗星星，成功击败了 ${level.guardian.name}!`)
                 : `你获得了 ${currentStars} 颗星星，还需要 ${Math.floor(targetStars) - currentStars} 颗星星才能获胜。`}
             </ResultMessage>
           </ResultOverlay>

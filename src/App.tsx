@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { GlobalStyle } from './shared/styles/global.styles';
+import { ErrorBoundary } from './shared/components';
 
 // 加载 fallback 组件
 const LoadingFallback = () => (
@@ -10,7 +11,8 @@ const LoadingFallback = () => (
     alignItems: 'center',
     height: '100vh',
     fontSize: '24px',
-    color: '#fff'
+    color: '#fff',
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
   }}>
     加载中...
   </div>
@@ -26,7 +28,7 @@ const CardCollectionPage = React.lazy(() => import('./features/card/card-collect
 
 const App: React.FC = () => {
   return (
-    <>
+    <ErrorBoundary>
       <GlobalStyle />
       <BrowserRouter>
         <Suspense fallback={<LoadingFallback />}>
@@ -41,7 +43,7 @@ const App: React.FC = () => {
           </Routes>
         </Suspense>
       </BrowserRouter>
-    </>
+    </ErrorBoundary>
   );
 };
 

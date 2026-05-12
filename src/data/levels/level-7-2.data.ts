@@ -58,8 +58,8 @@ export const level7_2Questions: Question[] = [
   // 题目 4：填空题 - 付钱方法
   {
     type: QuestionType.FILL_BLANK,
-    question: '买一个文具盒需要 15 元，可以付_张 10 元和_张 1 元',
-    answer: '1,5',
+    question: '买一个文具盒需要 15 元，可以付{{___}}张 10 元和{{___}}张 1 元',
+    answer: ['1', '5'],
     explanation: '可以付 1 张 10 元和 5 张 1 元！10 元 +5 元=15 元。',
     hint: '15 可以分成 10 和 5',
   },

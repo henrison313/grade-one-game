@@ -9,7 +9,8 @@ import { getHiddenLevelById } from '@/data/hidden-levels.data';
 import { CharacterShow } from '@/features/character';
 import { StoryPlayer } from '@/features/story';
 import { DifficultyLevel } from '@/types';
-import { DifficultyConfigs, LevelStoryConfigs } from '@/config/question-story.config';
+import { DifficultyConfigs } from '@/config/question-story.config';
+import { getWeaponPartsByLevel, getWeaponNameByLevel } from '@/data/weapon-configs.data';
 
 // 🎨 糖果色系
 const CandyColors = {
@@ -346,6 +347,7 @@ const LevelIntroPage: React.FC = () => {
   const { playBGM, stopBGM } = useSound();
   const [phase, setPhase] = useState<PhaseType>(Phase.STORY);
   const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel>(DifficultyLevel.EASY);
+  const [countdown, setCountdown] = useState(3);
 
   useEffect(() => {
     playBGM('story');
@@ -386,18 +388,40 @@ const LevelIntroPage: React.FC = () => {
     setPhase(Phase.READY);
   };
 
-  const handleStart = () => {
-    navigate(`/level/${levelId}/play?difficulty=${selectedDifficulty}`);
-  };
+  // Phase.READY 阶段 3 秒后自动跳转答题界面
+  useEffect(() => {
+    if (phase === Phase.READY) {
+      setCountdown(3);
+      const interval = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      const timer = setTimeout(() => {
+        navigate(`/level/${levelId}/play?difficulty=${selectedDifficulty}`);
+      }, 3000);
+
+      return () => {
+        clearTimeout(timer);
+        clearInterval(interval);
+      };
+    }
+  }, [phase, navigate, levelId, selectedDifficulty]);
 
   const handleBack = () => {
     navigate('/levels');
   };
 
-  // 根据关卡 ID 和难度获取对应的武器配置
-  const levelStoryConfig = LevelStoryConfigs[levelId || '1-1']?.[selectedDifficulty];
-  const currentWeaponConfig = levelStoryConfig?.weapon;
+  // 根据难度获取配置
   const currentConfig = DifficultyConfigs[selectedDifficulty];
+  // 从 weapon-configs.data.ts 获取正确的武器零件和名称
+  const weaponPartsForLevel = getWeaponPartsByLevel(levelId || '1-1', selectedDifficulty);
+  const weaponNameForLevel = getWeaponNameByLevel(levelId || '1-1', selectedDifficulty);
 
   return (
     <Container>
@@ -483,10 +507,10 @@ const LevelIntroPage: React.FC = () => {
                   initial={{ scale: 0.9 }}
                   animate={{ scale: 1 }}
                 >
-                  ⚔️ {currentWeaponConfig?.name || currentConfig.weaponName} ⚔️
+                  ⚔️ {weaponNameForLevel} ⚔️
                 </WeaponName>
                 <WeaponPartsPreview>
-                  {(currentWeaponConfig?.parts || currentConfig.weaponParts).slice(0, 4).map((part, idx) => (
+                  {weaponPartsForLevel.slice(0, 4).map((part, idx) => (
                     <PartChip key={part.id} $index={idx}>
                       {idx + 1}. {part.name}
                     </PartChip>
@@ -509,7 +533,7 @@ const LevelIntroPage: React.FC = () => {
               size="large"
               onClick={handleDifficultyConfirm}
             >
-              确认难度 ✨
+              开始挑战 🚀
             </StartButton>
           </LevelInfo>
         )}
@@ -545,7 +569,7 @@ const LevelIntroPage: React.FC = () => {
                 marginTop: 8,
               }}
             >
-              ⚔️ 目标武器：{currentWeaponConfig?.name || currentConfig.weaponName}
+              ⚔️ 目标武器：{weaponNameForLevel}
             </motion.p>
 
             <p style={{ fontSize: 14, color: '#7A7A7A', marginTop: 12 }}>
@@ -556,13 +580,20 @@ const LevelIntroPage: React.FC = () => {
               ⭐ 答对每题可获得 {Math.floor(level.starReward * currentConfig.starMultiplier)} 颗星星
             </StarReward>
 
-            <StartButton
-              variant="primary"
-              size="large"
-              onClick={handleStart}
+            <motion.p
+              style={{
+                fontSize: 28,
+                color: CandyColors.rainbowPink,
+                fontWeight: 700,
+                marginTop: 24,
+              }}
+              animate={{
+                scale: [1, 1.2, 1],
+                transition: { repeat: Infinity, duration: 1 },
+              }}
             >
-              🚀 开始挑战！
-            </StartButton>
+              ⏱️ {countdown} 秒后开始...
+            </motion.p>
           </LevelInfo>
         )}
       </Content>

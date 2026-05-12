@@ -467,7 +467,12 @@ const SHAPE_NAMES: Record<ShapeType, string> = {
   circle: '圆形',
   triangle: '三角形',
   square: '正方形',
+  'square-big': '大方块',
   rectangle: '长方形',
+  'triangle-big': '大三角形',
+  'triangle-medium': '中三角形',
+  'triangle-small': '小三角形',
+  parallelogram: '平行四边形',
 };
 
 interface FindShapeGameProps {

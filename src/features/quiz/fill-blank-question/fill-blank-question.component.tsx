@@ -13,6 +13,9 @@ interface FillBlankQuestionProps {
 
 const QuestionContainer = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const QuestionText = styled.h2`
@@ -143,6 +146,7 @@ const ConfirmButton = styled(motion.button)<{ $disabled: boolean }>`
   font-size: 16px;
   font-weight: 600;
   cursor: ${(props) => (props.$disabled ? 'not-allowed' : 'pointer')};
+  align-self: center;
 `;
 
 const FillBlankQuestion: React.FC<FillBlankQuestionProps> = ({
@@ -205,8 +209,18 @@ const FillBlankQuestion: React.FC<FillBlankQuestionProps> = ({
 
   // 渲染多个空白输入
   const renderMultiBlankInputs = () => {
-    const parts = question.question.split('\{\{___\}\}');
+    const parts = question.question.split('{{___}}');
     const allAnswers = userAnswers.length > 0 ? userAnswers : Array(blankCount).fill('');
+    const correctAnswers = Array.isArray(question.answer) ? question.answer : [question.answer];
+
+    // 检查单个空白是否正确
+    const isBlankCorrect = (index: number): boolean => {
+      const userAnswer = (allAnswers[index] || '').trim().toLowerCase();
+      const correctAnswer = (correctAnswers[index] || '').trim().toLowerCase();
+      // 支持多个正确答案（逗号分隔）
+      const validAnswers = correctAnswer.split(',').map(a => a.trim());
+      return validAnswers.includes(userAnswer);
+    };
 
     return (
       <InputGroup>
@@ -215,11 +229,8 @@ const FillBlankQuestion: React.FC<FillBlankQuestionProps> = ({
             <StepLabel>{part}</StepLabel>
             {partIndex < parts.length - 1 && (
               isAnswered ? (
-                <BlankResult $isCorrect={checkAnswer(userAnswers)}>
-                  {Array.isArray(question.answer)
-                    ? (question.answer[0]?.split(',')[partIndex] || question.answer[0])
-                    : (question.answer?.split(',')[partIndex] || '?')
-                  }
+                <BlankResult $isCorrect={isBlankCorrect(partIndex)}>
+                  {correctAnswers[partIndex] || '?'}
                 </BlankResult>
               ) : (
                 <BlankInput
@@ -246,7 +257,7 @@ const FillBlankQuestion: React.FC<FillBlankQuestionProps> = ({
 
   // 单空白情况的渲染
   const renderSingleBlank = () => {
-    const parts = question.question.split('\{\{___\}\}');
+    const parts = question.question.split('{{___}}');
     return (
       <QuestionText>
         <span>

@@ -130,7 +130,7 @@ const CheckIcon = styled.span<{ $isCorrect: boolean }>`
 `;
 
 const SubmitButton = styled(motion.button)`
-  margin-top: 24px;
+  margin: 24px auto 0;
   padding: 12px 32px;
   background: linear-gradient(135deg, ${ThemeColors.primary} 0%, ${ThemeColors.primaryLight} 100%);
   color: white;
@@ -139,7 +139,7 @@ const SubmitButton = styled(motion.button)`
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  align-self: center;
+  display: block;
 `;
 
 const MultiSelectQuestion: React.FC<MultiSelectQuestionProps> = ({

@@ -1,6 +1,22 @@
 import { DifficultyLevel } from './difficulty.types';
 
 /**
+ * 生成 UUID（兼容旧浏览器）
+ */
+const generateUUID = (): string => {
+  // 优先使用 crypto.randomUUID（现代浏览器）
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  // 回退到手动生成 UUID v4
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+};
+
+/**
  * 稀有度类型
  */
 export type RarityLevel = 'common' | 'rare' | 'epic' | 'legendary' | 'bronze' | 'silver' | 'gold' | 'rainbow' | 'prismatic';
@@ -83,7 +99,7 @@ export interface UserSettings {
  * 默认用户数据
  */
 export const createDefaultUserData = (): UserData => ({
-  id: crypto.randomUUID(),
+  id: generateUUID(),
   name: '小勇士',
   levelProgress: {
     '1-1': { levelId: '1-1', status: 'available', stars: 0 },

@@ -79,10 +79,10 @@ export const level1_1EasyQuestions: Question[] = [
       { id: 'rectangle', name: '▬', shape: 'rectangle' },
     ],
     targets: [
-      { id: '圆形', name: '圆形', accepts: ['circle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: '三角形', name: '三角形', accepts: ['triangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: '正方形', name: '正方形', accepts: ['square'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: '长方形', name: '长方形', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
+      { id: '圆形', name: '圆形', accepts: ['circle'], position: { x: 80, y: 30 }, size: { width: 170, height: 150 } },
+      { id: '三角形', name: '三角形', accepts: ['triangle'], position: { x: 330, y: 30 }, size: { width: 170, height: 150 } },
+      { id: '正方形', name: '正方形', accepts: ['square'], position: { x: 80, y: 210 }, size: { width: 170, height: 150 } },
+      { id: '长方形', name: '长方形', accepts: ['rectangle'], position: { x: 330, y: 210 }, size: { width: 170, height: 150 } },
     ],
     explanation: '圆形圆圆的，三角形有三个角，正方形四条边一样长，长方形两条长两条短！',
     hint: '仔细看看每个图形的样子！',
@@ -184,7 +184,7 @@ export const level1_1HardQuestions: Question[] = [
   {
     type: 'fill_blank' as QuestionType.FILL_BLANK,
     question: '把一个大圆形分成4个相同的图形，可以怎么分？答：分成{{___}}个相同的扇形',
-    answer: ['4', '四'],
+    answer: ['4'],
     explanation: '圆形可以分成4个相同的扇形，像披萨饼一样切成4块！',
     hint: '想想披萨是怎么切的？',
   },
@@ -223,7 +223,7 @@ export const level1_1HardQuestions: Question[] = [
   {
     type: 'fill_blank' as QuestionType.FILL_BLANK,
     question: '用七巧板拼出一个长方形，至少需要{{___}}块',
-    answer: ['2', '二', '3', '三', '4', '四'],
+    answer: ['2'],
     explanation: '用七巧板拼长方形，最少需要2块三角形，也可以用更多块！',
     hint: '七巧板里有几种三角形？',
   },

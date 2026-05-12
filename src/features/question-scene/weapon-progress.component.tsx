@@ -95,13 +95,6 @@ const GemIcon = styled(motion.div)<{
           #E8E8E8 50%,
           #D8D8D8 100%)`};
 
-  border: 3px solid ${(props) =>
-    props.$collected
-      ? props.$gemColor
-      : props.$isCurrent
-        ? CandyColors.coral
-        : '#C8C8C8'};
-
   ${(props) => props.$collected && css`animation: ${gemGlow} 2s ease-in-out infinite;`}
   ${(props) => props.$isCurrent && !props.$collected && css`
     animation: ${sparkle} 0.8s ease-in-out infinite;
@@ -187,7 +180,6 @@ const WeaponComplete = styled(motion.div)<{ $collected: boolean }>`
           ${CandyColors.gold} 50%,
           ${CandyColors.peach} 100%)`
       : '#E8E8E8'};
-  border: 3px solid ${(props) => props.$collected ? CandyColors.gold : '#C8C8C8'};
   position: relative;
 
   ${(props) => props.$collected && css`

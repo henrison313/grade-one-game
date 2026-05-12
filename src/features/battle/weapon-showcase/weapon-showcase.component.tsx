@@ -98,7 +98,7 @@ const WeaponImage = styled(motion.img)`
 
 // 📝 武器名称
 const WeaponName = styled(motion.div)`
-  margin-top: 24px;
+  margin-top: 80px;
   padding: 12px 32px;
   background: ${CandyColors.cream};
   border-radius: 20px;

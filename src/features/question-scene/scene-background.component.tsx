@@ -102,6 +102,7 @@ const ContentLayer = styled.div`
   position: relative;
   z-index: 3;
   padding: 24px;
+  padding-top: 80px;
 `;
 
 // 💫 光晕效果
@@ -188,7 +189,7 @@ const SceneDecorations: Record<SceneType, { emoji: string; color: string; hint: 
 };
 
 // 炫蓝闪电图片路径
-const HERO_IMAGE = '/图片素材/炫蓝闪电 1.png';
+const HERO_IMAGE = '/assets/character/炫蓝闪电 1.png';
 
 interface SceneBackgroundProps {
   scene: SceneType;

@@ -13,8 +13,8 @@ export const level3_4Questions: Question[] = [
   // 题目 1：填空题 - 数的组成
   {
     type: QuestionType.FILL_BLANK,
-    question: '78 里面有_个十和_个一',
-    answer: '7,8',
+    question: '78 里面有{{___}}个十和{{___}}个一',
+    answer: ['7', '8'],
     explanation: '78 里面有 7 个十和 8 个一！78 = 70 + 8',
     hint: '78 的十位是 7，个位是 8',
   },
@@ -52,8 +52,8 @@ export const level3_4Questions: Question[] = [
   // 题目 4：填空题 - 数的组成
   {
     type: QuestionType.FILL_BLANK,
-    question: '4 个十是_，10 个十是_',
-    answer: '40,100',
+    question: '4 个十是{{___}}，10 个十是{{___}}',
+    answer: ['40', '100'],
     explanation: '4 个十是 40，10 个十是 100！',
     hint: '1 个十是 10，数一数几个十',
   },

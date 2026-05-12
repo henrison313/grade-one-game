@@ -143,7 +143,7 @@ const HomePage: React.FC = () => {
       </StatsBar>
 
       <CharacterImage
-        src="/图片素材/小俊.png"
+        src="/assets/character/小俊.png"
         alt="主角"
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}

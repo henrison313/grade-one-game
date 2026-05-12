@@ -31,7 +31,7 @@ export enum QuestionType {
 /**
  * 图形类型
  */
-export type ShapeType = 'circle' | 'triangle' | 'square' | 'rectangle';
+export type ShapeType = 'circle' | 'triangle' | 'square' | 'square-big' | 'rectangle' | 'triangle-big' | 'triangle-medium' | 'triangle-small' | 'parallelogram';
 
 /**
  * 图形颜色
@@ -73,6 +73,28 @@ export interface DragTarget {
   accepts: string[]; // 接受的拖拽项 id
   position: { x: number; y: number };
   size: { width: number; height: number };
+  rotation?: number; // 期望的旋转角度（度）
+  rotationTolerance?: number; // 旋转容差（度），默认15
+  group?: string; // 分组ID，用于匹配多个相同答案的情况
+}
+
+/**
+ * 拖拽题连线
+ */
+export interface DragConnection {
+  from: string; // 起始 target id
+  to: string;   // 目标 target id
+}
+
+/**
+ * 拖拽题计算结果配置
+ */
+export interface DragCalculation {
+  type: 'sum' | 'product' | 'difference' | 'mixed'  // 计算类型，mixed 表示加减混合
+  values: number[]                         // 参与计算的值（mixed 类型中负数表示减法）
+  result: number                           // 计算结果
+  label: string                            // 结果标签
+  unit?: string                            // 结果单位（可选）
 }
 
 /**
@@ -83,6 +105,10 @@ export interface DragItem {
   name: string;
   image?: string;
   shape?: ShapeType;
+  rotation?: number; // 旋转角度（度）
+  displayText?: string; // 显示文本（可选）
+  group?: string; // 分组ID，用于匹配多个相同答案的情况
+  value?: number; // 图形代表的数值（用于组合计算题）
 }
 
 /**
@@ -94,6 +120,9 @@ export interface DragQuestionData {
   instruction: string;
   items: DragItem[];
   targets: DragTarget[];
+  connections?: DragConnection[]; // 可选：目标之间的连线
+  targetLabels?: string[]; // 可选：目标区域的显示标签
+  calculation?: DragCalculation; // 可选：计算结果配置
   explanation: string;
   hint?: string;
 }
@@ -119,14 +148,32 @@ export interface CircleAnswerArea {
 }
 
 /**
+ * 圈画题内联图形项
+ */
+export interface InlineShapeItem {
+  id: string;
+  type: 'triangle' | 'circle' | 'square' | 'rectangle';
+  x: number;
+  y: number;
+  size?: number;
+  width?: number;
+  height?: number;
+  color: string;
+  label?: string;
+  rotation?: number;
+}
+
+/**
  * 圈画题
  */
 export interface CircleQuestionData {
   type: QuestionType.CIRCLE;
   question: string;
   instruction: string;
-  image: string;
+  image?: string; // 可选：图片路径或留空使用动态绘制
+  inlineShapes?: InlineShapeItem[]; // 可选：动态渲染的图形列表
   answerAreas: CircleAnswerArea[]; // 正确答案区域
+  correctAnswers?: string[]; // 可选：正确答案的 id 列表（多选圈画题）
   tolerance: number; // 容差范围
   explanation: string;
   hint?: string;
@@ -164,6 +211,7 @@ export interface LinkPair {
   id: string;
   left: string; // 左侧内容
   right?: string; // 右侧内容（可选，用于显示）
+  group?: string; // 分组ID，用于匹配多个相同答案的情况
 }
 
 /**
@@ -351,7 +399,11 @@ export interface ShapeComposeQuestionData {
   items: DragItem[]; // 要组合的图形
   canvasSize: { width: number; height: number }; // 画布尺寸
   requiredCounts?: Record<string, number>; // 可选：每种图形需要的数量
+  allItemsRequired?: boolean; // 是否需要使用所有图形
+  targetValue?: number; // 目标数值（用于组合计算题，如凑成100）
+  shapeScale?: number; // 图形缩放比例，默认 1
   explanation: string;
+  hint?: string;
 }
 
 /**

@@ -62,8 +62,8 @@ export const level3_1EasyQuestions: Question[] = [
   {
     type: 'fill_blank' as QuestionType.FILL_BLANK,
     question: '48 由{{___}}个十和{{___}}个一组成',
-    answer: ['4', '四', '8', '八'],
-    explanation: '48 由 4 个十和 8 个一组成！48 的十位是 4，个位是 8。小俊的母亲于莉发现爆裂重卡屁股上有钉子，正在漏机油！她准备帮忙拔掉钉子！爆裂重卡的武器是暴烈护甲、碎骨斩斧、核心陆斧！',
+    answer: ['4', '8'],
+    explanation: '48 由 4 个十和 8 个一组成！48 的十位是 4，个位是 8。小俊的母亲于莉发现爆裂重卡屁股上有钉子，正在漏机油！她准备帮忙拔掉钉子！爆烈重卡的武器是暴烈护甲、碎骨斩斧、核心陆斧！',
     hint: '48 的十位是几？个位是几？',
   },
 
@@ -88,14 +88,14 @@ export const level3_1EasyQuestions: Question[] = [
     question: '把数字拖到正确的组成上！',
     instruction: '将左侧的组成描述拖到右侧对应的数字上',
     items: [
-      { id: 'item1', name: '6 个十和 3 个一', shape: 'rectangle' },
-      { id: 'item2', name: '8 个十和 5 个一', shape: 'rectangle' },
-      { id: 'item3', name: '9 个十和 2 个一', shape: 'rectangle' },
+      { id: 'item1', name: '6 个十和 3 个一' },
+      { id: 'item2', name: '8 个十和 5 个一' },
+      { id: 'item3', name: '9 个十和 2 个一' },
     ],
     targets: [
-      { id: 'num63', name: '63', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: 'num85', name: '85', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: 'num92', name: '92', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
+      { id: 'num63', name: '63', accepts: ['item1'], position: { x: 40, y: 80 }, size: { width: 100, height: 60 } },
+      { id: 'num85', name: '85', accepts: ['item2'], position: { x: 170, y: 80 }, size: { width: 100, height: 60 } },
+      { id: 'num92', name: '92', accepts: ['item3'], position: { x: 300, y: 80 }, size: { width: 100, height: 60 } },
     ],
     explanation: '6 个十和 3 个一是 63，8 个十和 5 个一是 85，9 个十和 2 个一是 92！于莉妈妈帮忙拔掉钉子，还贴上贴纸防止继续漏油！爆裂重卡感到温暖和感激！',
     hint: '几个十和几个一组成对应的两位数',
@@ -171,8 +171,8 @@ export const level3_1MediumQuestions: Question[] = [
   {
     type: 'fill_blank' as QuestionType.FILL_BLANK,
     question: '73 由{{___}}个十和{{___}}个一组成',
-    answer: ['7', '七', '3', '三'],
-    explanation: '73 由 7 个十和 3 个一组成！73 的十位是 7，个位是 3。核心教育完成！于莉妈妈告诉爆裂重卡："你的武器暴烈护甲和碎骨斩斧应该用来保护别人，而不是伤害他们！"',
+    answer: ['7', '3'],
+    explanation: '73 由 7 个十和 3 个一组成！73 的十位是 7，个位是 3。核心教育完成！于莉妈妈告诉爆烈重卡："你的武器暴烈护甲和碎骨斩斧应该用来保护别人，而不是伤害他们！"',
     hint: '73 的十位是 7，个位是 3',
   },
 
@@ -204,7 +204,7 @@ export const level3_1HardQuestions: Question[] = [
   {
     type: 'fill_blank' as QuestionType.FILL_BLANK,
     question: '90 由{{___}}个十和{{___}}个一组成',
-    answer: ['9', '九', '0', '零'],
+    answer: ['9', '0'],
     explanation: '90 由 9 个十和 0 个一组成！90 是一个整十数，个位是 0。第 22 集，爆裂重卡认识到错误后，自愿接受封装！小俊用炫卡召唤器将他封装，成为伙伴！他的载具形态是大脚卡车！',
     hint: '90 的十位是 9，个位是 0',
   },
@@ -230,16 +230,16 @@ export const level3_1HardQuestions: Question[] = [
     question: '把数字按从小到大排列！',
     instruction: '将数字拖到正确顺序位置',
     items: [
-      { id: 'num45', name: '45', shape: 'rectangle' },
-      { id: 'num52', name: '52', shape: 'rectangle' },
-      { id: 'num78', name: '78', shape: 'rectangle' },
-      { id: 'num89', name: '89', shape: 'rectangle' },
+      { id: 'num45', name: '45' },
+      { id: 'num52', name: '52' },
+      { id: 'num78', name: '78' },
+      { id: 'num89', name: '89' },
     ],
     targets: [
-      { id: 'pos1', name: '最小', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: 'pos2', name: '第二', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: 'pos3', name: '第三', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
-      { id: 'pos4', name: '最大', accepts: ['rectangle'], position: { x: 0, y: 0 }, size: { width: 100, height: 50 } },
+      { id: 'pos1', name: '最小', accepts: ['num45'], position: { x: 20, y: 80 }, size: { width: 90, height: 60 } },
+      { id: 'pos2', name: '第二', accepts: ['num52'], position: { x: 130, y: 80 }, size: { width: 90, height: 60 } },
+      { id: 'pos3', name: '第三', accepts: ['num78'], position: { x: 240, y: 80 }, size: { width: 90, height: 60 } },
+      { id: 'pos4', name: '最大', accepts: ['num89'], position: { x: 350, y: 80 }, size: { width: 90, height: 60 } },
     ],
     explanation: '45 < 52 < 78 < 89！从小到大排列正确！爆裂重卡、重力金刚、深海天锚三人的友谊排序也在恢复！他们一起对抗敌人，成为可靠的伙伴！',
     hint: '先比较十位，十位相同再比较个位',
@@ -260,22 +260,38 @@ export const level3_1HardQuestions: Question[] = [
     hint: '数的组成需要看十位和个位',
   },
 
-  // 第 5 题：加入团队（拼出 100 的组成示意图）
+  // 第 5 题：加入团队（图形组合出 100）
   {
     type: 'shape_compose' as QuestionType.SHAPE_COMPOSE,
-    question: '用图形拼出 100 的组成示意图！',
-    instruction: '把图形拖到画布中，拼出 100 的组成：10 个十组成 100',
+    question: '用图形拼出 100！不同图形代表不同的数。',
+    instruction: '正方形=10，中三角形=20，大三角形=50。把图形拖到画布中，使总数等于 100！',
     items: [
-      { id: 'ten-block-1', name: '十', shape: 'square' },
-      { id: 'ten-block-2', name: '十', shape: 'square' },
-      { id: 'ten-block-3', name: '十', shape: 'square' },
-      { id: 'ten-block-4', name: '十', shape: 'square' },
-      { id: 'ten-block-5', name: '十', shape: 'square' },
-      { id: 'hundred-circle', name: '100', shape: 'circle' },
+      // 10 个正方形（每个值 10）
+      { id: 'ten-1', name: '10', shape: 'square', value: 10 },
+      { id: 'ten-2', name: '10', shape: 'square', value: 10 },
+      { id: 'ten-3', name: '10', shape: 'square', value: 10 },
+      { id: 'ten-4', name: '10', shape: 'square', value: 10 },
+      { id: 'ten-5', name: '10', shape: 'square', value: 10 },
+      { id: 'ten-6', name: '10', shape: 'square', value: 10 },
+      { id: 'ten-7', name: '10', shape: 'square', value: 10 },
+      { id: 'ten-8', name: '10', shape: 'square', value: 10 },
+      { id: 'ten-9', name: '10', shape: 'square', value: 10 },
+      { id: 'ten-10', name: '10', shape: 'square', value: 10 },
+      // 5 个中三角形（每个值 20）
+      { id: 'twenty-1', name: '20', shape: 'triangle-medium', value: 20 },
+      { id: 'twenty-2', name: '20', shape: 'triangle-medium', value: 20 },
+      { id: 'twenty-3', name: '20', shape: 'triangle-medium', value: 20 },
+      { id: 'twenty-4', name: '20', shape: 'triangle-medium', value: 20 },
+      { id: 'twenty-5', name: '20', shape: 'triangle-medium', value: 20 },
+      // 2 个大三角形（每个值 50）
+      { id: 'fifty-1', name: '50', shape: 'triangle-big', value: 50 },
+      { id: 'fifty-2', name: '50', shape: 'triangle-big', value: 50 },
     ],
-    canvasSize: { width: 300, height: 200 },
-    requiredCounts: { square: 5, circle: 1 },
-    explanation: '100 的组成示意图：10 个十 = 100！雷霆战斧组装完成！爆裂重卡加入炫卡斗士团队，与玄铁战神等化敌为友！他的绝招战斧重劈、蛮牛射线、蛮牛重压成为团队的力量！',
+    canvasSize: { width: 600, height: 300 },
+    targetValue: 100,
+    shapeScale: 0.5,
+    explanation: '100 有很多种组成方式：10 个 10 相加、5 个 20 相加、2 个 50 相加，或者 50+20+20+10=100！雷霆战斧组装完成！爆裂重卡加入炫卡斗士团队！',
+    hint: '试试不同的组合：10 个正方形、或 5 个中三角形、或 2 个大三角形',
   },
 ]
 

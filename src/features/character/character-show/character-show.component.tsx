@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ThemeColors } from '@/config';
 import type { Character, CharacterAnimationState } from '@/types';
 
 interface CharacterShowProps {
@@ -28,17 +27,27 @@ const CharacterImage = styled(motion.img)`
 `;
 
 const CharacterName = styled(motion.h2)`
-  font-size: 24px;
-  font-weight: 700;
-  color: ${ThemeColors.textLight};
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-size: 28px;
+  font-weight: 800;
+  color: #FFFFFF;
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.5),
+    0 0 16px rgba(255, 255, 255, 0.3),
+    2px 2px 0px rgba(0, 0, 0, 0.4);
   margin-top: 16px;
+  letter-spacing: 2px;
 `;
 
 const CharacterTitle = styled(motion.p)`
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.5),
+    0 0 12px rgba(255, 255, 255, 0.2),
+    1px 1px 0px rgba(0, 0, 0, 0.4);
   margin-top: 8px;
+  letter-spacing: 1px;
 `;
 
 const Sparkle = styled(motion.div)<{ $x: number; $y: number }>`

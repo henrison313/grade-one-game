@@ -7,9 +7,47 @@ import { storageService } from '@/services';
 import { useSound } from '@/shared/hooks';
 import { getLevelById } from '@/data/levels.data';
 import { getHiddenLevelById } from '@/data/hidden-levels.data';
+// 第一单元：认识平面图形
 import { level1_1QuestionsByDifficulty } from '@/data/levels/level-1-1-enhanced.data';
 import { level1_2QuestionsByDifficulty } from '@/data/levels/level-1-2-enhanced.data';
 import { level1_3QuestionsByDifficulty } from '@/data/levels/level-1-3-enhanced.data';
+// 第二单元：20以内退位减法
+import { level2_1QuestionsByDifficulty } from '@/data/levels/level-2-1-enhanced.data';
+import { level2_2QuestionsByDifficulty } from '@/data/levels/level-2-2-enhanced.data';
+import { level2_3QuestionsByDifficulty } from '@/data/levels/level-2-3-enhanced.data';
+import { level2_4QuestionsByDifficulty } from '@/data/levels/level-2-4-enhanced.data';
+// 第三单元：100以内数的认识
+import { level3_1QuestionsByDifficulty } from '@/data/levels/level-3-1-enhanced.data';
+import { level3_2QuestionsByDifficulty } from '@/data/levels/level-3-2-enhanced.data';
+import { level3_3QuestionsByDifficulty } from '@/data/levels/level-3-3-enhanced.data';
+import { level34QuestionsByDifficulty } from '@/data/levels/level-3-4-enhanced.data';
+// 第四单元：100以内口算加减法
+import { level41QuestionsByDifficulty } from '@/data/levels/level-4-1-enhanced.data';
+import { level42QuestionsByDifficulty } from '@/data/levels/level-4-2-enhanced.data';
+import { level43QuestionsByDifficulty } from '@/data/levels/level-4-3-enhanced.data';
+// 第五单元：100以内笔算加减法
+import { level51QuestionsByDifficulty } from '@/data/levels/level-5-1-enhanced.data';
+import { level52QuestionsByDifficulty } from '@/data/levels/level-5-2-enhanced.data';
+// 第六单元：数量间的加减关系
+import { level6QuestionsByDifficulty } from '@/data/levels/level-6-enhanced.data';
+// 第七单元：欢乐购物街
+import { level71QuestionsByDifficulty } from '@/data/levels/level-7-1-enhanced.data';
+import { level72QuestionsByDifficulty } from '@/data/levels/level-7-2-enhanced.data';
+// 第八单元：找规律
+import { level8QuestionsByDifficulty } from '@/data/levels/level-8-enhanced.data';
+// 第九单元：期末综合
+import { level9QuestionsByDifficulty } from '@/data/levels/level-9-enhanced.data';
+// 隐藏关卡
+import { levelH1QuestionsByDifficulty } from '@/data/levels/level-h1-enhanced.data';
+import { levelH2QuestionsByDifficulty } from '@/data/levels/level-h2-enhanced.data';
+// 额外关卡
+import { level17QuestionsByDifficulty } from '@/data/levels/level-17-enhanced.data';
+import { level18QuestionsByDifficulty } from '@/data/levels/level-18-enhanced.data';
+import { level19QuestionsByDifficulty } from '@/data/levels/level-19-enhanced.data';
+import { level21QuestionsByDifficulty } from '@/data/levels/level-21-enhanced.data';
+import { level22QuestionsByDifficulty } from '@/data/levels/level-22-enhanced.data';
+import { level23QuestionsByDifficulty } from '@/data/levels/level-23-enhanced.data';
+import { level24QuestionsByDifficulty } from '@/data/levels/level-24-enhanced.data';
 import { ChoiceQuestion, DragQuestion, CircleQuestion, MultiSelectQuestion, FillBlankQuestion, ShapeComposeQuestion } from '@/features/quiz';
 import LinkQuestion from '../link-question/link-question.component';
 import MazeGame from '../maze-question/maze-question.component';
@@ -20,12 +58,14 @@ import TimedQuestion from '../timed-question/timed-question.component';
 import QuizProgress from '../quiz-progress/quiz-progress.component';
 import AnswerFeedback from '../answer-feedback/answer-feedback.component';
 import WeaponShowcase from '@/features/battle/weapon-showcase/weapon-showcase.component';
+import GuardianUpgradeAnimation from '@/features/battle/guardian-upgrade-animation/guardian-upgrade-animation.component';
 import BattleScene from '@/features/battle/battle-scene/battle-scene.component';
 import { WeaponProgress, SceneBackground, QuestionStory } from '@/features/question-scene';
 import { QuestionStoryConfigs, DifficultyConfigs, LevelStoryConfigs } from '@/config/question-story.config';
+import { getWeaponImage, getWeaponName, getWeaponPartsByLevel, getWeaponImageByLevel, getWeaponNameByLevel } from '@/data/weapon-configs.data';
 import { characters } from '@/data/characters.data';
 import { getVariantByDifficulty } from '@/data/character-variants.data';
-import type { UserAnswer, Question, LinkQuestionData, DragQuestionData, ChoiceQuestionData, MultiSelectQuestionData } from '@/types';
+import type { UserAnswer, Question, LinkQuestionData, DragQuestionData, ChoiceQuestionData, MultiSelectQuestionData, RarityLevel } from '@/types';
 import { DifficultyLevel } from '@/types';
 
 // 🎨 Candy Kingdom 色彩方案
@@ -272,6 +312,7 @@ const QuizGame: React.FC = () => {
 
   const difficultyParam = searchParams.get('difficulty') as DifficultyLevel | null;
   const difficulty = difficultyParam || DifficultyLevel.EASY;
+  const questionParam = searchParams.get('question');
 
   useEffect(() => {
     playBGM('battle');
@@ -281,24 +322,113 @@ const QuizGame: React.FC = () => {
   const level = getLevelById(levelId || '1-1') || getHiddenLevelById(levelId || '');
   const difficultyConfig = DifficultyConfigs[difficulty];
   // 根据关卡ID选择对应的故事配置
-  const storyConfig = LevelStoryConfigs[levelId || '1-1']?.[difficulty] || QuestionStoryConfigs[difficulty];
+  const baseStoryConfig = LevelStoryConfigs[levelId || '1-1']?.[difficulty] || QuestionStoryConfigs[difficulty];
 
   const questions = useMemo(() => {
     // 根据关卡ID选择对应的分难度题目数据
-    if (levelId === '1-1' && level1_1QuestionsByDifficulty[difficulty]) {
-      return level1_1QuestionsByDifficulty[difficulty];
-    }
-    if (levelId === '1-2' && level1_2QuestionsByDifficulty[difficulty]) {
-      return level1_2QuestionsByDifficulty[difficulty];
-    }
-    if (levelId === '1-3' && level1_3QuestionsByDifficulty[difficulty]) {
-      return level1_3QuestionsByDifficulty[difficulty];
-    }
+    // 第一单元：认识平面图形
+    if (levelId === '1-1' && level1_1QuestionsByDifficulty[difficulty]) return level1_1QuestionsByDifficulty[difficulty];
+    if (levelId === '1-2' && level1_2QuestionsByDifficulty[difficulty]) return level1_2QuestionsByDifficulty[difficulty];
+    if (levelId === '1-3' && level1_3QuestionsByDifficulty[difficulty]) return level1_3QuestionsByDifficulty[difficulty];
+    // 第二单元：20以内退位减法
+    if (levelId === '2-1' && level2_1QuestionsByDifficulty[difficulty]) return level2_1QuestionsByDifficulty[difficulty];
+    if (levelId === '2-2' && level2_2QuestionsByDifficulty[difficulty]) return level2_2QuestionsByDifficulty[difficulty];
+    if (levelId === '2-3' && level2_3QuestionsByDifficulty[difficulty]) return level2_3QuestionsByDifficulty[difficulty];
+    if (levelId === '2-4' && level2_4QuestionsByDifficulty[difficulty]) return level2_4QuestionsByDifficulty[difficulty];
+    // 第三单元：100以内数的认识
+    if (levelId === '3-1' && level3_1QuestionsByDifficulty[difficulty]) return level3_1QuestionsByDifficulty[difficulty];
+    if (levelId === '3-2' && level3_2QuestionsByDifficulty[difficulty]) return level3_2QuestionsByDifficulty[difficulty];
+    if (levelId === '3-3' && level3_3QuestionsByDifficulty[difficulty]) return level3_3QuestionsByDifficulty[difficulty];
+    if (levelId === '3-4' && level34QuestionsByDifficulty[difficulty]) return level34QuestionsByDifficulty[difficulty];
+    // 第四单元：100以内口算加减法
+    if (levelId === '4-1' && level41QuestionsByDifficulty[difficulty]) return level41QuestionsByDifficulty[difficulty];
+    if (levelId === '4-2' && level42QuestionsByDifficulty[difficulty]) return level42QuestionsByDifficulty[difficulty];
+    if (levelId === '4-3' && level43QuestionsByDifficulty[difficulty]) return level43QuestionsByDifficulty[difficulty];
+    // 第五单元：100以内笔算加减法
+    if (levelId === '5-1' && level51QuestionsByDifficulty[difficulty]) return level51QuestionsByDifficulty[difficulty];
+    if (levelId === '5-2' && level52QuestionsByDifficulty[difficulty]) return level52QuestionsByDifficulty[difficulty];
+    // 第六单元：数量间的加减关系
+    if (levelId === '6' && level6QuestionsByDifficulty[difficulty]) return level6QuestionsByDifficulty[difficulty];
+    // 第七单元：欢乐购物街
+    if (levelId === '7-1' && level71QuestionsByDifficulty[difficulty]) return level71QuestionsByDifficulty[difficulty];
+    if (levelId === '7-2' && level72QuestionsByDifficulty[difficulty]) return level72QuestionsByDifficulty[difficulty];
+    // 第八单元：找规律
+    if (levelId === '8' && level8QuestionsByDifficulty[difficulty]) return level8QuestionsByDifficulty[difficulty];
+    // 第九单元：期末综合
+    if (levelId === '9' && level9QuestionsByDifficulty[difficulty]) return level9QuestionsByDifficulty[difficulty];
+    // 隐藏关卡
+    if ((levelId === 'h1' || levelId === 'H1') && levelH1QuestionsByDifficulty[difficulty]) return levelH1QuestionsByDifficulty[difficulty];
+    if ((levelId === 'h2' || levelId === 'H2') && levelH2QuestionsByDifficulty[difficulty]) return levelH2QuestionsByDifficulty[difficulty];
+    // 额外关卡
+    if (levelId === '17' && level17QuestionsByDifficulty[difficulty]) return level17QuestionsByDifficulty[difficulty];
+    if (levelId === '18' && level18QuestionsByDifficulty[difficulty]) return level18QuestionsByDifficulty[difficulty];
+    if (levelId === '19' && level19QuestionsByDifficulty[difficulty]) return level19QuestionsByDifficulty[difficulty];
+    if (levelId === '21' && level21QuestionsByDifficulty[difficulty]) return level21QuestionsByDifficulty[difficulty];
+    if (levelId === '22' && level22QuestionsByDifficulty[difficulty]) return level22QuestionsByDifficulty[difficulty];
+    if (levelId === '23' && level23QuestionsByDifficulty[difficulty]) return level23QuestionsByDifficulty[difficulty];
+    if (levelId === '24' && level24QuestionsByDifficulty[difficulty]) return level24QuestionsByDifficulty[difficulty];
     return level?.questions || [];
   }, [levelId, level, difficulty]);
 
-  const [gamePhase, setGamePhase] = useState<'quiz' | 'weaponShowcase' | 'battleScene' | 'complete'>('quiz');
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  // 根据关卡ID获取主角角色（4-2及之后关卡使用炫蓝闪电S，4-1是升级关卡仍用普通版）
+  const getHeroCharacterId = (lvlId: string | undefined): string => {
+    // 4-2及之后的关卡使用炫蓝闪电S
+    const levelsRequiringS = ['4-2', '4-3', '5-1', '5-2', '6', '7-1', '7-2', '8', '9', 'H1', 'H2'];
+    if (lvlId && levelsRequiringS.includes(lvlId)) {
+      return 'xuanlan-shandian-s';
+    }
+    return 'xuanlan-shandian';
+  };
+
+  // 判断是否是升级关卡（4-1是炫蓝闪电升级为炫蓝闪电S的关卡）
+  const isUpgradeLevel = (lvlId: string | undefined): boolean => {
+    return lvlId === '4-1';
+  };
+
+  const heroCharacterId = getHeroCharacterId(levelId);
+
+  // 主角的武器图片
+  const heroWeaponImage = getWeaponImage(heroCharacterId, difficulty);
+  const heroWeaponName = getWeaponName(heroCharacterId, difficulty);
+
+  // 守护者的武器图片（后续关卡使用）
+  const guardianWeaponImage = getWeaponImageByLevel(levelId || '', difficulty);
+  const guardianWeaponName = getWeaponNameByLevel(levelId || '', difficulty);
+
+  // 第一关（1-1）使用炫蓝闪电的武器，后续关卡使用守护者的武器
+  const isFirstLevel = levelId === '1-1';
+  const showcaseWeaponImage = isFirstLevel ? heroWeaponImage : guardianWeaponImage;
+  const showcaseWeaponName = isFirstLevel ? heroWeaponName : guardianWeaponName;
+
+  // 根据关卡ID和难度获取武器零件配置
+  const dynamicWeaponParts = getWeaponPartsByLevel(levelId || '', difficulty);
+
+  // 合并故事配置，使用对应的武器图片和零件配置
+  const storyConfig = baseStoryConfig ? {
+    ...baseStoryConfig,
+    weapon: {
+      ...baseStoryConfig.weapon,
+      name: showcaseWeaponName,
+      completeImage: showcaseWeaponImage,
+      parts: dynamicWeaponParts,
+    },
+  } : undefined;
+
+  // 计算 question URL 参数对应的初始索引（question=7 对应 index=6）
+  const initialQuestionIndex = useMemo(() => {
+    if (!questionParam) return 0;
+    const questionNum = parseInt(questionParam, 10);
+    if (isNaN(questionNum) || questionNum < 1) return 0;
+    const index = questionNum - 1;
+    // 边界检查：确保 index 不超出范围
+    if (index >= questions.length) return 0;
+    return index;
+  }, [questionParam, questions.length]);
+
+  // 新手模式直接进入答题，挑战模式和高手模式先展示守护者升级动画
+  const initialPhase = difficulty === 'easy' ? 'quiz' : 'guardianUpgrade';
+  const [gamePhase, setGamePhase] = useState<'quiz' | 'guardianUpgrade' | 'weaponShowcase' | 'battleScene' | 'complete'>(initialPhase);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(initialQuestionIndex);
   const [answers, setAnswers] = useState<UserAnswer[]>([]);
   const [starsEarned, setStarsEarned] = useState(0);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -351,13 +481,27 @@ const QuizGame: React.FC = () => {
           break;
         }
         case 'drag': {
-          const dragQ = currentQuestion as { items: Array<{ id: string }>; targets: Array<{ id: string; accepts: string[] }> };
           const placements = answer as Record<string, string[]>;
+          // 检查是否是数位摆数题的正确答案
+          if (placements.__digitPlacementCorrect) {
+            isCorrect = true;
+            setAnswerState((prev) => ({ ...prev, placements: {} }));
+            break;
+          }
+
+          const dragQ = currentQuestion as { items: Array<{ id: string; group?: string }>; targets: Array<{ id: string; accepts: string[]; group?: string }> };
           isCorrect = dragQ.items.every((item) => {
             const targetId = Object.keys(placements).find((tid) => placements[tid].includes(item.id));
             if (!targetId) return false;
             const target = dragQ.targets.find((t) => t.id === targetId);
-            return target?.accepts.includes(item.id) || false;
+            if (!target) return false;
+
+            // 如果 item 和 target 都有 group 字段，按 group 匹配
+            if (item.group && target.group) {
+              return item.group === target.group;
+            }
+            // 否则按 id 精确匹配
+            return target.accepts.includes(item.id);
           });
           setAnswerState((prev) => ({ ...prev, placements }));
           break;
@@ -393,7 +537,26 @@ const QuizGame: React.FC = () => {
         case 'link': {
           const linkQ = currentQuestion as LinkQuestionData;
           const userConnections = answer as Array<{ leftId: string; rightId: string }>;
-          isCorrect = userConnections.length === linkQ.pairs.length && userConnections.every((conn) => conn.leftId === conn.rightId);
+          const pairs = linkQ.pairs;
+          
+          // 检查是否所有左侧都连接了
+          if (userConnections.length !== pairs.length) {
+            isCorrect = false;
+            break;
+          }
+          
+          // 检查每个连接是否正确
+          isCorrect = userConnections.every((conn) => {
+            const leftPair = pairs.find((p) => p.id === conn.leftId);
+            const rightPair = pairs.find((p) => p.id === conn.rightId);
+            if (!leftPair || !rightPair) return false;
+            
+            // 如果有 group 字段，按 group 匹配；否则按 id 匹配
+            if (leftPair.group && rightPair.group) {
+              return leftPair.group === rightPair.group;
+            }
+            return conn.leftId === conn.rightId;
+          });
           break;
         }
         case 'maze':
@@ -482,13 +645,39 @@ const QuizGame: React.FC = () => {
 
       // 根据难度获取形态配置并收集炫卡
       const variant = getVariantByDifficulty(level.guardian.id, difficulty);
-      if (variant && !storageService.hasCollectedCard(level.guardian.id, variant.variant)) {
+      
+      // 如果没有形态配置，根据难度使用默认 variant
+      let cardVariant: 'base' | 'flame' | 'battle' | 'ultimate';
+      let cardRarity: RarityLevel;
+      
+      if (variant) {
+        // 有形态配置，使用配置值
+        cardVariant = variant.variant;
+        cardRarity = variant.rarity;
+      } else {
+        // 没有形态配置，根据难度使用默认值
+        switch (difficulty) {
+          case DifficultyLevel.MEDIUM:
+            cardVariant = 'flame';
+            cardRarity = 'gold';
+            break;
+          case DifficultyLevel.HARD:
+            cardVariant = 'ultimate';
+            cardRarity = 'rainbow';
+            break;
+          default:
+            cardVariant = 'base';
+            cardRarity = 'rare';
+        }
+      }
+      
+      if (!storageService.hasCollectedCard(level.guardian.id, cardVariant)) {
         storageService.addCollectedCard(
           level.guardian.id,
           level.id,
           starsEarned,
-          variant.variant,
-          variant.rarity,
+          cardVariant,
+          cardRarity,
           difficulty
         );
       }
@@ -692,6 +881,15 @@ const QuizGame: React.FC = () => {
         </>
       )}
 
+      {/* 守护者升级形态动画 */}
+      {gamePhase === 'guardianUpgrade' && level && (
+        <GuardianUpgradeAnimation
+          guardian={level.guardian}
+          difficulty={difficulty}
+          onComplete={() => setGamePhase('quiz')}
+        />
+      )}
+
       {/* 武器展示界面 */}
       {gamePhase === 'weaponShowcase' && storyConfig?.weapon && (
         <WeaponShowcase
@@ -705,11 +903,14 @@ const QuizGame: React.FC = () => {
       {/* 战斗画面 */}
       {gamePhase === 'battleScene' && level && (
         <BattleScene
-          hero={characters.find(c => c.id === 'xuanlan-shandian') || characters[0]}
+          hero={characters.find(c => c.id === heroCharacterId) || characters[0]}
           enemy={level.guardian}
           difficulty={difficulty}
           weaponComplete={weaponComplete}
-          weaponImage={storyConfig?.weapon?.completeImage}
+          weaponImage={heroWeaponImage}
+          enemyWeaponImage={guardianWeaponImage}
+          isUpgrade={isUpgradeLevel(levelId)}
+          isFusion={levelId === 'H1' || levelId === 'h1'}
           onComplete={() => {
             setGamePhase('complete');
             finalizeLevel();

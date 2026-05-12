@@ -43,8 +43,8 @@ export const level5_1Questions: Question[] = [
   // 题目 3：填空题 - 竖式计算
   {
     type: QuestionType.FILL_BLANK,
-    question: '用竖式计算 41 + 25：\n  4 1\n+ 2 5\n-----\n  □ □\n个位是_，十位是_',
-    answer: '6,6',
+    question: '用竖式计算 41 + 25：\n  4 1\n+ 2 5\n-----\n  □ □\n个位是{{___}}，十位是{{___}}',
+    answer: ['6', '6'],
     explanation: '41 + 25 = 66！个位 1+5=6，十位 4+2=6。',
     hint: '从个位加起',
   },

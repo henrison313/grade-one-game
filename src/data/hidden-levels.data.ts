@@ -8,36 +8,37 @@ import { levelH1Questions } from './levels/level-h1.data';
 import { levelH2Questions } from './levels/level-h2.data';
 
 /**
- * 隐藏关卡 H1 剧情：超炫电光王的秘密基地
+ * 隐藏关卡 H1 剧情：超炫电光王的合体觉醒
+ * 第一季大结局：十一位炫卡斗士合体
  */
 const levelH1Story: StorySegment[] = [
   {
     id: '1',
     type: 'narration',
-    text: '小俊在整理炫卡时，发现超炫电光王的卡片发出神秘光芒！',
-    duration: 2500,
+    text: '【第一季大结局】小俊成功收集了十位炫卡斗士的力量！炫蓝闪电S感受到前所未有的能量波动！',
+    duration: 3500,
   },
   {
     id: '2',
     type: 'dialogue',
-    speaker: '炫蓝闪电',
-    speakerImage: '/图片素材/炫蓝闪电 1.png',
-    text: '原来这是隐藏 BOSS 的考验！只有真正理解数字组成的孩子才能进入他的秘密基地！',
-    duration: 3500,
+    speaker: '炫蓝闪电S',
+    speakerImage: '/assets/character/炫蓝闪电S.png',
+    text: '伙伴们！巨力风暴、急救卫士、烈火修罗、暗影特工、铁臂爵士、喷射加仑、裂变骑士、暴烈重卡、重力金刚、深海天锚——你们的力量与我共鸣！禁断之力正在觉醒！',
+    duration: 5000,
   },
   {
     id: '3',
-    type: 'dialogue',
-    speaker: '超炫电光王',
-    speakerImage: '/图片素材/超炫电光王.png',
-    text: '我是超炫电光王，来自数字王国！让我看看你对数位的理解有多深！',
+    type: 'narration',
+    text: '十位伙伴的力量汇聚成璀璨光芒，炫蓝闪电S开始变形！',
     duration: 3000,
   },
   {
     id: '4',
-    type: 'narration',
-    text: '用圆片在数位表上摆数，证明你的实力！',
-    duration: 2000,
+    type: 'dialogue',
+    speaker: '超炫电光王',
+    speakerImage: '/assets/character/超炫电光王.png',
+    text: '用圆片在数位表上摆出正确的数，激活合体能量！让我们一起成为守护和平的超炫电光王！',
+    duration: 4000,
   },
 ];
 
@@ -55,7 +56,7 @@ const levelH2Story: StorySegment[] = [
     id: '2',
     type: 'dialogue',
     speaker: '炫蓝闪电',
-    speakerImage: '/图片素材/炫蓝闪电 1.png',
+    speakerImage: '/assets/character/炫蓝闪电 1.png',
     text: '这是炫蓝闪电的终极形态——炫蓝雷霆王从未来穿越而来！',
     duration: 3000,
   },
@@ -63,7 +64,7 @@ const levelH2Story: StorySegment[] = [
     id: '3',
     type: 'dialogue',
     speaker: '炫蓝雷霆王',
-    speakerImage: '/图片素材/炫蓝雷霆王.png',
+    speakerImage: '/assets/character/炫蓝雷霆王.png',
     text: '我从未来带来更高阶的数学挑战！只有综合应用所有知识，才能击败我！',
     duration: 3500,
   },
@@ -79,22 +80,22 @@ const levelH2Story: StorySegment[] = [
  * 隐藏关卡数据
  */
 export const hiddenLevels: Level[] = [
-  // 隐藏关卡 H1：超炫电光王的秘密基地
+  // 隐藏关卡 H1：超炫电光王的合体觉醒
   {
     id: 'H1',
-    name: '超炫电光王的秘密基地',
+    name: '超炫电光王的合体觉醒',
     chapter: 10,
-    chapterName: '隐藏关卡',
-    description: '用圆片在数位表上摆数，理解数的组成',
-    thumbnail: '/图片素材/超炫电光王.png',
+    chapterName: '第一季大结局',
+    description: '十一位炫卡斗士力量汇聚！炫蓝闪电S觉醒禁断之力，与伙伴们合体成为超炫电光王！用数位知识激活合体能量！',
+    thumbnail: '/assets/character/超炫电光王.png',
     status: 'locked',
     guardian: getCharacterById('chaoxuan-dianguangwang') || characters[20],
     mentor: {
-      id: 'xuanlan-shandian',
-      name: '炫蓝闪电',
-      image: '/图片素材/炫蓝闪电 1.png',
-      greeting: '隐藏 BOSS 的考验！',
-      encouragement: '你真正理解了数的组成！',
+      id: 'xuanlan-shandian-s',
+      name: '炫蓝闪电S',
+      image: '/assets/character/炫蓝闪电S.png',
+      greeting: '伙伴们，合体能量就绪！',
+      encouragement: '合体成功！超炫电光王觉醒！',
     },
     questions: levelH1Questions,
     totalStars: 50,
@@ -120,7 +121,7 @@ export const hiddenLevels: Level[] = [
       skill: {
         id: 'digit-perspective',
         name: '数位透视',
-        description: '在后续关卡中自动显示数位提示',
+        description: '在后续关卡中自动显示数位提示，让你成为数字大师！',
         type: 'passive',
         permanent: true,
       },
@@ -133,14 +134,14 @@ export const hiddenLevels: Level[] = [
     name: '炫蓝雷霆王的时空裂缝',
     chapter: 10,
     chapterName: '隐藏关卡',
-    description: '跨单元综合挑战，应用提升',
-    thumbnail: '/图片素材/炫蓝雷霆王.png',
+    description: '炫蓝雷霆王撕开了时空裂缝！跨越所有单元知识，终极综合大挑战，你敢来吗？',
+    thumbnail: '/assets/character/炫蓝雷霆王.png',
     status: 'locked',
     guardian: getCharacterById('xuanlan-leitingwang') || characters[21],
     mentor: {
       id: 'xuanlan-shandian',
       name: '炫蓝闪电',
-      image: '/图片素材/炫蓝闪电 1.png',
+      image: '/assets/character/炫蓝闪电 1.png',
       greeting: '终极形态的挑战！',
       encouragement: '你掌握了所有知识！',
     },

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeColors, RarityConfig } from '@/config';
 import type { Character, RarityLevel } from '@/types';
+import type { VariantStats } from '@/data/character-variants.data';
 
 interface CardDetailProps {
   character: Character;
@@ -12,6 +13,8 @@ interface CardDetailProps {
   variantName?: string;
   /** 形态稀有度（优先使用） */
   variantRarity?: RarityLevel;
+  /** 形态属性（优先使用） */
+  variantStats?: VariantStats;
   collectedAt?: string;
   stars?: number;
   onClose?: () => void;
@@ -54,11 +57,50 @@ const CardImageWrapper = styled.div`
   z-index: 1;
 `;
 
-const CardImage = styled.img`
+const CardImage = styled(motion.img)`
   width: 200px;
   height: 200px;
   object-fit: contain;
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+const ClickHint = styled.span`
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: ${ThemeColors.textSecondary};
+  white-space: nowrap;
+`;
+
+// 放大图片模态框
+const ImageOverlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  cursor: zoom-out;
+`;
+
+const EnlargedImage = styled(motion.img)`
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 `;
 
 const CardBody = styled.div`
@@ -185,96 +227,127 @@ const CardDetail: React.FC<CardDetailProps> = ({
   variantImage,
   variantName,
   variantRarity,
+  variantStats,
   collectedAt,
   stars,
   onClose: _onClose,
 }) => {
+  const [isImageEnlarged, setIsImageEnlarged] = useState(false);
+
   // 优先使用形态参数，回退到角色基础属性
   const displayImage = variantImage || character.cardImage || character.robotImage;
   const displayName = variantName || character.name;
   const displayRarity = variantRarity || character.rarity;
+  const displayStats = variantStats || character.stats;
 
   return (
-    <CardContainer
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-    >
-      <CardHeader $rarity={displayRarity}>
-        <CardNumber>#{character.number}</CardNumber>
-        <CardRarity>{RarityConfig[displayRarity]?.name || '普通'}</CardRarity>
-      </CardHeader>
+    <>
+      <CardContainer
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+      >
+        <CardHeader $rarity={displayRarity}>
+          <CardNumber>#{character.number}</CardNumber>
+          <CardRarity>{RarityConfig[displayRarity]?.name || '普通'}</CardRarity>
+        </CardHeader>
 
-      <CardImageWrapper>
-        <CardImage
-          src={displayImage}
-          alt={displayName}
-        />
-      </CardImageWrapper>
+        <CardImageWrapper>
+          <CardImage
+            src={displayImage}
+            alt={displayName}
+            onClick={() => setIsImageEnlarged(true)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+          />
+          <ClickHint>点击放大</ClickHint>
+        </CardImageWrapper>
 
-      <CardBody>
-        <CardName>{displayName}</CardName>
-        <CardTitle>{character.title}</CardTitle>
-        <CardDescription>{character.description}</CardDescription>
+        <CardBody>
+          <CardName>{displayName}</CardName>
+          <CardTitle>{character.title}</CardTitle>
+          <CardDescription>{character.description}</CardDescription>
 
-        <StatsGrid>
-          <StatCard>
-            <StatLabel>身高</StatLabel>
-            <StatValue>{character.stats.height}</StatValue>
-          </StatCard>
-          <StatCard>
-            <StatLabel>体重</StatLabel>
-            <StatValue>{character.stats.weight}</StatValue>
-          </StatCard>
-          <StatCard>
-            <StatLabel>速度</StatLabel>
-            <StatValue>{character.stats.speed}</StatValue>
-          </StatCard>
-          <StatCard>
-            <StatLabel>力量</StatLabel>
-            <StatValue>{character.stats.power}</StatValue>
-          </StatCard>
-        </StatsGrid>
+          <StatsGrid>
+            <StatCard>
+              <StatLabel>身高</StatLabel>
+              <StatValue>{displayStats.height}</StatValue>
+            </StatCard>
+            <StatCard>
+              <StatLabel>体重</StatLabel>
+              <StatValue>{displayStats.weight}</StatValue>
+            </StatCard>
+            <StatCard>
+              <StatLabel>速度</StatLabel>
+              <StatValue>{displayStats.speed}</StatValue>
+            </StatCard>
+            <StatCard>
+              <StatLabel>力量</StatLabel>
+              <StatValue>{displayStats.power}</StatValue>
+            </StatCard>
+          </StatsGrid>
 
-        {character.skills.length > 0 && (
-          <SkillsSection>
-            <SectionTitle>技能</SectionTitle>
-            {character.skills.map((skill, index) => (
-              <SkillItem key={index}>
-                <SkillName>{skill.name}</SkillName>
-                <SkillDescription>{skill.description}</SkillDescription>
-              </SkillItem>
-            ))}
-          </SkillsSection>
-        )}
-
-        {character.knowledge.length > 0 && (
-          <>
-            <SectionTitle>关联知识</SectionTitle>
-            <KnowledgeSection>
-              {character.knowledge.map((k, index) => (
-                <KnowledgeTag key={index}>{k}</KnowledgeTag>
+          {character.skills.length > 0 && (
+            <SkillsSection>
+              <SectionTitle>技能</SectionTitle>
+              {character.skills.map((skill, index) => (
+                <SkillItem key={index}>
+                  <SkillName>{skill.name}</SkillName>
+                  <SkillDescription>{skill.description}</SkillDescription>
+                </SkillItem>
               ))}
-            </KnowledgeSection>
-          </>
-        )}
-      </CardBody>
+            </SkillsSection>
+          )}
 
-      {(collectedAt || stars) && (
-        <CardFooter>
-          {collectedAt && (
-            <CollectedInfo>
-              收集于 {new Date(collectedAt).toLocaleDateString()}
-            </CollectedInfo>
+          {character.knowledge.length > 0 && (
+            <>
+              <SectionTitle>关联知识</SectionTitle>
+              <KnowledgeSection>
+                {character.knowledge.map((k, index) => (
+                  <KnowledgeTag key={index}>{k}</KnowledgeTag>
+                ))}
+              </KnowledgeSection>
+            </>
           )}
-          {stars && (
-            <StarsInfo>
-              ⭐ {stars}
-            </StarsInfo>
-          )}
-        </CardFooter>
-      )}
-    </CardContainer>
+        </CardBody>
+
+        {(collectedAt || stars) && (
+          <CardFooter>
+            {collectedAt && (
+              <CollectedInfo>
+                收集于 {new Date(collectedAt).toLocaleDateString()}
+              </CollectedInfo>
+            )}
+            {stars && (
+              <StarsInfo>
+                ⭐ {stars}
+              </StarsInfo>
+            )}
+          </CardFooter>
+        )}
+      </CardContainer>
+
+      {/* 放大图片模态框 */}
+      <AnimatePresence>
+        {isImageEnlarged && (
+          <ImageOverlay
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsImageEnlarged(false)}
+          >
+            <EnlargedImage
+              src={displayImage}
+              alt={displayName}
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.5, opacity: 0 }}
+              transition={{ type: 'spring', damping: 25 }}
+            />
+          </ImageOverlay>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
