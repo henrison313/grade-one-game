@@ -193,24 +193,27 @@ export const level1_2MediumQuestions: Question[] = [
     instruction: '将图形拖到正确的位置，拼出一辆救护车',
     items: [
       { id: 'body', name: '车身', shape: 'rectangle' },
-      { id: 'wheel1', name: '前轮', shape: 'circle' },
-      { id: 'wheel2', name: '后轮', shape: 'circle' },
+      { id: 'wheel1', name: '前轮', shape: 'circle', group: 'wheel' },
+      { id: 'wheel2', name: '后轮', shape: 'circle', group: 'wheel' },
       { id: 'window', name: '窗户', shape: 'square' },
       { id: 'light', name: '警灯', shape: 'circle' },
     ],
+    // 使用绝对定位布局
+    useAbsoluteLayout: true,
+    layoutSize: { width: 700, height: 300 },
     targets: [
-      // 车顶警灯 - 最上方中央（接受任意圆形：警灯、前轮、后轮）
-      { id: 'light-pos', name: '警灯', accepts: ['light', 'wheel1', 'wheel2'], position: { x: 320, y: 20 }, size: { width: 60, height: 40 } },
-      // 车身 - 中间主体（只能放车身）
-      { id: 'body-pos', name: '车身', accepts: ['body'], position: { x: 180, y: 70 }, size: { width: 340, height: 100 } },
-      // 窗户 - 车身上方（只能放窗户）
-      { id: 'window-pos', name: '窗户', accepts: ['window'], position: { x: 220, y: 90 }, size: { width: 80, height: 60 } },
-      // 前轮 - 左下方（接受任意圆形）
-      { id: 'wheel1-pos', name: '前轮', accepts: ['wheel1', 'wheel2', 'light'], position: { x: 220, y: 180 }, size: { width: 70, height: 70 } },
-      // 后轮 - 右下方（接受任意圆形）
-      { id: 'wheel2-pos', name: '后轮', accepts: ['wheel2', 'wheel1', 'light'], position: { x: 410, y: 180 }, size: { width: 70, height: 70 } },
+      // 警灯 - 车顶上方中央
+      { id: 'light-pos', name: '警灯', accepts: ['light'], position: { x: 320, y: 20 }, size: { width: 60, height: 50 } },
+      // 车身 - 中间主体长方形
+      { id: 'body-pos', name: '车身', accepts: ['body'], position: { x: 100, y: 80 }, size: { width: 500, height: 100 } },
+      // 窗户 - 车身前部（驾驶室）
+      { id: 'window-pos', name: '窗户', accepts: ['window'], position: { x: 130, y: 100 }, size: { width: 80, height: 60 } },
+      // 前轮 - 左下方
+      { id: 'wheel1-pos', name: '前轮', accepts: ['wheel1', 'wheel2'], group: 'wheel', position: { x: 150, y: 200 }, size: { width: 80, height: 80 } },
+      // 后轮 - 右下方
+      { id: 'wheel2-pos', name: '后轮', accepts: ['wheel1', 'wheel2'], group: 'wheel', position: { x: 470, y: 200 }, size: { width: 80, height: 80 } },
     ],
-    explanation: '救护车拼好了！长方形做车身，圆形做轮子和警灯，正方形做窗户！警灯在最上面，窗户在车身侧面，两个轮子分别在前后！闪电手术刀组装完成！',
+    explanation: '救护车拼好了！长方形做车身，圆形做轮子和警灯，正方形做窗户！警灯在最上面，窗户在车身侧面，两个轮子分别在前后！闪电灭火锤组装完成！',
     hint: '救护车的样子：上面是警灯，中间是车身和窗户，下面是两个轮子',
   },
 ];
