@@ -91,6 +91,7 @@ const LevelCompletePage: React.FC = () => {
 
   const level = getLevelById(levelId || '1-1') || getHiddenLevelById(levelId || '');
   const starsEarned = parseInt(searchParams.get('stars') || '0', 10);
+  const maxStarsParam = searchParams.get('maxStars');
   const difficultyParam = searchParams.get('difficulty') || 'easy';
   const difficulty = difficultyParam === 'medium' ? DifficultyLevel.MEDIUM
     : difficultyParam === 'hard' ? DifficultyLevel.HARD
@@ -98,8 +99,8 @@ const LevelCompletePage: React.FC = () => {
 
   // 获取难度配置
   const difficultyConfig = DifficultyConfigs[difficulty];
-  const totalQuestions = level?.questions.length || 5;
-  const maxStars = Math.floor(totalQuestions * GameConfig.starsPerQuestion * difficultyConfig.starMultiplier);
+  // 使用 URL 传入的 maxStars，如果没有则回退到计算值
+  const maxStars = maxStarsParam ? parseInt(maxStarsParam, 10) : Math.floor((level?.questions.length || 5) * GameConfig.starsPerQuestion * difficultyConfig.starMultiplier);
   const victoryStars = Math.floor(maxStars * difficultyConfig.starRequirement);
   const percentage = Math.round((starsEarned / maxStars) * 100);
 

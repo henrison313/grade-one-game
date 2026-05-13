@@ -684,8 +684,8 @@ const QuizGame: React.FC = () => {
         );
       }
     }
-    navigate(`/level/${levelId}/complete?stars=${starsEarned}&difficulty=${difficulty}`);
-  }, [level, levelId, navigate, starsEarned, difficulty]);
+    navigate(`/level/${levelId}/complete?stars=${starsEarned}&difficulty=${difficulty}&maxStars=${maxStars}`);
+  }, [level, levelId, navigate, starsEarned, difficulty, maxStars]);
 
   const handleQuit = () => {
     navigate('/levels');
