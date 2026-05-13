@@ -3255,6 +3255,160 @@ export const HardUltimateStoryConfig: QuestionStoryConfig = {
   },
 };
 
+// ========== 隐藏关卡 H2：炫蓝雷霆王专属配置 ==========
+/**
+ * 炫蓝雷霆王武器零件配置 - 新手难度
+ */
+const thunderKingEasyWeaponParts = [
+  { id: 'h2-easy-core', name: '雷霆核心', shapeType: 'circle' as const, iconImage: shapeIcons.circle },
+  { id: 'h2-easy-pulse', name: '雷霆脉冲器', shapeType: 'triangle' as const, iconImage: shapeIcons.triangle },
+  { id: 'h2-easy-stabilizer', name: '雷霆稳定器', shapeType: 'square' as const, iconImage: shapeIcons.square },
+  { id: 'h2-easy-shell', name: '雷霆外壳', shapeType: 'rectangle' as const, iconImage: shapeIcons.rectangle },
+  { id: 'h2-easy-complete', name: '炫蓝雷霆炮完成', shapeType: 'composite' as const, iconImage: shapeIcons.composite },
+];
+
+/**
+ * 炫蓝雷霆王武器零件配置 - 挑战难度
+ */
+const thunderKingMediumWeaponParts = [
+  { id: 'h2-medium-core', name: '雷霆超核心', shapeType: 'circle' as const, iconImage: shapeIcons.circle },
+  { id: 'h2-medium-scope', name: '雷霆瞄准镜', shapeType: 'triangle' as const, iconImage: shapeIcons.triangle },
+  { id: 'h2-medium-armor', name: '雷霆装甲', shapeType: 'square' as const, iconImage: shapeIcons.square },
+  { id: 'h2-medium-body', name: '雷霆战炮身', shapeType: 'rectangle' as const, iconImage: shapeIcons.rectangle },
+  { id: 'h2-medium-complete', name: '炫蓝雷霆王战炮完成', shapeType: 'composite' as const, iconImage: shapeIcons.composite },
+];
+
+/**
+ * 炫蓝雷霆王武器零件配置 - 高手难度
+ */
+const thunderKingHardWeaponParts = [
+  { id: 'h2-hard-hypercore', name: '雷霆超核心', shapeType: 'circle' as const, iconImage: shapeIcons.circle },
+  { id: 'h2-hard-future', name: '未来预知仪', shapeType: 'triangle' as const, iconImage: shapeIcons.triangle },
+  { id: 'h2-hard-vision', name: '时空视野器', shapeType: 'square' as const, iconImage: shapeIcons.square },
+  { id: 'h2-hard-barrel', name: '雷霆终极炮身', shapeType: 'rectangle' as const, iconImage: shapeIcons.rectangle },
+  { id: 'h2-hard-ultimate', name: '炫蓝雷霆灭世炮完成', shapeType: 'composite' as const, iconImage: shapeIcons.composite },
+];
+
+/**
+ * 隐藏关卡 H2 故事配置 - 新手难度
+ * 主题：时空裂缝初现
+ */
+export const EasyThunderKingStoryConfig: QuestionStoryConfig = {
+  difficulty: DifficultyLevel.EASY,
+  narratives: {
+    0: {
+      text: '时空裂缝在天空撕裂！炫蓝雷霆王从中走出："小俊！我从未来穿越而来！重装赤魂王会在未来毁灭炫卡世界，只有我能阻止他！但要驾驭我的力量，你需要通过考验！"',
+      sceneBackground: 'forest',
+      weaponPartReward: 'h2-easy-core',
+    },
+    1: {
+      text: '炫蓝雷霆王："第一关通过！「雷霆核心」正在充能！我的时空穿梭能力需要数学能量维持！"',
+      sceneBackground: 'ocean',
+      weaponPartReward: 'h2-easy-pulse',
+    },
+    2: {
+      text: '炫蓝雷霆王："不错！你已经开始适应未来的节奏！「雷霆脉冲器」记录着你的进步！"',
+      sceneBackground: 'volcano',
+      weaponPartReward: 'h2-easy-stabilizer',
+    },
+    3: {
+      text: '炫蓝雷霆王："我的时空感知告诉我——你很有潜力！「雷霆稳定器」确保时空通道稳定！"',
+      sceneBackground: 'desert',
+      weaponPartReward: 'h2-easy-shell',
+    },
+    4: {
+      text: '炫蓝雷霆王："炫蓝雷霆炮组装完成！但这只是开始，更强的考验还在后面！"',
+      sceneBackground: 'space',
+      weaponPartReward: 'h2-easy-complete',
+    },
+  },
+  weapon: {
+    name: '炫蓝雷霆炮',
+    parts: thunderKingEasyWeaponParts,
+    completeImage: '/assets/weapons/easy-weapon.png',
+  },
+};
+
+/**
+ * 隐藏关卡 H2 故事配置 - 挑战难度
+ * 主题：未来预知
+ */
+export const MediumThunderKingStoryConfig: QuestionStoryConfig = {
+  difficulty: DifficultyLevel.MEDIUM,
+  narratives: {
+    0: {
+      text: '炫蓝雷霆王："在我的时代，数学是所有力量的基础！用综合知识激活我的战炮！"',
+      sceneBackground: 'forest',
+      weaponPartReward: 'h2-medium-core',
+    },
+    1: {
+      text: '炫蓝雷霆王："时空预知告诉我——这一关你会顺利通过！「雷霆瞄准镜」锁定目标！"',
+      sceneBackground: 'ocean',
+      weaponPartReward: 'h2-medium-scope',
+    },
+    2: {
+      text: '炫蓝雷霆王："未来的重装赤魂王比现在强十倍！你需要更快更强！「雷霆装甲」保护你！"',
+      sceneBackground: 'volcano',
+      weaponPartReward: 'h2-medium-armor',
+    },
+    3: {
+      text: '炫蓝雷霆王："时空能量持续汇聚！继续前进！"',
+      sceneBackground: 'desert',
+      weaponPartReward: 'h2-medium-body',
+    },
+    4: {
+      text: '炫蓝雷霆王："炫蓝雷霆王战炮组装完成！你正在接近掌控时空之力的境界！"',
+      sceneBackground: 'space',
+      weaponPartReward: 'h2-medium-complete',
+    },
+  },
+  weapon: {
+    name: '炫蓝雷霆王战炮',
+    parts: thunderKingMediumWeaponParts,
+    completeImage: '/assets/weapons/medium-weapon.png',
+  },
+};
+
+/**
+ * 隐藏关卡 H2 故事配置 - 高手难度
+ * 主题：终极雷霆觉醒
+ */
+export const HardThunderKingStoryConfig: QuestionStoryConfig = {
+  difficulty: DifficultyLevel.HARD,
+  narratives: {
+    0: {
+      text: '炫蓝雷霆王："终极考验！在未来的战斗中，每一个计算都决定胜负！证明你有资格驾驭我的终极形态！"',
+      sceneBackground: 'forest',
+      weaponPartReward: 'h2-hard-hypercore',
+    },
+    1: {
+      text: '炫蓝雷霆王："时空裂缝的能量正在涌入！「雷霆超核心」记录着你的每一道答案！"',
+      sceneBackground: 'ocean',
+      weaponPartReward: 'h2-hard-future',
+    },
+    2: {
+      text: '炫蓝雷霆王："未来的我看到你战胜了重装赤魂王！但那是只有在通过这个考验后才发生的未来！"',
+      sceneBackground: 'volcano',
+      weaponPartReward: 'h2-hard-vision',
+    },
+    3: {
+      text: '炫蓝雷霆王："时空通道即将关闭！最后的考验！「雷霆终极炮身」就位！"',
+      sceneBackground: 'desert',
+      weaponPartReward: 'h2-hard-barrel',
+    },
+    4: {
+      text: '炫蓝雷霆王："炫蓝雷霆灭世炮组装完成！你已经获得了穿越时空的力量！走吧，去击败重装赤魂王，改变未来！"',
+      sceneBackground: 'space',
+      weaponPartReward: 'h2-hard-ultimate',
+    },
+  },
+  weapon: {
+    name: '炫蓝雷霆灭世炮',
+    parts: thunderKingHardWeaponParts,
+    completeImage: '/assets/weapons/hard-weapon.png',
+  },
+};
+
 
 export const LevelStoryConfigs: Record<string, Record<DifficultyLevel, QuestionStoryConfig>> = {
   // ========== 第一单元：图形与几何 ==========
@@ -3378,5 +3532,16 @@ export const LevelStoryConfigs: Record<string, Record<DifficultyLevel, QuestionS
     [DifficultyLevel.EASY]: EasyUltimateStoryConfig,
     [DifficultyLevel.MEDIUM]: MediumUltimateStoryConfig,
     [DifficultyLevel.HARD]: HardUltimateStoryConfig,
+  },
+  // ========== 隐藏关卡 H2：炫蓝雷霆王 ==========
+  'h2': {
+    [DifficultyLevel.EASY]: EasyThunderKingStoryConfig,
+    [DifficultyLevel.MEDIUM]: MediumThunderKingStoryConfig,
+    [DifficultyLevel.HARD]: HardThunderKingStoryConfig,
+  },
+  'H2': {
+    [DifficultyLevel.EASY]: EasyThunderKingStoryConfig,
+    [DifficultyLevel.MEDIUM]: MediumThunderKingStoryConfig,
+    [DifficultyLevel.HARD]: HardThunderKingStoryConfig,
   },
 } as const;
