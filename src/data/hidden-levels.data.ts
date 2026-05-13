@@ -44,35 +44,44 @@ const levelH1Story: StorySegment[] = [
 
 /**
  * 隐藏关卡 H2 剧情：炫蓝雷霆王的时空裂缝
+ * 炫蓝雷霆王从未来穿越而来，帮助小俊对抗重装赤魂王
  */
 const levelH2Story: StorySegment[] = [
   {
     id: '1',
     type: 'narration',
-    text: '击败重装赤魂王后，时空出现裂缝！',
-    duration: 2000,
+    text: '一道时空裂缝在炫卡世界上方撕开，紫色雷霆从裂缝中涌出！',
+    duration: 2500,
   },
   {
     id: '2',
     type: 'dialogue',
-    speaker: '炫蓝闪电',
-    speakerImage: '/assets/character/炫蓝闪电 1.png',
-    text: '这是炫蓝闪电的终极形态——炫蓝雷霆王从未来穿越而来！',
-    duration: 3000,
+    speaker: '炫蓝闪电S',
+    speakerImage: '/assets/character/炫蓝闪电S.png',
+    text: '这是……来自未来的力量！时空裂缝中走出来的，是我从未见过的形态！',
+    duration: 4000,
   },
   {
     id: '3',
     type: 'dialogue',
     speaker: '炫蓝雷霆王',
     speakerImage: '/assets/character/炫蓝雷霆王.png',
-    text: '我从未来带来更高阶的数学挑战！只有综合应用所有知识，才能击败我！',
-    duration: 3500,
+    text: '小俊！我从未来穿越而来！重装赤魂王的力量在未来会毁灭炫卡世界，只有我能阻止他！但你需要先通过我的考验！',
+    duration: 5000,
   },
   {
     id: '4',
+    type: 'dialogue',
+    speaker: '炫蓝雷霆王',
+    speakerImage: '/assets/character/炫蓝雷霆王.png',
+    text: '我的雷霆之力需要数学能量激活！用你学到的所有知识，证明你有资格驾驭这股力量！',
+    duration: 4000,
+  },
+  {
+    id: '5',
     type: 'narration',
-    text: '跨单元综合挑战，准备好了吗？',
-    duration: 2000,
+    text: '跨单元综合挑战开始！通过考验，获得炫蓝雷霆王的力量！',
+    duration: 2500,
   },
 ];
 
@@ -151,9 +160,13 @@ export const hiddenLevels: Level[] = [
     story: levelH2Story,
     unlockConditions: [
       {
-        type: 'accuracy',
-        targetLevel: '9',
-        minAccuracy: 0.9, // 90% 正确率
+        type: 'levels_completed',
+        targetLevels: ['1-1', '1-2', '1-3', '2-1', '2-2', '2-3', '2-4', '3-1', '3-2', '3-3', '3-4', '4-1', '4-2', '4-3', '5-1', '5-2', '6', '7-1', '7-2', '8'],
+        minStars: 3, // 每个关卡至少 3 星
+      },
+      {
+        type: 'stars_collected',
+        minStars: 90,
       },
     ],
     unlockLogic: 'AND',

@@ -53,7 +53,7 @@ class HiddenLevelUnlockService {
     },
     {
       type: 'stars_collected',
-      minStars: 90, // 总星星达到满星的90%（假设满星100）
+      minStars: 90, // 总星星达到满星的90%
     },
   ];
 
