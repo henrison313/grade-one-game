@@ -224,11 +224,18 @@ export const level1_3MediumQuestions: Question[] = [
       { id: 'fin', name: '鱼鳍（小三角形）', shape: 'triangle-small' },
       { id: 'tail', name: '鱼尾（小三角形）', shape: 'triangle-small', rotation: -90 },
     ],
+    // 使用绝对定位布局
+    useAbsoluteLayout: true,
+    layoutSize: { width: 600, height: 280 },
     targets: [
-      { id: 'head-pos', name: '鱼头位置', accepts: ['head'], position: { x: 40, y: 100 }, size: { width: 120, height: 120 }, rotation: -90, rotationTolerance: 15 },
-      { id: 'body-pos', name: '鱼身位置', accepts: ['body'], position: { x: 160, y: 100 }, size: { width: 120, height: 120 } },
-      { id: 'fin-pos', name: '鱼鳍位置', accepts: ['fin'], position: { x: 180, y: 20 }, size: { width: 80, height: 80 } },
-      { id: 'tail-pos', name: '鱼尾位置', accepts: ['tail'], position: { x: 280, y: 110 }, size: { width: 100, height: 100 }, rotation: -90, rotationTolerance: 15 },
+      // 鱼头在左边（大三角形，朝左/向右的尖）
+      { id: 'head-pos', name: '鱼头', accepts: ['head'], position: { x: 30, y: 80 }, size: { width: 130, height: 130 } },
+      // 鱼身在中间（正方形）
+      { id: 'body-pos', name: '鱼身', accepts: ['body'], position: { x: 180, y: 90 }, size: { width: 110, height: 110 } },
+      // 鱼鳍在上方（小三角形）
+      { id: 'fin-pos', name: '鱼鳍', accepts: ['fin'], position: { x: 180, y: 10 }, size: { width: 80, height: 80 } },
+      // 鱼尾在右边（小三角形）
+      { id: 'tail-pos', name: '鱼尾', accepts: ['tail'], position: { x: 310, y: 100 }, size: { width: 100, height: 100 } },
     ],
     explanation: '小鱼拼好了！鱼头是大三角形（朝左），鱼身是正方形，鱼鳍和鱼尾是小三角形！闪电灭火锤组装完成！',
     hint: '鱼头朝左，鱼尾也朝左',

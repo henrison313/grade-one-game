@@ -111,7 +111,8 @@ class StorageService {
    */
   updateLevelProgress(
     levelId: string,
-    progress: { stars?: number; status?: 'locked' | 'available' | 'completed' }
+    progress: { stars?: number; status?: 'locked' | 'available' | 'completed' },
+    difficulty?: DifficultyLevel
   ): void {
     const data = this.getUserData();
     const current = data.levelProgress[levelId] || {
@@ -120,19 +121,59 @@ class StorageService {
       stars: 0,
     };
 
+    // 更新分难度进度
+    if (difficulty && progress.stars !== undefined) {
+      const diffKey = difficulty as 'easy' | 'medium' | 'hard';
+      const currentDiffProgress = current[diffKey];
+      const newDiffProgress = {
+        stars: progress.stars,
+        completedAt: progress.status === 'completed' ? new Date().toISOString() : currentDiffProgress?.completedAt,
+      };
+
+      // 只有更高星星数才更新
+      if (!currentDiffProgress || progress.stars > currentDiffProgress.stars) {
+        current[diffKey] = newDiffProgress;
+      }
+    }
+
+    // 更新最高星星数（兼容旧逻辑）
+    const newStars = progress.stars ?? current.stars;
+    const updatedStars = Math.max(current.stars, newStars);
+
     data.levelProgress[levelId] = {
       ...current,
       ...progress,
+      stars: updatedStars,
       completedAt: progress.status === 'completed' ? new Date().toISOString() : current.completedAt,
     };
 
-    // 更新总星星数
+    // 更新总星星数（取所有难度的最高星星）
     data.totalStars = Object.values(data.levelProgress).reduce(
       (sum, level) => sum + level.stars,
       0
     );
 
     this.saveUserData(data);
+  }
+
+  /**
+   * 获取关卡某难度的星星数
+   */
+  getLevelStarsByDifficulty(levelId: string, difficulty: DifficultyLevel): number {
+    const progress = this.getLevelProgress(levelId);
+    if (!progress) return 0;
+    const diffKey = difficulty as 'easy' | 'medium' | 'hard';
+    return progress[diffKey]?.stars ?? 0;
+  }
+
+  /**
+   * 检查关卡某难度是否完成
+   */
+  isLevelCompletedByDifficulty(levelId: string, difficulty: DifficultyLevel): boolean {
+    const progress = this.getLevelProgress(levelId);
+    if (!progress) return false;
+    const diffKey = difficulty as 'easy' | 'medium' | 'hard';
+    return !!progress[diffKey]?.completedAt;
   }
 
   /**

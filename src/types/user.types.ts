@@ -27,11 +27,24 @@ export type RarityLevel = 'common' | 'rare' | 'epic' | 'legendary' | 'bronze' | 
 export type VariantType = 'base' | 'flame' | 'ultimate' | 'battle';
 
 /**
+ * 单难度进度
+ */
+export interface DifficultyProgress {
+  stars: number;
+  completedAt?: string;
+}
+
+/**
  * 关卡状态
  */
 export interface LevelProgress {
   levelId: string;
   status: 'locked' | 'available' | 'completed';
+  // 分难度记录星星
+  easy?: DifficultyProgress;
+  medium?: DifficultyProgress;
+  hard?: DifficultyProgress;
+  // 兼容旧数据：最高星星数
   stars: number;
   bestTime?: number;
   completedAt?: string;

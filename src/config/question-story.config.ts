@@ -55,6 +55,7 @@ export const DifficultyConfigs: Record<DifficultyLevel, DifficultyConfig> = {
       { id: 'easy-complete', name: '光能枪完成', shapeType: 'composite', iconImage: shapeIcons.composite },
     ],
     starMultiplier: 1.0,
+    starRequirement: 0.6,  // 60% 星星过关
     weaponImage: '/assets/weapons/easy-炫蓝闪电-炫蓝光能枪.png',
   },
   [DifficultyLevel.MEDIUM]: {
@@ -69,7 +70,8 @@ export const DifficultyConfigs: Record<DifficultyLevel, DifficultyConfig> = {
       { id: 'medium-body', name: '长方枪身外壳', shapeType: 'rectangle', iconImage: shapeIcons.rectangle },
       { id: 'medium-complete', name: '闪电枪完成', shapeType: 'composite', iconImage: shapeIcons.composite },
     ],
-    starMultiplier: 1.0,
+    starMultiplier: 1.5,
+    starRequirement: 0.8,  // 80% 星星过关
     weaponImage: '/assets/weapons/medium-炫蓝闪电-炫蓝闪电枪.png',
   },
   [DifficultyLevel.HARD]: {
@@ -84,7 +86,8 @@ export const DifficultyConfigs: Record<DifficultyLevel, DifficultyConfig> = {
       { id: 'hard-barrel', name: '雷霆炮身', shapeType: 'rectangle', iconImage: shapeIcons.rectangle },
       { id: 'hard-complete', name: '雷霆炮完成', shapeType: 'composite', iconImage: shapeIcons.composite },
     ],
-    starMultiplier: 1.5,
+    starMultiplier: 2.0,
+    starRequirement: 1.0,  // 100% 星星过关
     weaponImage: '/assets/weapons/hard-炫蓝闪电-炫蓝雷霆炮.png',
   },
 } as const;

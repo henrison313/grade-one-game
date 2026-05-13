@@ -449,9 +449,11 @@ const QuizGame: React.FC = () => {
     return shuffleQuestion(currentQuestion);
   }, [currentQuestion]);
 
-  const maxStars = totalQuestions * GameConfig.starsPerQuestion;
-  // 全答对才算胜利（100%星星）
-  const isVictory = starsEarned >= maxStars;
+  // 根据难度计算最大星星数
+  const maxStars = Math.floor(totalQuestions * GameConfig.starsPerQuestion * difficultyConfig.starMultiplier);
+  // 根据难度计算胜利所需星星
+  const victoryStars = Math.floor(maxStars * difficultyConfig.starRequirement);
+  const isVictory = starsEarned >= victoryStars;
 
   // 武器是否完成（收集了所有零件）
   const weaponComplete = storyConfig?.weapon?.parts
@@ -640,7 +642,7 @@ const QuizGame: React.FC = () => {
 
   const finalizeLevel = useCallback(() => {
     if (level) {
-      storageService.updateLevelProgress(level.id, { status: 'completed', stars: starsEarned });
+      storageService.updateLevelProgress(level.id, { status: 'completed', stars: starsEarned }, difficulty);
       storageService.unlockNextLevel(level.id);
 
       // 根据难度获取形态配置并收集炫卡

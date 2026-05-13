@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { GameConfig } from '@/config';
+import { DifficultyConfigs } from '@/config/question-story.config';
 import { StarDisplay } from '@/shared/components';
 import { useSound } from '@/shared/hooks';
 import { getLevelById } from '@/data/levels.data';
@@ -95,6 +96,37 @@ const LevelCompletePage: React.FC = () => {
     : difficultyParam === 'hard' ? DifficultyLevel.HARD
     : DifficultyLevel.EASY;
 
+  // 获取难度配置
+  const difficultyConfig = DifficultyConfigs[difficulty];
+  const totalQuestions = level?.questions.length || 5;
+  const maxStars = Math.floor(totalQuestions * GameConfig.starsPerQuestion * difficultyConfig.starMultiplier);
+  const victoryStars = Math.floor(maxStars * difficultyConfig.starRequirement);
+  const percentage = Math.round((starsEarned / maxStars) * 100);
+
+  // 根据难度和星星数判断胜利称号
+  const getVictoryTitle = () => {
+    if (starsEarned >= maxStars) {
+      switch (difficulty) {
+        case DifficultyLevel.HARD:
+          return '🏆 完美通关！';
+        case DifficultyLevel.MEDIUM:
+          return '⭐ 挑战成功！';
+        default:
+          return '🎉 新手通关！';
+      }
+    } else if (starsEarned >= victoryStars) {
+      switch (difficulty) {
+        case DifficultyLevel.HARD:
+          return '🎯 高手过关！';
+        case DifficultyLevel.MEDIUM:
+          return '✨ 挑战通过！';
+        default:
+          return '🌟 顺利过关！';
+      }
+    }
+    return '💪 再接再厉！';
+  };
+
   useEffect(() => {
     playLevelComplete();
     playBGM('victory');
@@ -135,9 +167,6 @@ const LevelCompletePage: React.FC = () => {
     navigate('/collection');
   };
 
-  const maxStars = level.questions.length * GameConfig.starsPerQuestion;
-  const percentage = Math.round((starsEarned / maxStars) * 100);
-
   return (
     <Container>
       {showResult && (
@@ -150,7 +179,7 @@ const LevelCompletePage: React.FC = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            🎉 挑战成功！
+            {getVictoryTitle()}
           </ResultTitle>
 
           <ResultStars
@@ -159,7 +188,7 @@ const LevelCompletePage: React.FC = () => {
             transition={{ delay: 0.3 }}
           >
             <StarDisplay
-              count={Math.floor(starsEarned / 10)}
+              count={Math.min(5, Math.ceil(starsEarned / (maxStars / 5)))}
               maxCount={5}
               size="large"
               animate
@@ -169,7 +198,7 @@ const LevelCompletePage: React.FC = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
             >
-              ⭐ {starsEarned}
+              ⭐ {starsEarned} / {maxStars}
             </StarsCount>
           </ResultStars>
 
@@ -178,7 +207,7 @@ const LevelCompletePage: React.FC = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            你获得了 {percentage}% 的星星！
+            {difficultyConfig.name} - {percentage}% 星星！
           </ResultMessage>
 
           <AutoNextHint

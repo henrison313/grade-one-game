@@ -45,8 +45,10 @@ export interface DifficultyConfig {
   weaponName: string;
   /** 武器零件列表（5个） */
   weaponParts: WeaponPart[];
-  /** 星星乘数 */
+  /** 星星乘数（每题奖励 = 基础值 × 乘数） */
   starMultiplier: number;
+  /** 过关所需星星比例（0-1） */
+  starRequirement: number;
   /** 完整武器图片 */
   weaponImage: string;
 }
