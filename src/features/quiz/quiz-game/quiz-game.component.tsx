@@ -8,46 +8,38 @@ import { useSound } from '@/shared/hooks';
 import { getLevelById } from '@/data/levels.data';
 import { getHiddenLevelById } from '@/data/hidden-levels.data';
 // 第一单元：认识平面图形
-import { level1_1QuestionsByDifficulty } from '@/data/levels/level-1-1-enhanced.data';
-import { level1_2QuestionsByDifficulty } from '@/data/levels/level-1-2-enhanced.data';
-import { level1_3QuestionsByDifficulty } from '@/data/levels/level-1-3-enhanced.data';
+import { level1_1QuestionsByDifficulty } from '@/data/levels/level-1-1.data';
+import { level1_2QuestionsByDifficulty } from '@/data/levels/level-1-2.data';
+import { level1_3QuestionsByDifficulty } from '@/data/levels/level-1-3.data';
 // 第二单元：20以内退位减法
-import { level2_1QuestionsByDifficulty } from '@/data/levels/level-2-1-enhanced.data';
-import { level2_2QuestionsByDifficulty } from '@/data/levels/level-2-2-enhanced.data';
-import { level2_3QuestionsByDifficulty } from '@/data/levels/level-2-3-enhanced.data';
-import { level2_4QuestionsByDifficulty } from '@/data/levels/level-2-4-enhanced.data';
+import { level2_1QuestionsByDifficulty } from '@/data/levels/level-2-1.data';
+import { level2_2QuestionsByDifficulty } from '@/data/levels/level-2-2.data';
+import { level2_3QuestionsByDifficulty } from '@/data/levels/level-2-3.data';
+import { level2_4QuestionsByDifficulty } from '@/data/levels/level-2-4.data';
 // 第三单元：100以内数的认识
-import { level3_1QuestionsByDifficulty } from '@/data/levels/level-3-1-enhanced.data';
-import { level3_2QuestionsByDifficulty } from '@/data/levels/level-3-2-enhanced.data';
-import { level3_3QuestionsByDifficulty } from '@/data/levels/level-3-3-enhanced.data';
-import { level34QuestionsByDifficulty } from '@/data/levels/level-3-4-enhanced.data';
+import { level3_1QuestionsByDifficulty } from '@/data/levels/level-3-1.data';
+import { level3_2QuestionsByDifficulty } from '@/data/levels/level-3-2.data';
+import { level3_3QuestionsByDifficulty } from '@/data/levels/level-3-3.data';
+import { level34QuestionsByDifficulty } from '@/data/levels/level-3-4.data';
 // 第四单元：100以内口算加减法
-import { level41QuestionsByDifficulty } from '@/data/levels/level-4-1-enhanced.data';
-import { level42QuestionsByDifficulty } from '@/data/levels/level-4-2-enhanced.data';
-import { level43QuestionsByDifficulty } from '@/data/levels/level-4-3-enhanced.data';
+import { level41QuestionsByDifficulty } from '@/data/levels/level-4-1.data';
+import { level42QuestionsByDifficulty } from '@/data/levels/level-4-2.data';
+import { level43QuestionsByDifficulty } from '@/data/levels/level-4-3.data';
 // 第五单元：100以内笔算加减法
-import { level51QuestionsByDifficulty } from '@/data/levels/level-5-1-enhanced.data';
-import { level52QuestionsByDifficulty } from '@/data/levels/level-5-2-enhanced.data';
+import { level51QuestionsByDifficulty } from '@/data/levels/level-5-1.data';
+import { level52QuestionsByDifficulty } from '@/data/levels/level-5-2.data';
 // 第六单元：数量间的加减关系
-import { level6QuestionsByDifficulty } from '@/data/levels/level-6-enhanced.data';
+import { level6QuestionsByDifficulty } from '@/data/levels/level-6.data';
 // 第七单元：欢乐购物街
-import { level71QuestionsByDifficulty } from '@/data/levels/level-7-1-enhanced.data';
-import { level72QuestionsByDifficulty } from '@/data/levels/level-7-2-enhanced.data';
+import { level71QuestionsByDifficulty } from '@/data/levels/level-7-1.data';
+import { level72QuestionsByDifficulty } from '@/data/levels/level-7-2.data';
 // 第八单元：找规律
-import { level8QuestionsByDifficulty } from '@/data/levels/level-8-enhanced.data';
+import { level8QuestionsByDifficulty } from '@/data/levels/level-8.data';
 // 第九单元：期末综合
-import { level9QuestionsByDifficulty } from '@/data/levels/level-9-enhanced.data';
+import { level9QuestionsByDifficulty } from '@/data/levels/level-9.data';
 // 隐藏关卡
-import { levelH1QuestionsByDifficulty } from '@/data/levels/level-h1-enhanced.data';
-import { levelH2QuestionsByDifficulty } from '@/data/levels/level-h2-enhanced.data';
-// 额外关卡
-import { level17QuestionsByDifficulty } from '@/data/levels/level-17-enhanced.data';
-import { level18QuestionsByDifficulty } from '@/data/levels/level-18-enhanced.data';
-import { level19QuestionsByDifficulty } from '@/data/levels/level-19-enhanced.data';
-import { level21QuestionsByDifficulty } from '@/data/levels/level-21-enhanced.data';
-import { level22QuestionsByDifficulty } from '@/data/levels/level-22-enhanced.data';
-import { level23QuestionsByDifficulty } from '@/data/levels/level-23-enhanced.data';
-import { level24QuestionsByDifficulty } from '@/data/levels/level-24-enhanced.data';
+import { levelH1QuestionsByDifficulty } from '@/data/levels/level-h1.data';
+import { levelH2QuestionsByDifficulty } from '@/data/levels/level-h2.data';
 import { ChoiceQuestion, DragQuestion, CircleQuestion, MultiSelectQuestion, FillBlankQuestion, ShapeComposeQuestion } from '@/features/quiz';
 import LinkQuestion from '../link-question/link-question.component';
 import MazeGame from '../maze-question/maze-question.component';
@@ -359,14 +351,6 @@ const QuizGame: React.FC = () => {
     // 隐藏关卡
     if ((levelId === 'h1' || levelId === 'H1') && levelH1QuestionsByDifficulty[difficulty]) return levelH1QuestionsByDifficulty[difficulty];
     if ((levelId === 'h2' || levelId === 'H2') && levelH2QuestionsByDifficulty[difficulty]) return levelH2QuestionsByDifficulty[difficulty];
-    // 额外关卡
-    if (levelId === '17' && level17QuestionsByDifficulty[difficulty]) return level17QuestionsByDifficulty[difficulty];
-    if (levelId === '18' && level18QuestionsByDifficulty[difficulty]) return level18QuestionsByDifficulty[difficulty];
-    if (levelId === '19' && level19QuestionsByDifficulty[difficulty]) return level19QuestionsByDifficulty[difficulty];
-    if (levelId === '21' && level21QuestionsByDifficulty[difficulty]) return level21QuestionsByDifficulty[difficulty];
-    if (levelId === '22' && level22QuestionsByDifficulty[difficulty]) return level22QuestionsByDifficulty[difficulty];
-    if (levelId === '23' && level23QuestionsByDifficulty[difficulty]) return level23QuestionsByDifficulty[difficulty];
-    if (levelId === '24' && level24QuestionsByDifficulty[difficulty]) return level24QuestionsByDifficulty[difficulty];
     return level?.questions || [];
   }, [levelId, level, difficulty]);
 

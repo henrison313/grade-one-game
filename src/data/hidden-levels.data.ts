@@ -4,8 +4,8 @@
 
 import type { Level, StorySegment } from '@/types';
 import { characters, getCharacterById } from './characters.data';
-import { levelH1Questions } from './levels/level-h1.data';
-import { levelH2Questions } from './levels/level-h2.data';
+import { levelH1EasyQuestions as levelH1Questions } from './levels/level-h1.data';
+import { levelH2EasyQuestions as levelH2Questions } from './levels/level-h2.data';
 
 /**
  * 隐藏关卡 H1 剧情：超炫电光王的合体觉醒

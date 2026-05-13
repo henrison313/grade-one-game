@@ -668,6 +668,459 @@ export const HardShadowStoryConfig: QuestionStoryConfig = {
   },
 };
 
+// ========== 铁臂爵士（2-2）专属配置 ==========
+/**
+ * 铁臂爵士武器零件配置 - 新手难度
+ */
+const ironArmEasyWeaponParts = [
+  { id: 'ironarm-easy-core', name: '钻探核心', shapeType: 'circle' as const, iconImage: shapeIcons.circle },
+  { id: 'ironarm-easy-drill', name: '钢铁钻头', shapeType: 'triangle' as const, iconImage: shapeIcons.triangle },
+  { id: 'ironarm-easy-arm', name: '铁臂关节', shapeType: 'square' as const, iconImage: shapeIcons.square },
+  { id: 'ironarm-easy-shell', name: '重拳外壳', shapeType: 'rectangle' as const, iconImage: shapeIcons.rectangle },
+  { id: 'ironarm-easy-complete', name: '炫光重拳炮完成', shapeType: 'composite' as const, iconImage: shapeIcons.composite },
+];
+
+/**
+ * 铁臂爵士武器零件配置 - 挑战难度
+ */
+const ironArmMediumWeaponParts = [
+  { id: 'ironarm-medium-core', name: '深层探测核心', shapeType: 'circle' as const, iconImage: shapeIcons.circle },
+  { id: 'ironarm-medium-sensor', name: '震动传感器', shapeType: 'triangle' as const, iconImage: shapeIcons.triangle },
+  { id: 'ironarm-medium-armor', name: '钢铁装甲', shapeType: 'square' as const, iconImage: shapeIcons.square },
+  { id: 'ironarm-medium-arm', name: '闪电钢铁臂', shapeType: 'rectangle' as const, iconImage: shapeIcons.rectangle },
+  { id: 'ironarm-medium-complete', name: '闪电钢铁臂完成', shapeType: 'composite' as const, iconImage: shapeIcons.composite },
+];
+
+/**
+ * 铁臂爵士武器零件配置 - 高手难度
+ */
+const ironArmHardWeaponParts = [
+  { id: 'ironarm-hard-core', name: '岩层探测核心', shapeType: 'circle' as const, iconImage: shapeIcons.circle },
+  { id: 'ironarm-hard-prism', name: '深层聚焦棱', shapeType: 'triangle' as const, iconImage: shapeIcons.triangle },
+  { id: 'ironarm-hard-stabilizer', name: '粉碎稳定器', shapeType: 'square' as const, iconImage: shapeIcons.square },
+  { id: 'ironarm-hard-barrel', name: '雷霆粉碎炮身', shapeType: 'rectangle' as const, iconImage: shapeIcons.rectangle },
+  { id: 'ironarm-hard-complete', name: '雷霆粉碎炮完成', shapeType: 'composite' as const, iconImage: shapeIcons.composite },
+];
+
+/**
+ * 铁臂爵士故事配置 - 新手难度
+ */
+export const EasyIronArmStoryConfig: QuestionStoryConfig = {
+  difficulty: DifficultyLevel.EASY,
+  narratives: {
+    0: {
+      text: '轰隆隆——铁臂爵士从地下隧道现身："小俊！虽然我失明了，但我的耳朵能听到岩石的心跳！破十法就是我的钻探密码！"',
+      sceneBackground: 'forest',
+      weaponPartReward: 'ironarm-easy-core',
+    },
+    1: {
+      text: '铁臂爵士挥动钢铁手臂："12减8？把12分成10和2，10减8得2，2加2等于4！这就是破十法！"',
+      sceneBackground: 'ocean',
+      weaponPartReward: 'ironarm-easy-drill',
+    },
+    2: {
+      text: '铁臂爵士："每打通一条隧道，我就为小动物们找到一个新的家！继续用破十法帮我前进！"',
+      sceneBackground: 'volcano',
+      weaponPartReward: 'ironarm-easy-arm',
+    },
+    3: {
+      text: '铁臂爵士："我的手臂能感受岩石的温度！你的破十法越来越熟练了！"',
+      sceneBackground: 'desert',
+      weaponPartReward: 'ironarm-easy-shell',
+    },
+    4: {
+      text: '铁臂爵士："炫光重拳炮组装完成！我们一起守护地下的和平！"',
+      sceneBackground: 'space',
+      weaponPartReward: 'ironarm-easy-complete',
+    },
+  },
+  weapon: {
+    name: '炫光重拳炮',
+    parts: ironArmEasyWeaponParts,
+    completeImage: '/assets/weapons/easy-weapon.png',
+  },
+};
+
+/**
+ * 铁臂爵士故事配置 - 挑战难度
+ */
+export const MediumIronArmStoryConfig: QuestionStoryConfig = {
+  difficulty: DifficultyLevel.MEDIUM,
+  narratives: {
+    0: {
+      text: '铁臂爵士："小俊！隧道网络需要扩展！更复杂的破十法题目等着我们！"',
+      sceneBackground: 'forest',
+      weaponPartReward: 'ironarm-medium-core',
+    },
+    1: {
+      text: '铁臂爵士："15减7？把15分成10和5，10减7得3，3加5等于8！"',
+      sceneBackground: 'ocean',
+      weaponPartReward: 'ironarm-medium-sensor',
+    },
+    2: {
+      text: '铁臂爵士："我的钢铁手臂感受着每一次震动！破十法的秘密你已经掌握了！"',
+      sceneBackground: 'volcano',
+      weaponPartReward: 'ironarm-medium-armor',
+    },
+    3: {
+      text: '铁臂爵士："闪电钢铁臂充能完毕！继续前进！"',
+      sceneBackground: 'desert',
+      weaponPartReward: 'ironarm-medium-arm',
+    },
+    4: {
+      text: '铁臂爵士："闪电钢铁臂组装完成！隧道网络又扩展了！你就是我的眼！"',
+      sceneBackground: 'space',
+      weaponPartReward: 'ironarm-medium-complete',
+    },
+  },
+  weapon: {
+    name: '闪电钢铁臂',
+    parts: ironArmMediumWeaponParts,
+    completeImage: '/assets/weapons/medium-weapon.png',
+  },
+};
+
+/**
+ * 铁臂爵士故事配置 - 高手难度
+ */
+export const HardIronArmStoryConfig: QuestionStoryConfig = {
+  difficulty: DifficultyLevel.HARD,
+  narratives: {
+    0: {
+      text: '铁臂爵士："深层岩层出现了！只有最强的破十法才能突破！"',
+      sceneBackground: 'forest',
+      weaponPartReward: 'ironarm-hard-core',
+    },
+    1: {
+      text: '铁臂爵士："17减9？10减9得1，1加7等于8！深层密码破解！"',
+      sceneBackground: 'ocean',
+      weaponPartReward: 'ironarm-hard-prism',
+    },
+    2: {
+      text: '铁臂爵士："我能听到地下暗河的声音！雷霆粉碎炮正在充能！"',
+      sceneBackground: 'volcano',
+      weaponPartReward: 'ironarm-hard-stabilizer',
+    },
+    3: {
+      text: '铁臂爵士："最后的岩层！破十法的终极力量！"',
+      sceneBackground: 'desert',
+      weaponPartReward: 'ironarm-hard-barrel',
+    },
+    4: {
+      text: '铁臂爵士："雷霆粉碎炮组装完成！深层世界已经打开！谢谢你，我的眼！"',
+      sceneBackground: 'space',
+      weaponPartReward: 'ironarm-hard-complete',
+    },
+  },
+  weapon: {
+    name: '雷霆粉碎炮',
+    parts: ironArmHardWeaponParts,
+    completeImage: '/assets/weapons/hard-weapon.png',
+  },
+};
+
+// ========== 喷射加仑（2-3）专属配置 ==========
+/**
+ * 喷射加仑武器零件配置 - 新手难度
+ */
+const gallonEasyWeaponParts = [
+  { id: 'gallon-easy-core', name: '水炮核心', shapeType: 'circle' as const, iconImage: shapeIcons.circle },
+  { id: 'gallon-easy-nozzle', name: '喷射嘴', shapeType: 'triangle' as const, iconImage: shapeIcons.triangle },
+  { id: 'gallon-easy-tank', name: '水箱', shapeType: 'square' as const, iconImage: shapeIcons.square },
+  { id: 'gallon-easy-pipe', name: '高压水管', shapeType: 'rectangle' as const, iconImage: shapeIcons.rectangle },
+  { id: 'gallon-easy-complete', name: '炫光水炮枪完成', shapeType: 'composite' as const, iconImage: shapeIcons.composite },
+];
+
+/**
+ * 喷射加仑武器零件配置 - 挑战难度
+ */
+const gallonMediumWeaponParts = [
+  { id: 'gallon-medium-core', name: '高压水核心', shapeType: 'circle' as const, iconImage: shapeIcons.circle },
+  { id: 'gallon-medium-pump', name: '增压泵', shapeType: 'triangle' as const, iconImage: shapeIcons.triangle },
+  { id: 'gallon-medium-armor', name: '水龙装甲', shapeType: 'square' as const, iconImage: shapeIcons.square },
+  { id: 'gallon-medium-cannon', name: '水龙炮身', shapeType: 'rectangle' as const, iconImage: shapeIcons.rectangle },
+  { id: 'gallon-medium-complete', name: '闪电水龙炮完成', shapeType: 'composite' as const, iconImage: shapeIcons.composite },
+];
+
+/**
+ * 喷射加仑武器零件配置 - 高手难度
+ */
+const gallonHardWeaponParts = [
+  { id: 'gallon-hard-core', name: '海啸能量核心', shapeType: 'circle' as const, iconImage: shapeIcons.circle },
+  { id: 'gallon-hard-funnel', name: '海啸聚焦漏斗', shapeType: 'triangle' as const, iconImage: shapeIcons.triangle },
+  { id: 'gallon-hard-stabilizer', name: '海啸稳定器', shapeType: 'square' as const, iconImage: shapeIcons.square },
+  { id: 'gallon-hard-barrel', name: '雷霆海啸炮身', shapeType: 'rectangle' as const, iconImage: shapeIcons.rectangle },
+  { id: 'gallon-hard-complete', name: '雷霆海啸炮完成', shapeType: 'composite' as const, iconImage: shapeIcons.composite },
+];
+
+/**
+ * 喷射加仑故事配置 - 新手难度
+ */
+export const EasyGallonStoryConfig: QuestionStoryConfig = {
+  difficulty: DifficultyLevel.EASY,
+  narratives: {
+    0: {
+      text: '嗖——喷射加仑从天而降："小俊！我是消防战士喷射加仑！破十法速度挑战开始！"',
+      sceneBackground: 'forest',
+      weaponPartReward: 'gallon-easy-core',
+    },
+    1: {
+      text: '喷射加仑："11减9？10减9得1，1加1等于2！快速计算是消防员的基本功！"',
+      sceneBackground: 'ocean',
+      weaponPartReward: 'gallon-easy-nozzle',
+    },
+    2: {
+      text: '喷射加仑："我的高压水炮需要数学能量！破十法越快，水柱越强！"',
+      sceneBackground: 'volcano',
+      weaponPartReward: 'gallon-easy-tank',
+    },
+    3: {
+      text: '喷射加仑："消防员要在30秒内到达现场！你的破十法速度也在提升！"',
+      sceneBackground: 'desert',
+      weaponPartReward: 'gallon-easy-pipe',
+    },
+    4: {
+      text: '喷射加仑："炫光水炮枪组装完成！准备执行灭火任务！"',
+      sceneBackground: 'space',
+      weaponPartReward: 'gallon-easy-complete',
+    },
+  },
+  weapon: {
+    name: '炫光水炮枪',
+    parts: gallonEasyWeaponParts,
+    completeImage: '/assets/weapons/easy-weapon.png',
+  },
+};
+
+/**
+ * 喷射加仑故事配置 - 挑战难度
+ */
+export const MediumGallonStoryConfig: QuestionStoryConfig = {
+  difficulty: DifficultyLevel.MEDIUM,
+  narratives: {
+    0: {
+      text: '喷射加仑："水炮升级挑战！更快的速度，更强的水柱！"',
+      sceneBackground: 'forest',
+      weaponPartReward: 'gallon-medium-core',
+    },
+    1: {
+      text: '喷射加仑："14减6？10减6得4，4加4等于8！速度就是生命！"',
+      sceneBackground: 'ocean',
+      weaponPartReward: 'gallon-medium-pump',
+    },
+    2: {
+      text: '喷射加仑："闪电水龙炮正在充能！继续保持速度！"',
+      sceneBackground: 'volcano',
+      weaponPartReward: 'gallon-medium-armor',
+    },
+    3: {
+      text: '喷射加仑："你的计算速度已经接近我的喷射速度了！"',
+      sceneBackground: 'desert',
+      weaponPartReward: 'gallon-medium-cannon',
+    },
+    4: {
+      text: '喷射加仑："闪电水龙炮组装完成！我们一起守护城市的平安！"',
+      sceneBackground: 'space',
+      weaponPartReward: 'gallon-medium-complete',
+    },
+  },
+  weapon: {
+    name: '闪电水龙炮',
+    parts: gallonMediumWeaponParts,
+    completeImage: '/assets/weapons/medium-weapon.png',
+  },
+};
+
+/**
+ * 喷射加仑故事配置 - 高手难度
+ */
+export const HardGallonStoryConfig: QuestionStoryConfig = {
+  difficulty: DifficultyLevel.HARD,
+  narratives: {
+    0: {
+      text: '喷射加仑："极速救援任务！这是最严峻的考验！"',
+      sceneBackground: 'forest',
+      weaponPartReward: 'gallon-hard-core',
+    },
+    1: {
+      text: '喷射加仑："16减8？10减8得2，2加6等于8！速度极限突破！"',
+      sceneBackground: 'ocean',
+      weaponPartReward: 'gallon-hard-funnel',
+    },
+    2: {
+      text: '喷射加仑："雷霆海啸炮能量聚集中！"',
+      sceneBackground: 'volcano',
+      weaponPartReward: 'gallon-hard-stabilizer',
+    },
+    3: {
+      text: '喷射加仑："最后考验！速度与准确率的完美结合！"',
+      sceneBackground: 'desert',
+      weaponPartReward: 'gallon-hard-barrel',
+    },
+    4: {
+      text: '喷射加仑："雷霆海啸炮组装完成！你已经超越了我的速度极限！"',
+      sceneBackground: 'space',
+      weaponPartReward: 'gallon-hard-complete',
+    },
+  },
+  weapon: {
+    name: '雷霆海啸炮',
+    parts: gallonHardWeaponParts,
+    completeImage: '/assets/weapons/hard-weapon.png',
+  },
+};
+
+// ========== 裂变骑士（2-4）专属配置 ==========
+/**
+ * 裂变骑士武器零件配置 - 新手难度
+ */
+const fissionEasyWeaponParts = [
+  { id: 'fission-easy-core', name: '分裂核心', shapeType: 'circle' as const, iconImage: shapeIcons.circle },
+  { id: 'fission-easy-crystal', name: '裂变水晶', shapeType: 'triangle' as const, iconImage: shapeIcons.triangle },
+  { id: 'fission-easy-panel', name: '分裂面板', shapeType: 'square' as const, iconImage: shapeIcons.square },
+  { id: 'fission-easy-body', name: '分裂枪身', shapeType: 'rectangle' as const, iconImage: shapeIcons.rectangle },
+  { id: 'fission-easy-complete', name: '炫光分裂枪完成', shapeType: 'composite' as const, iconImage: shapeIcons.composite },
+];
+
+/**
+ * 裂变骑士武器零件配置 - 挑战难度
+ */
+const fissionMediumWeaponParts = [
+  { id: 'fission-medium-core', name: '量子分裂核心', shapeType: 'circle' as const, iconImage: shapeIcons.circle },
+  { id: 'fission-medium-lens', name: '裂变透镜', shapeType: 'triangle' as const, iconImage: shapeIcons.triangle },
+  { id: 'fission-medium-armor', name: '裂变装甲', shapeType: 'square' as const, iconImage: shapeIcons.square },
+  { id: 'fission-medium-blade', name: '裂变刃身', shapeType: 'rectangle' as const, iconImage: shapeIcons.rectangle },
+  { id: 'fission-medium-complete', name: '闪电裂变刃完成', shapeType: 'composite' as const, iconImage: shapeIcons.composite },
+];
+
+/**
+ * 裂变骑士武器零件配置 - 高手难度
+ */
+const fissionHardWeaponParts = [
+  { id: 'fission-hard-core', name: '终极分裂核心', shapeType: 'circle' as const, iconImage: shapeIcons.circle },
+  { id: 'fission-hard-prism', name: '量子聚焦棱', shapeType: 'triangle' as const, iconImage: shapeIcons.triangle },
+  { id: 'fission-hard-stabilizer', name: '量子稳定器', shapeType: 'square' as const, iconImage: shapeIcons.square },
+  { id: 'fission-hard-barrel', name: '雷霆量子炮身', shapeType: 'rectangle' as const, iconImage: shapeIcons.rectangle },
+  { id: 'fission-hard-complete', name: '雷霆量子炮完成', shapeType: 'composite' as const, iconImage: shapeIcons.composite },
+];
+
+/**
+ * 裂变骑士故事配置 - 新手难度
+ */
+export const EasyFissionStoryConfig: QuestionStoryConfig = {
+  difficulty: DifficultyLevel.EASY,
+  narratives: {
+    0: {
+      text: '轰隆——裂变骑士从闪电中现身："小俊！我是裂变骑士，第二单元最强守护者！破十法的终极考验等着你！"',
+      sceneBackground: 'forest',
+      weaponPartReward: 'fission-easy-core',
+    },
+    1: {
+      text: '裂变骑士分裂成两个分身："13减5？10减5得5，5加3等于8！我的分身见证了你的实力！"',
+      sceneBackground: 'ocean',
+      weaponPartReward: 'fission-easy-crystal',
+    },
+    2: {
+      text: '裂变骑士分裂成三个分身："三个分身，三倍的考验！继续用破十法！"',
+      sceneBackground: 'volcano',
+      weaponPartReward: 'fission-easy-panel',
+    },
+    3: {
+      text: '裂变骑士："炫光分裂枪正在组装！你已经接近成功了！"',
+      sceneBackground: 'desert',
+      weaponPartReward: 'fission-easy-body',
+    },
+    4: {
+      text: '裂变骑士："炫光分裂枪组装完成！你通过了基础考验！"',
+      sceneBackground: 'space',
+      weaponPartReward: 'fission-easy-complete',
+    },
+  },
+  weapon: {
+    name: '炫光分裂枪',
+    parts: fissionEasyWeaponParts,
+    completeImage: '/assets/weapons/easy-weapon.png',
+  },
+};
+
+/**
+ * 裂变骑士故事配置 - 挑战难度
+ */
+export const MediumFissionStoryConfig: QuestionStoryConfig = {
+  difficulty: DifficultyLevel.MEDIUM,
+  narratives: {
+    0: {
+      text: '裂变骑士："分身挑战开始！我的分身会提出更难的问题！"',
+      sceneBackground: 'forest',
+      weaponPartReward: 'fission-medium-core',
+    },
+    1: {
+      text: '裂变骑士分身A："15减8？10减8得2，2加5等于7！"',
+      sceneBackground: 'ocean',
+      weaponPartReward: 'fission-medium-lens',
+    },
+    2: {
+      text: '裂变骑士分身B："闪电裂变刃需要数学能量充能！"',
+      sceneBackground: 'volcano',
+      weaponPartReward: 'fission-medium-armor',
+    },
+    3: {
+      text: '裂变骑士："所有分身都认可了你的实力！"',
+      sceneBackground: 'desert',
+      weaponPartReward: 'fission-medium-blade',
+    },
+    4: {
+      text: '裂变骑士："闪电裂变刃组装完成！你的破十法已经炉火纯青！"',
+      sceneBackground: 'space',
+      weaponPartReward: 'fission-medium-complete',
+    },
+  },
+  weapon: {
+    name: '闪电裂变刃',
+    parts: fissionMediumWeaponParts,
+    completeImage: '/assets/weapons/medium-weapon.png',
+  },
+};
+
+/**
+ * 裂变骑士故事配置 - 高手难度
+ */
+export const HardFissionStoryConfig: QuestionStoryConfig = {
+  difficulty: DifficultyLevel.HARD,
+  narratives: {
+    0: {
+      text: '裂变骑士分裂成五个分身："终极裂变战！五个分身，五倍考验！"',
+      sceneBackground: 'forest',
+      weaponPartReward: 'fission-hard-core',
+    },
+    1: {
+      text: '裂变骑士五个分身齐声："18减9？10减9得1，1加8等于9！"',
+      sceneBackground: 'ocean',
+      weaponPartReward: 'fission-hard-prism',
+    },
+    2: {
+      text: '裂变骑士："雷霆量子炮能量汇聚中！"',
+      sceneBackground: 'volcano',
+      weaponPartReward: 'fission-hard-stabilizer',
+    },
+    3: {
+      text: '裂变骑士："你是我见过最强的挑战者！"',
+      sceneBackground: 'desert',
+      weaponPartReward: 'fission-hard-barrel',
+    },
+    4: {
+      text: '裂变骑士合体："雷霆量子炮组装完成！你击败了我！第二单元的荣耀属于你！"',
+      sceneBackground: 'space',
+      weaponPartReward: 'fission-hard-complete',
+    },
+  },
+  weapon: {
+    name: '雷霆量子炮',
+    parts: fissionHardWeaponParts,
+    completeImage: '/assets/weapons/hard-weapon.png',
+  },
+};
+
 // ========== 霹雳火影（4-3）专属配置 ==========
 /**
  * 霹雳火影武器零件配置 - 新手难度
@@ -2826,9 +3279,21 @@ export const LevelStoryConfigs: Record<string, Record<DifficultyLevel, QuestionS
     [DifficultyLevel.MEDIUM]: MediumShadowStoryConfig,
     [DifficultyLevel.HARD]: HardShadowStoryConfig,
   },
-  '2-2': createLevelStoryConfig('2-2', '铁臂爵士', '炫光重拳炮', '闪电钢铁臂', '雷霆粉碎炮', '钻探'),
-  '2-3': createLevelStoryConfig('2-3', '喷射加仑', '炫光水炮枪', '闪电水龙炮', '雷霆海啸炮', '喷射'),
-  '2-4': createLevelStoryConfig('2-4', '裂变骑士', '炫光分裂枪', '闪电裂变刃', '雷霆量子炮', '裂变'),
+  '2-2': {
+    [DifficultyLevel.EASY]: EasyIronArmStoryConfig,
+    [DifficultyLevel.MEDIUM]: MediumIronArmStoryConfig,
+    [DifficultyLevel.HARD]: HardIronArmStoryConfig,
+  },
+  '2-3': {
+    [DifficultyLevel.EASY]: EasyGallonStoryConfig,
+    [DifficultyLevel.MEDIUM]: MediumGallonStoryConfig,
+    [DifficultyLevel.HARD]: HardGallonStoryConfig,
+  },
+  '2-4': {
+    [DifficultyLevel.EASY]: EasyFissionStoryConfig,
+    [DifficultyLevel.MEDIUM]: MediumFissionStoryConfig,
+    [DifficultyLevel.HARD]: HardFissionStoryConfig,
+  },
   // ========== 第三单元：100以内数的认识 ==========
   '3-1': {
     [DifficultyLevel.EASY]: EasyTruckStoryConfig,

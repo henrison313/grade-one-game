@@ -1,34 +1,34 @@
 import type { Level, StorySegment } from '@/types';
 import { characters, getCharacterById } from './characters.data';
 import { level1_1Questions } from './questions.data';
-import { level1_2Questions } from './levels/level-1-2.data';
-import { level1_3Questions } from './levels/level-1-3.data';
+import { level1_2EasyQuestions as level1_2Questions } from './levels/level-1-2.data';
+import { level1_3EasyQuestions as level1_3Questions } from './levels/level-1-3.data';
 // 第二单元：20 以内退位减法
-import { level2_1Questions } from './levels/level-2-1.data';
-import { level2_2Questions } from './levels/level-2-2.data';
-import { level2_3Questions } from './levels/level-2-3.data';
-import { level2_4Questions } from './levels/level-2-4.data';
+import { level2_1EasyQuestions as level2_1Questions } from './levels/level-2-1.data';
+import { level2_2EasyQuestions as level2_2Questions } from './levels/level-2-2.data';
+import { level2_3EasyQuestions as level2_3Questions } from './levels/level-2-3.data';
+import { level2_4EasyQuestions as level2_4Questions } from './levels/level-2-4.data';
 // 第三单元：100 以内数的认识
-import { level3_1Questions } from './levels/level-3-1.data';
-import { level3_2Questions } from './levels/level-3-2.data';
-import { level3_3Questions } from './levels/level-3-3.data';
-import { level3_4Questions } from './levels/level-3-4.data';
+import { level3_1EasyQuestions as level3_1Questions } from './levels/level-3-1.data';
+import { level3_2EasyQuestions as level3_2Questions } from './levels/level-3-2.data';
+import { level3_3EasyQuestions as level3_3Questions } from './levels/level-3-3.data';
+import { level34EasyQuestions as level3_4Questions } from './levels/level-3-4.data';
 // 第四单元：100 以内口算加减法
-import { level4_1Questions } from './levels/level-4-1.data';
-import { level4_2Questions } from './levels/level-4-2.data';
-import { level4_3Questions } from './levels/level-4-3.data';
+import { level41EasyQuestions as level4_1Questions } from './levels/level-4-1.data';
+import { level42EasyQuestions as level4_2Questions } from './levels/level-4-2.data';
+import { level43EasyQuestions as level4_3Questions } from './levels/level-4-3.data';
 // 第五单元：100 以内笔算加减法
-import { level5_1Questions } from './levels/level-5-1.data';
-import { level5_2Questions } from './levels/level-5-2.data';
+import { level51EasyQuestions as level5_1Questions } from './levels/level-5-1.data';
+import { level52EasyQuestions as level5_2Questions } from './levels/level-5-2.data';
 // 第六单元：BOSS 关
-import { level6Questions } from './levels/level-6.data';
+import { level6EasyQuestions as level6Questions } from './levels/level-6.data';
 // 第七单元：欢乐购物街
-import { level7_1Questions } from './levels/level-7-1.data';
-import { level7_2Questions } from './levels/level-7-2.data';
+import { level71EasyQuestions as level7_1Questions } from './levels/level-7-1.data';
+import { level72EasyQuestions as level7_2Questions } from './levels/level-7-2.data';
 // 第八单元：找规律
-import { level8Questions } from './levels/level-8.data';
+import { level8EasyQuestions as level8Questions } from './levels/level-8.data';
 // 第九单元：期末综合
-import { level9Questions } from './levels/level-9.data';
+import { level9EasyQuestions as level9Questions } from './levels/level-9.data';
 
 /**
  * 关卡 1-1 剧情：巨力风暴的图形迷宫
