@@ -57,6 +57,7 @@ export interface Level {
   totalStars: number; // 可获得的总星星数
   starReward: number; // 每题奖励星星
   prerequisite?: string; // 前置关卡
+  requiredHiddenLevel?: string; // 需要先完成的隐藏关卡ID
   story: StorySegment[];
   // 隐藏关卡相关字段（可选）
   unlockConditions?: UnlockCondition[];

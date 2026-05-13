@@ -431,35 +431,43 @@ const level3_3Story: StorySegment[] = [
 ];
 
 /**
- * 关卡 3-4 剧情：数的组成综合练习
+ * 关卡 3-4 剧情：数的组成综合练习 - 玄铁战神与超炫电光王
  */
 const level3_4Story: StorySegment[] = [
   {
     id: '1',
     type: 'narration',
-    text: '轰——重型能量炮发出轰鸣声！',
-    duration: 2000,
+    text: '玄铁战神的基地矗立在前方，能量护盾闪烁着耀眼的光芒！',
+    duration: 2500,
   },
   {
     id: '2',
     type: 'dialogue',
     speaker: '炫蓝闪电',
     speakerImage: '/assets/character/炫蓝闪电 1.png',
-    text: '小勇士！玄铁战神的重型能量炮需要充能！用数的组成知识完成挑战！',
+    text: '小勇士！玄铁战神的能量护盾太强了！普通攻击无法突破！',
     duration: 4000,
   },
   {
     id: '3',
     type: 'dialogue',
-    speaker: '玄铁战神',
-    speakerImage: '/assets/character/玄铁战神.png',
-    text: '轰！我是玄铁战神！100以内数的组成综合挑战，能量满格才能出发！',
+    speaker: '超炫电光王',
+    speakerImage: '/assets/character/超炫电光王.png',
+    text: '小俊！用我的数位透视能力，你能看穿他的弱点！他的能量核心在数的组成上！',
     duration: 4000,
   },
   {
     id: '4',
+    type: 'dialogue',
+    speaker: '玄铁战神',
+    speakerImage: '/assets/character/玄铁战神.png',
+    text: '轰！即使你能看穿我，也需要用100以内数的组成知识才能击败我！来吧！',
+    duration: 4000,
+  },
+  {
+    id: '5',
     type: 'narration',
-    text: '小勇士，完成综合挑战，让能量炮满格！',
+    text: '超炫电光王的数位透视揭示了玄铁战神的弱点！准备战斗！',
     duration: 2500,
   },
 ];
@@ -1040,9 +1048,10 @@ export const levels: Level[] = [
     name: '数的组成综合练习',
     chapter: 3,
     chapterName: '100 以内数的认识',
-    description: '玄铁战神的重型能量炮需要充能！用数的组成知识完成综合挑战，能量满格才能出发！',
+    description: '玄铁战神的能量护盾坚不可摧！只有超炫电光王的数位透视能力才能看穿他的弱点！用数的组成知识击败他！',
     thumbnail: '/assets/character/玄铁战神.png',
     status: 'locked',
+    requiredHiddenLevel: 'H1', // 需要先完成H1隐藏关卡
     guardian: getCharacterById('xuantie-zhanshen') || characters[10],
     mentor: {
       id: 'xuanlan-shandian',

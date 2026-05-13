@@ -249,11 +249,10 @@ const LevelSelectPage: React.FC = () => {
                 const progress = userData.levelProgress[level.id];
                 let isLocked = !progress || progress.status === 'locked';
 
-                // 第九单元特殊检查：需要通过H2隐藏关卡
-                // 剧情设定：只有炫蓝雷霆王能打败重装赤魂王
-                if (level.id === '9' && !isLocked) {
-                  const h2Progress = userData.levelProgress['H2'];
-                  isLocked = !h2Progress || h2Progress.status !== 'completed';
+                // 检查是否需要先完成隐藏关卡
+                if (level.requiredHiddenLevel && !isLocked) {
+                  const hiddenProgress = userData.levelProgress[level.requiredHiddenLevel];
+                  isLocked = !hiddenProgress || hiddenProgress.status !== 'completed';
                 }
 
                 const isCompleted = progress?.status === 'completed';
