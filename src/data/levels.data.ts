@@ -1266,7 +1266,7 @@ export const levels: Level[] = [
     chapter: 9,
     chapterName: '期末复习',
     description: '重装赤魂王设下期末终极挑战！本学期所有知识点大集合，图形、计算、人民币……你能全部通关吗？',
-    thumbnail: '/assets/character/重装赤魂王 1.png',
+    thumbnail: '/assets/character/重装赤魂王.png',
     status: 'locked',
     guardian: getCharacterById('zhongzhang-chihunwang') || characters[18],
     mentor: {

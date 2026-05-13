@@ -25,6 +25,5 @@
 
 ## 临时方案
 
-当前 `collection-theme.mp3` 使用 `menu-theme.mp3` 作为临时替代。
 
 如果音频文件不存在，游戏会自动使用 Web Audio API 生成的简单 BGM 作为替代。

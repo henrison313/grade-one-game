@@ -506,7 +506,7 @@ export const characters: Character[] = [
     name: '重装赤魂王',
     title: '赤色帝王',
     description: '炫卡世界的最终 BOSS，拥有最强的力量和防御。',
-    vehicleImage: '/assets/character/重装赤魂王 1.png',
+    vehicleImage: '/assets/character/重装赤魂王.png',
     robotImage: '/assets/character/重装赤魂王.png',
     stats: {
       height: '6.0 米',
