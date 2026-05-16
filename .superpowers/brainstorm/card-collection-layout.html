@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>炫卡收集册分组布局方案</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: white;
+    }
+    h1 { font-size: 28px; margin-bottom: 20px; text-align: center; }
+    h2 { font-size: 20px; margin: 24px 0 12px; }
+    .subtitle { font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 24px; text-align: center; }
+
+    .options-container { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; }
+    .option-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      padding: 20px;
+      width: 380px;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: #333;
+    }
+    .option-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .option-card.selected { border: 3px solid #4F46E5; background: #EEF2FF; }
+
+    .option-header { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #4F46E5; }
+    .option-desc { font-size: 13px; color: #6B7280; margin-bottom: 16px; }
+
+    /* Mockup 样式 */
+    .mockup-container {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 16px;
+      min-height: 200px;
+    }
+
+    /* 方案 A: 角色徽章墙 */
+    .badge-wall {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .badge-group {
+      width: 120px;
+      height: 140px;
+      background: white;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .badge-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #E5E7EB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .badge-avatar.collected { background: linear-gradient(135deg, #FFD700, #FFA500); }
+    .badge-variants {
+      display: flex;
+      gap: 4px;
+      position: absolute;
+      bottom: -4px;
+    }
+    .variant-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+    .variant-dot.rare { background: #3B82F6; }
+    .variant-dot.gold { background: #FFD700; }
+    .variant-dot.rainbow { background: linear-gradient(45deg, #FF0080, #FFD700, #00FF00, #00BFFF); }
+    .variant-dot.empty { background: #D1D5DB; border: 2px dashed #9CA3AF; }
+    .badge-name { font-size: 11px; font-weight: 600; color: #374151; }
+    .badge-count { font-size: 10px; color: #6B7280; }
+
+    /* 方案 B: 角色行式排列 */
+    .row-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .character-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: white;
+      padding: 12px 16px;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .row-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      background: #E5E7EB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .row-name { font-size: 14px; font-weight: 600; color: #374151; width: 80px; }
+    .row-cards {
+      display: flex;
+      gap: 8px;
+      flex: 1;
+    }
+    .variant-card {
+      width: 50px;
+      height: 60px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+    .variant-card.rare { background: #DBEAFE; border: 2px solid #3B82F6; color: #1E40AF; }
+    .variant-card.gold { background: #FEF3C7; border: 2px solid #F59E0B; color: #92400E; }
+    .variant-card.rainbow { background: linear-gradient(135deg, #FDF2F8, #FEF3C7, #D1FAE5); border: 2px solid #EC4899; color: #9F1239; }
+    .variant-card.empty { background: #F3F4F6; border: 2px dashed #D1D5DB; color: #9CA3AF; }
+    .variant-label { font-size: 9px; margin-top: 4px; }
+
+    /* 方案 C: 形态独立卡片 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .standalone-card {
+      background: white;
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .standalone-card.grouped { border-left: 4px solid #4F46E5; }
+    .standalone-image {
+      width: 50px;
+      height: 60px;
+      background: #E5E7EB;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .standalone-image.rare { background: #DBEAFE; }
+    .standalone-image.gold { background: #FEF3C7; }
+    .standalone-image.rainbow { background: linear-gradient(135deg, #FDF2F8, #FEF3C7); }
+    .standalone-image.empty { background: #F3F4F6; opacity: 0.5; }
+    .standalone-name { font-size: 12px; font-weight: 600; color: #374151; }
+    .standalone-variant { font-size: 10px; color: #6B7280; }
+
+    .pros-cons {
+      margin-top: 12px;
+      display: flex;
+      gap: 12px;
+    }
+    .pros, .cons {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .pros { background: #D1FAE5; color: #065F46; }
+    .cons { background: #FEE2E2; color: #991B1B; }
+    .pros h4, .cons h4 { font-size: 12px; margin-bottom: 4px; }
+    .pros ul, .cons ul { list-style: disc; padding-left: 16px; }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 24px;
+    }
+    .select-btn {
+      background: #4F46E5;
+      color: white;
+      padding: 12px 32px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+
+    .note {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+    }
+  </style>
+</head>
+<body>
+  <h1>炫卡收集册分组布局方案</h1>
+  <p class="subtitle">选择您喜欢的角色形态分组展示方式，点击卡片进行选择</p>
+
+  <div class="options-container">
+    <!-- 方案 A -->
+    <div class="option-card" onclick="selectOption(this, 'A')" id="optionA">
+      <div class="option-header">方案 A: 角色徽章墙</div>
+      <div class="option-desc">每个角色一个圆形展示区域，形态以小徽章围绕头像排列</div>
+
+      <div class="mockup-container">
+        <div class="badge-wall">
+          <!-- 巨力风暴 - 全收集 -->
+          <div class="badge-group">
+            <div class="badge-avatar collected">🤖
+              <div class="badge-variants">
+                <div class="variant-dot rare"></div>
+                <div class="variant-dot gold"></div>
+                <div class="variant-dot rainbow"></div>
+              </div>
+            </div>
+            <div class="badge-name">巨力风暴</div>
+            <div class="badge-count">3/3 形态</div>
+          </div>
+
+          <!-- 炫蓝闪电 - 2形态 -->
+          <div class="badge-group">
+            <div class="badge-avatar collected">⚡
+              <div class="badge-variants">
+                <div class="variant-dot rare"></div>
+                <div class="variant-dot gold"></div>
+                <div class="variant-dot empty"></div>
+              </div>
+            </div>
+            <div class="badge-name">炫蓝闪电</div>
+            <div class="badge-count">2/3 形态</div>
+          </div>
+
+          <!-- 未收集角色 -->
+          <div class="badge-group" style="opacity: 0.5">
+            <div class="badge-avatar">?
+              <div class="badge-variants">
+                <div class="variant-dot empty"></div>
+                <div class="variant-dot empty"></div>
+                <div class="variant-dot empty"></div>
+              </div>
+            </div>
+            <div class="badge-name">急救卫士</div>
+            <div class="badge-count">0/3 形态</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <div class="pros"><h4>优点</h4><ul><li>整体感强，一目了然</li><li>形态徽章直观展示进度</li></ul></div>
+        <div class="cons"><h4>缺点</h4><ul><li>点击需要展开详情</li><li>形态图片较小</li></ul></div>
+      </div>
+    </div>
+
+    <!-- 方案 B -->
+    <div class="option-card" onclick="selectOption(this, 'B')" id="optionB">
+      <div class="option-header">方案 B: 角色行式排列</div>
+      <div class="option-desc">每个角色一行，形态横向排列，空位显示灰色占位框</div>
+
+      <div class="mockup-container">
+        <div class="row-layout">
+          <!-- 巨力风暴 - 全收集 -->
+          <div class="character-row">
+            <div class="row-avatar">🤖</div>
+            <div class="row-name">巨力风暴</div>
+            <div class="row-cards">
+              <div class="variant-card rare">
+                <div>基础</div>
+                <div class="variant-label">rare</div>
+              </div>
+              <div class="variant-card gold">
+                <div>🔥</div>
+                <div class="variant-label">火焰</div>
+              </div>
+              <div class="variant-card rainbow">
+                <div>✨</div>
+                <div class="variant-label">终极</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 炫蓝闪电 - 部分收集 -->
+          <div class="character-row">
+            <div class="row-avatar">⚡</div>
+            <div class="row-name">炫蓝闪电</div>
+            <div class="row-cards">
+              <div class="variant-card rare">
+                <div>基础</div>
+                <div class="variant-label">rare</div>
+              </div>
+              <div class="variant-card gold">
+                <div>S版</div>
+                <div class="variant-label">gold</div>
+              </div>
+              <div class="variant-card empty">
+                <div>?</div>
+                <div class="variant-label">未获得</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <div class="pros"><h4>优点</h4><ul><li>形态卡片清晰可见</li><li>进度一目了然</li></ul></div>
+        <div class="cons"><h4>缺点</h4><ul><li>占用较多屏幕空间</li><li>角色多时需滚动</li></ul></div>
+      </div>
+    </div>
+
+    <!-- 方案 C -->
+    <div class="option-card" onclick="selectOption(this, 'C')" id="optionC">
+      <div class="option-header">方案 C: 形态独立卡片 + 分组标记</div>
+      <div class="option-desc">每个形态单独一张卡片，同一角色的形态卡片相邻，用颜色条连接</div>
+
+      <div class="mockup-container">
+        <div class="card-grid">
+          <!-- 巨力风暴组 -->
+          <div class="standalone-card grouped" style="border-left-color: #3B82F6">
+            <div class="standalone-image rare">🤖</div>
+            <div class="standalone-name">巨力风暴</div>
+            <div class="standalone-variant">基础形态</div>
+          </div>
+          <div class="standalone-card grouped" style="border-left-color: #3B82F6">
+            <div class="standalone-image gold">🔥</div>
+            <div class="standalone-name">巨力风暴</div>
+            <div class="standalone-variant">火焰形态</div>
+          </div>
+          <div class="standalone-card grouped" style="border-left-color: #3B82F6">
+            <div class="standalone-image rainbow">✨</div>
+            <div class="standalone-name">巨力风暴</div>
+            <div class="standalone-variant">终极形态</div>
+          </div>
+
+          <!-- 炫蓝闪电组 -->
+          <div class="standalone-card grouped" style="border-left-color: #FFD700">
+            <div class="standalone-image rare">⚡</div>
+            <div class="standalone-name">炫蓝闪电</div>
+            <div class="standalone-variant">基础形态</div>
+          </div>
+          <div class="standalone-card grouped" style="border-left-color: #FFD700">
+            <div class="standalone-image gold">⚡S</div>
+            <div class="standalone-name">炫蓝闪电</div>
+            <div class="standalone-variant">S形态</div>
+          </div>
+          <div class="standalone-card grouped" style="border-left-color: #FFD700; opacity: 0.5">
+            <div class="standalone-image empty">?</div>
+            <div class="standalone-name">炫蓝闪电</div>
+            <div class="standalone-variant">未获得</div>
+          </div>
+
+          <!-- 其他角色 -->
+          <div class="standalone-card" style="opacity: 0.4">
+            <div class="standalone-image empty">?</div>
+            <div class="standalone-name">急救卫士</div>
+            <div class="standalone-variant">未收集</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pros-cons">
+        <div class="pros"><h4>优点</h4><ul><li>每张卡片信息完整</li><li>分组标记直观</li></ul></div>
+        <div class="cons"><h4>缺点</h4><ul><li>卡片数量多显得杂乱</li><li>需要颜色区分分组</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">请在浏览器中点击选择您喜欢的方案，然后告诉我您的选择</div>
+
+  <script>
+    let selectedOption = null;
+    function selectOption(card, option) {
+      // 移除之前的选择
+      document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+      // 添加新的选择
+      card.classList.add('selected');
+      selectedOption = option;
+      console.log('Selected option:', option);
+    }
+  </script>
+</body>
+</html>
