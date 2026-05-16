@@ -46,6 +46,9 @@ node_modules/
 dist
 .output
 
+# Documentation (local only)
+docs/
+
 # IDE
 .vscode/
 .idea/
