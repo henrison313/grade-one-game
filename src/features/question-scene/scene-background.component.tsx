@@ -4,6 +4,7 @@
  * 设计：卡通云朵、星星、彩虹装饰，炫蓝闪电引导者
  */
 
+import { getAssetPath } from '@/config/paths.config';
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styled, { keyframes } from 'styled-components';
@@ -189,7 +190,7 @@ const SceneDecorations: Record<SceneType, { emoji: string; color: string; hint: 
 };
 
 // 炫蓝闪电图片路径
-const HERO_IMAGE = '/assets/character/炫蓝闪电 1.png';
+const HERO_IMAGE = getAssetPath('/assets/character/炫蓝闪电 1.png');
 
 interface SceneBackgroundProps {
   scene: SceneType;

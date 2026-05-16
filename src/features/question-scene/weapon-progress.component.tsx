@@ -4,6 +4,7 @@
  * 设计：可爱宝石图标 + 彩虹路径 + 收集动画
  */
 
+import { getAssetPath } from '@/config/paths.config';
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styled, { keyframes, css } from 'styled-components';
@@ -246,10 +247,10 @@ export const WeaponProgress: React.FC<WeaponProgressProps> = ({
   const getWeaponImage = (): string => {
     if (weaponImage) return weaponImage;
     switch (difficulty) {
-      case 'easy': return '/assets/weapons/easy-weapon.png';
-      case 'medium': return '/assets/weapons/medium-weapon.png';
-      case 'hard': return '/assets/weapons/hard-weapon.png';
-      default: return '/assets/weapons/easy-weapon.png';
+      case 'easy': return getAssetPath('/assets/weapons/easy-weapon.png');
+      case 'medium': return getAssetPath('/assets/weapons/medium-weapon.png');
+      case 'hard': return getAssetPath('/assets/weapons/hard-weapon.png');
+      default: return getAssetPath('/assets/weapons/easy-weapon.png');
     }
   };
 

@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { GameConfig } from '@/config';
+import { getAssetPath } from '@/config/paths.config';
 import { storageService } from '@/services';
 import { useSound } from '@/shared/hooks';
 import { getLevelById } from '@/data/levels.data';
@@ -879,7 +880,7 @@ const QuizGame: React.FC = () => {
       {/* 武器展示界面 */}
       {gamePhase === 'weaponShowcase' && storyConfig?.weapon && (
         <WeaponShowcase
-          weaponImage={storyConfig.weapon.completeImage || '/assets/weapons/easy-weapon.png'}
+          weaponImage={storyConfig.weapon.completeImage || getAssetPath('/assets/weapons/easy-weapon.png')}
           weaponName={storyConfig.weapon.name || '超级武器'}
           difficulty={difficulty}
           onComplete={() => setGamePhase('battleScene')}

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ThemeColors } from '@/config';
+import { getAssetPath } from '@/config/paths.config';
 import { Button, SoundControl } from '@/shared/components';
 import { storageService } from '@/services';
 import { useSound } from '@/shared/hooks';
@@ -143,7 +144,7 @@ const HomePage: React.FC = () => {
       </StatsBar>
 
       <CharacterImage
-        src="/assets/character/小俊.png"
+        src={getAssetPath('/assets/character/小俊.png')}
         alt="主角"
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}

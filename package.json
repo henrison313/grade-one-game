@@ -7,7 +7,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint src --ext .ts,.tsx",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build && sed -i '' 's|\"/assets/|\"./assets/|g' dist/assets/*.js && sed -i '' 's|`/assets/|`./assets/|g' dist/assets/*.js && gh-pages -d dist"
   },
   "keywords": [],
   "author": "",
