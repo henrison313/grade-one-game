@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:gh": "tsc && vite build --base=/grade-one-game/ && sed -i '' 's|\"/assets/|\"./assets/|g' dist/assets/*.js && sed -i '' 's|\\`/assets/|\\`./assets/|g' dist/assets/*.js && sed -i '' 's|\"/audio/|\"./audio/|g' dist/assets/*.js && sed -i '' 's|\\`/audio/|\\`./audio/|g' dist/assets/*.js",
     "preview": "vite preview",
     "lint": "eslint src --ext .ts,.tsx",
-    "deploy": "npm run build && sed -i '' 's|\"/assets/|\"./assets/|g' dist/assets/*.js && sed -i '' 's|`/assets/|`./assets/|g' dist/assets/*.js && gh-pages -d dist"
+    "deploy": "npm run build:gh && gh-pages -d dist"
   },
   "keywords": [],
   "author": "",
