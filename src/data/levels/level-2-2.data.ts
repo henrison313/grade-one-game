@@ -1,3 +1,4 @@
+import { getAssetPath } from '@/config/paths.config';
 import type { Question, QuestionType, WeaponPart } from '@/types';
 import { DifficultyLevel } from '@/types';
 
@@ -9,31 +10,31 @@ import { DifficultyLevel } from '@/types';
  * 新手模式武器零件：炫光钻探机
  */
 export const level2_2EasyWeaponParts: WeaponPart[] = [
-  { id: 'drill-easy-core', name: '钻探核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'drill-easy-bit', name: '炫光钻头', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'drill-easy-handle', name: '隧道手柄', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'drill-easy-guard', name: '岩石护甲', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'drill-easy-complete', name: '炫光钻探机完成', shapeType: 'composite', iconImage: '/assets/weapons/easy-weapon.png' },
+  { id: 'drill-easy-core', name: '钻探核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'drill-easy-bit', name: '炫光钻头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'drill-easy-handle', name: '隧道手柄', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'drill-easy-guard', name: '岩石护甲', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'drill-easy-complete', name: '炫光钻探机完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
 ];
 
 /**
  * 挑战模式武器零件：螺旋钻头炮
  */
 export const level2_2MediumWeaponParts: WeaponPart[] = [
-  { id: 'drill-medium-core', name: '螺旋核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'drill-medium-bit', name: '深层钻头', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'drill-medium-barrel', name: '钻头炮管', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'drill-medium-complete', name: '螺旋钻头炮完成', shapeType: 'composite', iconImage: '/assets/weapons/medium-weapon.png' },
+  { id: 'drill-medium-core', name: '螺旋核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'drill-medium-bit', name: '深层钻头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'drill-medium-barrel', name: '钻头炮管', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'drill-medium-complete', name: '螺旋钻头炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
 ];
 
 /**
  * 高手模式武器零件：雷霆钻探机
  */
 export const level2_2HardWeaponParts: WeaponPart[] = [
-  { id: 'drill-hard-ring', name: '雷霆能量环', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'drill-hard-prism', name: '地心聚焦棱', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'drill-hard-barrel', name: '雷霆钻探管', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'drill-hard-complete', name: '雷霆钻探机完成', shapeType: 'composite', iconImage: '/assets/weapons/hard-weapon.png' },
+  { id: 'drill-hard-ring', name: '雷霆能量环', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'drill-hard-prism', name: '地心聚焦棱', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'drill-hard-barrel', name: '雷霆钻探管', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'drill-hard-complete', name: '雷霆钻探机完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
 ];
 
 /**
@@ -181,7 +182,7 @@ export const level2_2MediumQuestions: Question[] = [
     type: 'circle' as QuestionType.CIRCLE,
     question: '圈出结果大于 6 的算式！',
     instruction: '点击圈出结果大于 6 的算式',
-    // image: '/assets/shapes/subtraction-examples.svg', // SVG不存在，使用动态绘制
+    // image: getAssetPath('/assets/shapes/subtraction-examples.svg'), // SVG不存在，使用动态绘制
     answerAreas: [
       { id: 'eq1', x: 80, y: 100, radius: 40, label: '15 - 7' },
       { id: 'eq2', x: 160, y: 100, radius: 40, label: '14 - 6' },

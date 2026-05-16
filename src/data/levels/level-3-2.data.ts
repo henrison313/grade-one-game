@@ -1,3 +1,4 @@
+import { getAssetPath } from '@/config/paths.config';
 import type { Question, WeaponPart } from '@/types'
 import { DifficultyLevel, QuestionType } from '@/types'
 
@@ -13,31 +14,31 @@ import { DifficultyLevel, QuestionType } from '@/types'
  * 新手模式武器零件：炫光炮舰
  */
 export const level3_2EasyWeaponParts: WeaponPart[] = [
-  { id: 'ship-easy-core', name: '炮舰核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'ship-easy-hull', name: '炫光船体', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'ship-easy-cannon', name: '炫光火炮', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'ship-easy-anchor', name: '船锚装饰', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'ship-easy-complete', name: '炫光炮舰完成', shapeType: 'composite', iconImage: '/assets/weapons/easy-weapon.png' },
+  { id: 'ship-easy-core', name: '炮舰核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'ship-easy-hull', name: '炫光船体', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'ship-easy-cannon', name: '炫光火炮', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'ship-easy-anchor', name: '船锚装饰', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'ship-easy-complete', name: '炫光炮舰完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
 ]
 
 /**
  * 挑战模式武器零件：炮舰炮
  */
 export const level3_2MediumWeaponParts: WeaponPart[] = [
-  { id: 'ship-medium-core', name: '炮舰炮核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'ship-medium-hull', name: '炮舰炮身', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'ship-medium-cannon', name: '重型火炮', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'ship-medium-complete', name: '炮舰炮完成', shapeType: 'composite', iconImage: '/assets/weapons/medium-weapon.png' },
+  { id: 'ship-medium-core', name: '炮舰炮核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'ship-medium-hull', name: '炮舰炮身', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'ship-medium-cannon', name: '重型火炮', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'ship-medium-complete', name: '炮舰炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
 ]
 
 /**
  * 高手模式武器零件：雷霆炮舰
  */
 export const level3_2HardWeaponParts: WeaponPart[] = [
-  { id: 'ship-hard-ring', name: '雷霆能量环', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'ship-hard-hull', name: '雷霆船体', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'ship-hard-cannon', name: '雷霆火炮', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'ship-hard-complete', name: '雷霆炮舰完成', shapeType: 'composite', iconImage: '/assets/weapons/hard-weapon.png' },
+  { id: 'ship-hard-ring', name: '雷霆能量环', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'ship-hard-hull', name: '雷霆船体', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'ship-hard-cannon', name: '雷霆火炮', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'ship-hard-complete', name: '雷霆炮舰完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
 ]
 
 /**

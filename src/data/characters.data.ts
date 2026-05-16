@@ -1,3 +1,4 @@
+import { getAssetPath } from '@/config/paths.config';
 import type { Character } from '@/types';
 
 /**
@@ -10,8 +11,8 @@ export const characters: Character[] = [
     name: '炫蓝闪电',
     title: '智慧导师',
     description: '炫卡世界的智慧导师，负责引导新战士完成训练。他的闪电速度代表着思维的敏捷。',
-    vehicleImage: '/assets/character/炫蓝闪电 1.png',
-    robotImage: '/assets/character/炫蓝闪电-机器人2.jpeg',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/炫蓝闪电 1.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/炫蓝闪电-机器人2.jpeg')),
     stats: {
       height: '3.8 米',
       weight: '2.8 吨',
@@ -34,8 +35,8 @@ export const characters: Character[] = [
     name: '巨力风暴',
     title: '力量守护者',
     description: '拥有强大力量的炫卡斗士，守护着"认识平面图形"关卡。他的变形能力让他在战斗中无往不利。',
-    vehicleImage: '/assets/character/巨力风暴.png',
-    robotImage: '/assets/character/巨力风暴-机器人.jpeg',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/巨力风暴.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/巨力风暴-机器人.jpeg')),
     stats: {
       height: '4.2 米',
       weight: '3.5 吨',
@@ -58,8 +59,8 @@ export const characters: Character[] = [
     name: '急救卫士',
     title: '生命守护者',
     description: '医疗救援型炫卡斗士，永远在第一时间赶赴现场救助伤员。',
-    vehicleImage: '/assets/character/急救卫士.png',
-    robotImage: '/assets/character/急救卫士-机器人.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/急救卫士.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/急救卫士-机器人.png')),
     stats: {
       height: '3.5 米',
       weight: '2.2 吨',
@@ -81,8 +82,8 @@ export const characters: Character[] = [
     name: '烈火修罗',
     title: '火焰战士',
     description: '操控火焰的炫卡斗士，在烈火中锻造出强大的意志。',
-    vehicleImage: '/assets/character/烈火修罗.png',
-    robotImage: '/assets/character/烈火修罗-机器人.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/烈火修罗.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/烈火修罗-机器人.png')),
     stats: {
       height: '4.0 米',
       weight: '3.0 吨',
@@ -104,8 +105,8 @@ export const characters: Character[] = [
     name: '暗影特工',
     title: '潜行者',
     description: '擅长隐秘行动的炫卡斗士，在暗影中守护正义。',
-    vehicleImage: '/assets/character/暗影特工.png',
-    robotImage: '/assets/character/暗影特工.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/暗影特工.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/暗影特工.png')),
     stats: {
       height: '3.6 米',
       weight: '2.5 吨',
@@ -127,8 +128,8 @@ export const characters: Character[] = [
     name: '铁臂爵士',
     title: '力量战士',
     description: '拥有钢铁手臂的炫卡斗士，力量惊人，正义的化身。',
-    vehicleImage: '/assets/character/铁臂爵士.png',
-    robotImage: '/assets/character/铁臂爵士.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/铁臂爵士.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/铁臂爵士.png')),
     stats: {
       height: '4.5 米',
       weight: '4.0 吨',
@@ -150,8 +151,8 @@ export const characters: Character[] = [
     name: '喷射加仑',
     title: '消防战士',
     description: '消防型炫卡斗士，喷射高压水柱，灭火救援两不误。',
-    vehicleImage: '/assets/character/喷射加仑.png',
-    robotImage: '/assets/character/喷射加仑.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/喷射加仑.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/喷射加仑.png')),
     stats: {
       height: '3.8 米',
       weight: '3.2 吨',
@@ -173,8 +174,8 @@ export const characters: Character[] = [
     name: '裂变骑士',
     title: '分裂战士',
     description: '能够分裂成多个个体的炫卡斗士，战斗力成倍增长。',
-    vehicleImage: '/assets/character/裂变骑士.png',
-    robotImage: '/assets/character/裂变骑士.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/裂变骑士.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/裂变骑士.png')),
     stats: {
       height: '4.0 米',
       weight: '2.8 吨',
@@ -196,8 +197,8 @@ export const characters: Character[] = [
     name: '暴烈重卡',
     title: '运输战士',
     description: '重型运输型炫卡斗士，载重能力超强，是团队的后勤保障。',
-    vehicleImage: '/assets/character/暴烈重卡.png',
-    robotImage: '/assets/character/暴烈重卡.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/暴烈重卡.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/暴烈重卡.png')),
     stats: {
       height: '5.0 米',
       weight: '6.0 吨',
@@ -219,8 +220,8 @@ export const characters: Character[] = [
     name: '深海天锚',
     title: '海洋战士',
     description: '深海作战型炫卡斗士，在海洋中自由穿梭，守护蓝色领土。',
-    vehicleImage: '/assets/character/深海天锚.png',
-    robotImage: '/assets/character/深海天锚.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/深海天锚.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/深海天锚.png')),
     stats: {
       height: '4.2 米',
       weight: '3.8 吨',
@@ -242,8 +243,8 @@ export const characters: Character[] = [
     name: '重力金刚',
     title: '重力操控者',
     description: '能够操控重力的炫卡斗士，可以让物体变轻或变重。',
-    vehicleImage: '/assets/character/重力金刚.png',
-    robotImage: '/assets/character/重力金刚.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/重力金刚.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/重力金刚.png')),
     stats: {
       height: '4.8 米',
       weight: '5.5 吨',
@@ -266,8 +267,8 @@ export const characters: Character[] = [
     name: '玄铁战神',
     title: '金属掌控者',
     description: '掌控金属力量的炫卡斗士，身体由神秘的玄铁构成。',
-    vehicleImage: '/assets/character/玄铁战神.png',
-    robotImage: '/assets/character/玄铁战神.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/玄铁战神.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/玄铁战神.png')),
     stats: {
       height: '4.6 米',
       weight: '5.8 吨',
@@ -290,8 +291,8 @@ export const characters: Character[] = [
     name: '炫蓝闪电 S',
     title: '极速王者',
     description: '炫蓝闪电的升级版本，速度更快，力量更强。',
-    vehicleImage: '/assets/character/炫蓝闪电 S.png',
-    robotImage: '/assets/character/炫蓝闪电 S.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/炫蓝闪电 S.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/炫蓝闪电 S.png')),
     stats: {
       height: '3.9 米',
       weight: '2.9 吨',
@@ -314,8 +315,8 @@ export const characters: Character[] = [
     name: '焰龙战神',
     title: '龙炎传承者',
     description: '拥有龙族血脉的炫卡斗士，能够喷吐炽热的龙炎。',
-    vehicleImage: '/assets/character/焰龙战神 1.png',
-    robotImage: '/assets/character/焰龙战神 2.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/焰龙战神 1.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/焰龙战神 2.png')),
     stats: {
       height: '4.5 米',
       weight: '3.8 吨',
@@ -338,8 +339,8 @@ export const characters: Character[] = [
     name: '霹雳火影',
     title: '闪电忍者',
     description: '来自忍者村的炫卡斗士，擅长使用闪电忍术。',
-    vehicleImage: '/assets/character/霹雳火影.png',
-    robotImage: '/assets/character/霹雳火影.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/霹雳火影.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/霹雳火影.png')),
     stats: {
       height: '3.7 米',
       weight: '2.6 吨',
@@ -362,8 +363,8 @@ export const characters: Character[] = [
     name: '猎空悍将',
     title: '空中猎手',
     description: '擅长空中作战的炫卡斗士，拥有强大的制空能力。',
-    vehicleImage: '/assets/character/裂空悍将.png',
-    robotImage: '/assets/character/裂空悍将.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/裂空悍将.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/裂空悍将.png')),
     stats: {
       height: '4.0 米',
       weight: '3.0 吨',
@@ -386,8 +387,8 @@ export const characters: Character[] = [
     name: '钢臂力士',
     title: '力量之王',
     description: '拥有最强力量的炫卡斗士，双臂由精钢打造。',
-    vehicleImage: '/assets/character/钢臂力士.png',
-    robotImage: '/assets/character/钢臂力士.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/钢臂力士.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/钢臂力士.png')),
     stats: {
       height: '5.2 米',
       weight: '6.5 吨',
@@ -410,8 +411,8 @@ export const characters: Character[] = [
     name: '星际游侠',
     title: '宇宙旅行者',
     description: '来自遥远星系的炫卡斗士，见识广博。',
-    vehicleImage: '/assets/character/星际游侠 1.png',
-    robotImage: '/assets/character/星际游侠 2.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/星际游侠 1.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/星际游侠 2.png')),
     stats: {
       height: '4.1 米',
       weight: '3.2 吨',
@@ -434,8 +435,8 @@ export const characters: Character[] = [
     name: '爆旋洛克',
     title: '旋转大师',
     description: '擅长旋转攻击的炫卡斗士，身体可以高速旋转。',
-    vehicleImage: '/assets/character/爆旋洛克.png',
-    robotImage: '/assets/character/爆旋洛克.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/爆旋洛克.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/爆旋洛克.png')),
     stats: {
       height: '3.8 米',
       weight: '3.0 吨',
@@ -458,8 +459,8 @@ export const characters: Character[] = [
     name: '深海霸王',
     title: '海洋霸主',
     description: '深海中的霸主，统治着所有海洋生物。',
-    vehicleImage: '/assets/character/深海霸王 1.png',
-    robotImage: '/assets/character/深海霸王 2.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/深海霸王 1.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/深海霸王 2.png')),
     stats: {
       height: '5.5 米',
       weight: '7.0 吨',
@@ -482,8 +483,8 @@ export const characters: Character[] = [
     name: '银翼骑士',
     title: '白银守护者',
     description: '身披银甲的骑士，守护着炫卡世界的和平。',
-    vehicleImage: '/assets/character/银翼骑士.png',
-    robotImage: '/assets/character/银翼骑士.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/银翼骑士.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/银翼骑士.png')),
     stats: {
       height: '4.3 米',
       weight: '3.6 吨',
@@ -506,8 +507,8 @@ export const characters: Character[] = [
     name: '重装赤魂王',
     title: '赤色帝王',
     description: '炫卡世界的最终 BOSS，拥有最强的力量和防御。',
-    vehicleImage: '/assets/character/重装赤魂王.png',
-    robotImage: '/assets/character/重装赤魂王.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/重装赤魂王.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/重装赤魂王.png')),
     stats: {
       height: '6.0 米',
       weight: '8.0 吨',
@@ -530,8 +531,8 @@ export const characters: Character[] = [
     name: '超炫电光王',
     title: '数位大师',
     description: '来自数字王国的隐藏 BOSS，精通数位和数的组成。他的电光能力可以揭示数字的本质。',
-    vehicleImage: '/assets/character/超炫电光王.png',
-    robotImage: '/assets/character/超炫电光王.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/超炫电光王.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/超炫电光王.png')),
     stats: {
       height: '4.5 米',
       weight: '3.2 吨',
@@ -554,8 +555,8 @@ export const characters: Character[] = [
     name: '炫蓝雷霆王',
     title: '时空王者',
     description: '炫蓝闪电的终极形态，从未来穿越而来的王者。掌握跨单元综合应用的终极力量。',
-    vehicleImage: '/assets/character/炫蓝雷霆王.png',
-    robotImage: '/assets/character/炫蓝雷霆王.png',
+    vehicleImage: getAssetPath(getAssetPath('/assets/character/炫蓝雷霆王.png')),
+    robotImage: getAssetPath(getAssetPath('/assets/character/炫蓝雷霆王.png')),
     stats: {
       height: '5.0 米',
       weight: '4.0 吨',

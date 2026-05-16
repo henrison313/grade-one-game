@@ -1,3 +1,4 @@
+import { getAssetPath } from '@/config/paths.config';
 import type { Question, QuestionType, WeaponPart } from '@/types';
 import { DifficultyLevel } from '@/types';
 
@@ -9,31 +10,31 @@ import { DifficultyLevel } from '@/types';
  * 新手模式武器零件：炫影潜行刃
  */
 export const level2_1EasyWeaponParts: WeaponPart[] = [
-  { id: 'shadow-easy-core', name: '暗影核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'shadow-easy-blade', name: '潜行刀刃', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'shadow-easy-handle', name: '隐形手柄', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'shadow-easy-guard', name: '暗影护手', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'shadow-easy-complete', name: '炫影潜行刃完成', shapeType: 'composite', iconImage: '/assets/weapons/easy-weapon.png' },
+  { id: 'shadow-easy-core', name: '暗影核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'shadow-easy-blade', name: '潜行刀刃', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'shadow-easy-handle', name: '隐形手柄', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'shadow-easy-guard', name: '暗影护手', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'shadow-easy-complete', name: '炫影潜行刃完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
 ];
 
 /**
  * 挑战模式武器零件：暗影突击枪
  */
 export const level2_1MediumWeaponParts: WeaponPart[] = [
-  { id: 'shadow-medium-core', name: '突击核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'shadow-medium-scope', name: '暗影瞄准镜', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'shadow-medium-block', name: '隐形能量块', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'shadow-medium-complete', name: '暗影突击枪完成', shapeType: 'composite', iconImage: '/assets/weapons/medium-weapon.png' },
+  { id: 'shadow-medium-core', name: '突击核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'shadow-medium-scope', name: '暗影瞄准镜', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'shadow-medium-block', name: '隐形能量块', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'shadow-medium-complete', name: '暗影突击枪完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
 ];
 
 /**
  * 高手模式武器零件：雷霆暗影炮
  */
 export const level2_1HardWeaponParts: WeaponPart[] = [
-  { id: 'shadow-hard-ring', name: '暗影能量环', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'shadow-hard-prism', name: '暗影聚焦棱', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'shadow-hard-barrel', name: '雷霆炮身', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'shadow-hard-complete', name: '雷霆暗影炮完成', shapeType: 'composite', iconImage: '/assets/weapons/hard-weapon.png' },
+  { id: 'shadow-hard-ring', name: '暗影能量环', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'shadow-hard-prism', name: '暗影聚焦棱', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'shadow-hard-barrel', name: '雷霆炮身', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'shadow-hard-complete', name: '雷霆暗影炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
 ];
 
 /**

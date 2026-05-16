@@ -1,3 +1,4 @@
+import { getAssetPath } from '@/config/paths.config';
 import type { Question, QuestionType, WeaponPart } from '@/types'
 import { DifficultyLevel } from '@/types'
 
@@ -213,27 +214,27 @@ export const level9QuestionsByDifficulty: Record<DifficultyLevel, Question[]> = 
 }
 
 export const level9EasyWeaponParts: WeaponPart[] = [
-  { id: 'easy-flame-core', name: '赤魂探测核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'easy-flame-nav', name: '赤魂导航仪', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'easy-flame-head', name: '赤魂灭世头', shapeType: 'triangle', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'easy-flame-pipe', name: '赤魂穿梭管', shapeType: 'square', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'easy-flame-complete', name: '赤魂灭世完成', shapeType: 'composite', iconImage: '/assets/weapons/easy-weapon.png' },
+  { id: 'easy-flame-core', name: '赤魂探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'easy-flame-nav', name: '赤魂导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'easy-flame-head', name: '赤魂灭世头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'easy-flame-pipe', name: '赤魂穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'easy-flame-complete', name: '赤魂灭世完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
 ]
 
 export const level9MediumWeaponParts: WeaponPart[] = [
-  { id: 'med-flame-core', name: '赤魂探测核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'med-flame-loc', name: '赤魂定位器', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'med-flame-armor', name: '赤魂装甲板', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'med-flame-meter', name: '赤魂计量管', shapeType: 'square', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'med-flame-cannon', name: '重装赤魂王战炮完成', shapeType: 'composite', iconImage: '/assets/weapons/medium-weapon.png' },
+  { id: 'med-flame-core', name: '赤魂探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'med-flame-loc', name: '赤魂定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'med-flame-armor', name: '赤魂装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'med-flame-meter', name: '赤魂计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'med-flame-cannon', name: '重装赤魂王战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
 ]
 
 export const level9HardWeaponParts: WeaponPart[] = [
-  { id: 'hard-flame-partner', name: '伙伴赤魂核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'hard-flame-fair', name: '赤魂公平仪', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'hard-flame-sys', name: '赤魂灭世系统', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'hard-flame-armor', name: '赤魂装甲管', shapeType: 'square', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'hard-flame-ult', name: '重装赤魂王终极炮完成', shapeType: 'composite', iconImage: '/assets/weapons/hard-weapon.png' },
+  { id: 'hard-flame-partner', name: '伙伴赤魂核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'hard-flame-fair', name: '赤魂公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'hard-flame-sys', name: '赤魂灭世系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'hard-flame-armor', name: '赤魂装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'hard-flame-ult', name: '重装赤魂王终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
 ]
 
 export const level9WeaponPartsByDifficulty: Record<DifficultyLevel, WeaponPart[]> = {

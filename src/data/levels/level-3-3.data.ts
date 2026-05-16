@@ -1,3 +1,4 @@
+import { getAssetPath } from '@/config/paths.config';
 import type { Question, WeaponPart } from '@/types'
 import { DifficultyLevel, QuestionType } from '@/types'
 
@@ -13,31 +14,31 @@ import { DifficultyLevel, QuestionType } from '@/types'
  * 新手模式武器零件：炫光重力炮
  */
 export const level3_3EasyWeaponParts: WeaponPart[] = [
-  { id: 'gravity-easy-core', name: '重力核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'gravity-easy-shell', name: '炫光外壳', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'gravity-easy-cannon', name: '炫光炮管', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'gravity-easy-gauge', name: '重力仪表', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'gravity-easy-complete', name: '炫光重力炮完成', shapeType: 'composite', iconImage: '/assets/weapons/easy-weapon.png' },
+  { id: 'gravity-easy-core', name: '重力核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'gravity-easy-shell', name: '炫光外壳', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'gravity-easy-cannon', name: '炫光炮管', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'gravity-easy-gauge', name: '重力仪表', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'gravity-easy-complete', name: '炫光重力炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
 ]
 
 /**
  * 挑战模式武器零件：重力炮
  */
 export const level3_3MediumWeaponParts: WeaponPart[] = [
-  { id: 'gravity-medium-core', name: '重力炮核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'gravity-medium-shell', name: '重力炮身', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'gravity-medium-cannon', name: '重型炮管', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'gravity-medium-complete', name: '重力炮完成', shapeType: 'composite', iconImage: '/assets/weapons/medium-weapon.png' },
+  { id: 'gravity-medium-core', name: '重力炮核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'gravity-medium-shell', name: '重力炮身', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'gravity-medium-cannon', name: '重型炮管', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'gravity-medium-complete', name: '重力炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
 ]
 
 /**
  * 高手模式武器零件：雷霆重力炮
  */
 export const level3_3HardWeaponParts: WeaponPart[] = [
-  { id: 'gravity-hard-ring', name: '雷霆能量环', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'gravity-hard-shell', name: '雷霆炮身', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'gravity-hard-cannon', name: '雷霆炮管', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'gravity-hard-complete', name: '雷霆重力炮完成', shapeType: 'composite', iconImage: '/assets/weapons/hard-weapon.png' },
+  { id: 'gravity-hard-ring', name: '雷霆能量环', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'gravity-hard-shell', name: '雷霆炮身', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'gravity-hard-cannon', name: '雷霆炮管', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'gravity-hard-complete', name: '雷霆重力炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
 ]
 
 /**

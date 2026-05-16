@@ -1,3 +1,4 @@
+import { getAssetPath } from '@/config/paths.config';
 import type { Question, QuestionType, WeaponPart } from '@/types'
 import { DifficultyLevel } from '@/types'
 
@@ -271,33 +272,33 @@ export const level43QuestionsByDifficulty: Record<DifficultyLevel, Question[]> =
  * 关卡 4-3 新手模式武器零件:炫光雷切剑(5个零件)
  */
 export const level43EasyWeaponParts: WeaponPart[] = [
-  { id: 'easy-thunder-core', name: '闪电探测核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'easy-thunder-navigator', name: '闪电导航仪', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'easy-thunder-blade-head', name: '雷切剑刃', shapeType: 'triangle', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'easy-thunder-shield-pipe', name: '闪电护盾管', shapeType: 'square', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'easy-thunder-sword-complete', name: '炫光雷切剑完成', shapeType: 'composite', iconImage: '/assets/weapons/easy-weapon.png' },
+  { id: 'easy-thunder-core', name: '闪电探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'easy-thunder-navigator', name: '闪电导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'easy-thunder-blade-head', name: '雷切剑刃', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'easy-thunder-shield-pipe', name: '闪电护盾管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'easy-thunder-sword-complete', name: '炫光雷切剑完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
 ]
 
 /**
  * 关卡 4-3 挑战模式武器零件:霹雳火影战炮(5个零件)
  */
 export const level43MediumWeaponParts: WeaponPart[] = [
-  { id: 'medium-lightning-core', name: '闪电探测核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'medium-lightning-calculator', name: '闪电计算仪', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'medium-lightning-armor-plate', name: '闪电装甲板', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'medium-lightning-meter-pipe', name: '闪电计量管', shapeType: 'square', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'medium-thunder-cannon-complete', name: '霹雳火影战炮完成', shapeType: 'composite', iconImage: '/assets/weapons/medium-weapon.png' },
+  { id: 'medium-lightning-core', name: '闪电探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'medium-lightning-calculator', name: '闪电计算仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'medium-lightning-armor-plate', name: '闪电装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'medium-lightning-meter-pipe', name: '闪电计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'medium-thunder-cannon-complete', name: '霹雳火影战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
 ]
 
 /**
  * 关卡 4-3 高手模式武器零件:霹雳火影终极炮(5个零件)
  */
 export const level43HardWeaponParts: WeaponPart[] = [
-  { id: 'hard-partner-thunder-core', name: '伙伴闪电核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'hard-thunder-fairness', name: '闪电公平仪', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'hard-thunder-master-system', name: '闪电大师系统', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'hard-thunder-armor-pipe', name: '闪电装甲管', shapeType: 'square', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'hard-thunder-ultimate-cannon-complete', name: '霹雳火影终极炮完成', shapeType: 'composite', iconImage: '/assets/weapons/hard-weapon.png' },
+  { id: 'hard-partner-thunder-core', name: '伙伴闪电核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'hard-thunder-fairness', name: '闪电公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'hard-thunder-master-system', name: '闪电大师系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'hard-thunder-armor-pipe', name: '闪电装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'hard-thunder-ultimate-cannon-complete', name: '霹雳火影终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
 ]
 
 /**

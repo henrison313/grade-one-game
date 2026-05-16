@@ -1,3 +1,4 @@
+import { getAssetPath } from '@/config/paths.config';
 import type { Question, QuestionType, WeaponPart } from '@/types';
 import { DifficultyLevel } from '@/types';
 
@@ -265,31 +266,31 @@ export const level34QuestionsByDifficulty: Record<DifficultyLevel, Question[]> =
  * 关卡 3-4 新手模式武器零件：玄铁重剑（5个零件）
  */
 export const level34EasyWeaponParts: WeaponPart[] = [
-  { id: 'easy-heavy-core', name: '玄铁探测核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'easy-heavy-navigator', name: '玄铁导航仪', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'easy-heavy-armor-head', name: '玄铁胸甲头', shapeType: 'triangle', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'easy-heavy-shoulder-pipe', name: '玄铁肩火管', shapeType: 'square', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'easy-heavy-sword-complete', name: '玄铁重剑完成', shapeType: 'composite', iconImage: '/assets/weapons/easy-weapon.png' },
+  { id: 'easy-heavy-core', name: '玄铁探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'easy-heavy-navigator', name: '玄铁导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'easy-heavy-armor-head', name: '玄铁胸甲头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'easy-heavy-shoulder-pipe', name: '玄铁肩火管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'easy-heavy-sword-complete', name: '玄铁重剑完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
 ];
 
 /**
  * 关卡 3-4 挑战模式武器零件：重型能量炮（4个零件）
  */
 export const level34MediumWeaponParts: WeaponPart[] = [
-  { id: 'medium-heavy-core', name: '重型探测核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'medium-heavy-locator', name: '重型定位器', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'medium-heavy-armor-plate', name: '重型装甲板', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'medium-heavy-cannon-complete', name: '重型能量炮完成', shapeType: 'composite', iconImage: '/assets/weapons/medium-weapon.png' },
+  { id: 'medium-heavy-core', name: '重型探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'medium-heavy-locator', name: '重型定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'medium-heavy-armor-plate', name: '重型装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'medium-heavy-cannon-complete', name: '重型能量炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
 ];
 
 /**
  * 关卡 3-4 高手模式武器零件：玄铁战神终极炮（4个零件）
  */
 export const level34HardWeaponParts: WeaponPart[] = [
-  { id: 'hard-partner-command-core', name: '伙伴指挥核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'hard-courage-navigator', name: '勇气导航仪', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'hard-heavy-sword-system', name: '玄铁重剑系统', shapeType: 'square', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'hard-heavy-iron-ultimate-cannon-complete', name: '玄铁战神终极炮完成', shapeType: 'composite', iconImage: '/assets/weapons/hard-weapon.png' },
+  { id: 'hard-partner-command-core', name: '伙伴指挥核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'hard-courage-navigator', name: '勇气导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'hard-heavy-sword-system', name: '玄铁重剑系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'hard-heavy-iron-ultimate-cannon-complete', name: '玄铁战神终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
 ];
 
 /**

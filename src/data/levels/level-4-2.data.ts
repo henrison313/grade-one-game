@@ -1,3 +1,4 @@
+import { getAssetPath } from '@/config/paths.config';
 import type { Question, QuestionType, WeaponPart } from '@/types'
 import { DifficultyLevel } from '@/types'
 
@@ -270,33 +271,33 @@ export const level42QuestionsByDifficulty: Record<DifficultyLevel, Question[]> =
  * 关卡 4-2 新手模式武器零件:烈焰轰击(5个零件)
  */
 export const level42EasyWeaponParts: WeaponPart[] = [
-  { id: 'easy-flame-core', name: '焰龙探测核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'easy-flame-navigator', name: '焰龙导航仪', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'easy-flame-pincer-head', name: '焰龙巨钳头', shapeType: 'triangle', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'easy-flame-energy-pipe', name: '焰龙能量管', shapeType: 'square', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'easy-flame-cannon-complete', name: '焰龙战神战炮完成', shapeType: 'composite', iconImage: '/assets/weapons/easy-weapon.png' },
+  { id: 'easy-flame-core', name: '焰龙探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'easy-flame-navigator', name: '焰龙导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'easy-flame-pincer-head', name: '焰龙巨钳头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'easy-flame-energy-pipe', name: '焰龙能量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'easy-flame-cannon-complete', name: '焰龙战神战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
 ]
 
 /**
  * 关卡 4-2 挑战模式武器零件:火焰弹(5个零件)
  */
 export const level42MediumWeaponParts: WeaponPart[] = [
-  { id: 'medium-blaze-core', name: '烈焰探测核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'medium-flame-calculator', name: '焰龙计算仪', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'medium-flame-armor-plate', name: '焰龙装甲板', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'medium-flame-meter-pipe', name: '焰龙计量管', shapeType: 'square', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'medium-flame-cannon-complete', name: '焰龙战神战炮完成', shapeType: 'composite', iconImage: '/assets/weapons/medium-weapon.png' },
+  { id: 'medium-blaze-core', name: '烈焰探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'medium-flame-calculator', name: '焰龙计算仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'medium-flame-armor-plate', name: '焰龙装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'medium-flame-meter-pipe', name: '焰龙计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'medium-flame-cannon-complete', name: '焰龙战神战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
 ]
 
 /**
  * 关卡 4-2 高手模式武器零件:地狱火(5个零件)
  */
 export const level42HardWeaponParts: WeaponPart[] = [
-  { id: 'hard-partner-core', name: '伙伴焰龙核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'hard-flame-fairness', name: '焰龙公平仪', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'hard-hellfire-system', name: '焰龙地狱火系统', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'hard-flame-armor-pipe', name: '焰龙装甲管', shapeType: 'square', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'hard-flame-ultimate-cannon-complete', name: '焰龙战神终极炮完成', shapeType: 'composite', iconImage: '/assets/weapons/hard-weapon.png' },
+  { id: 'hard-partner-core', name: '伙伴焰龙核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'hard-flame-fairness', name: '焰龙公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'hard-hellfire-system', name: '焰龙地狱火系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'hard-flame-armor-pipe', name: '焰龙装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'hard-flame-ultimate-cannon-complete', name: '焰龙战神终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
 ]
 
 /**

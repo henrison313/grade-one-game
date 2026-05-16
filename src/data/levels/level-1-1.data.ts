@@ -1,3 +1,4 @@
+import { getAssetPath } from '@/config/paths.config';
 import type { Question, QuestionType } from '@/types';
 import { DifficultyLevel } from '@/types';
 
@@ -25,7 +26,7 @@ export const level1_1EasyQuestions: Question[] = [
   {
     type: 'choice' as QuestionType.CHOICE,
     question: '找出图中的三角形物体！',
-    questionImage: '/assets/shapes/triangle1.png',
+    questionImage: getAssetPath('/assets/shapes/triangle1.png'),
     options: [
       { id: 'a', text: '太阳伞 ☀️（伞面）' },
       { id: 'b', text: '皮球 🏀' },
@@ -157,7 +158,7 @@ export const level1_1MediumQuestions: Question[] = [
     type: 'circle' as QuestionType.CIRCLE,
     question: '在图中圈出所有的圆形和三角形！',
     instruction: '点击圈出圆形和三角形',
-    image: '/assets/shapes/mixed-shapes.svg',
+    image: getAssetPath('/assets/shapes/mixed-shapes.svg'),
     answerAreas: [
       { id: 'c1', x: 50, y: 80, radius: 30, label: '冰淇淋球' },
       { id: 'c2', x: 135, y: 120, radius: 10, label: '窗户1' },

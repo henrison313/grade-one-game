@@ -1,3 +1,4 @@
+import { getAssetPath } from '@/config/paths.config';
 import type { Question, QuestionType, WeaponPart } from '@/types';
 import { DifficultyLevel } from '@/types';
 
@@ -5,27 +6,27 @@ import { DifficultyLevel } from '@/types';
  * 第三关（1-3 七巧板）消防主题武器零件配置
  */
 export const level1_3EasyWeaponParts: WeaponPart[] = [
-  { id: 'easy-fire-core', name: '水炮核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'easy-fire-connector', name: '水管连接器', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'easy-fire-nozzle', name: '水枪喷头', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'easy-fire-stabilizer', name: '灭火器稳定器', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'easy-fire-complete', name: '炫光水炮枪完成', shapeType: 'composite', iconImage: '/assets/weapons/easy-weapon.png' },
+  { id: 'easy-fire-core', name: '水炮核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'easy-fire-connector', name: '水管连接器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'easy-fire-nozzle', name: '水枪喷头', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'easy-fire-stabilizer', name: '灭火器稳定器', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'easy-fire-complete', name: '炫光水炮枪完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
 ];
 
 export const level1_3MediumWeaponParts: WeaponPart[] = [
-  { id: 'fire-medium-core', name: '灭火台核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'fire-medium-scope', name: '灭火瞄准镜', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'fire-medium-block', name: '灭火稳定块', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'fire-medium-body', name: '灭火锤外壳', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'fire-medium-complete', name: '闪电灭火锤完成', shapeType: 'composite', iconImage: '/assets/weapons/medium-weapon.png' },
+  { id: 'fire-medium-core', name: '灭火台核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'fire-medium-scope', name: '灭火瞄准镜', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'fire-medium-block', name: '灭火稳定块', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'fire-medium-body', name: '灭火锤外壳', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'fire-medium-complete', name: '闪电灭火锤完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
 ];
 
 export const level1_3HardWeaponParts: WeaponPart[] = [
-  { id: 'fire-hard-ring', name: '消防能量环', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'fire-hard-prism', name: '消防聚焦棱', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'fire-hard-stabilizer', name: '消防稳定器', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'fire-hard-barrel', name: '消防炮身', shapeType: 'rectangle', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'fire-hard-complete', name: '雷霆消防炮完成', shapeType: 'composite', iconImage: '/assets/weapons/hard-weapon.png' },
+  { id: 'fire-hard-ring', name: '消防能量环', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'fire-hard-prism', name: '消防聚焦棱', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'fire-hard-stabilizer', name: '消防稳定器', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'fire-hard-barrel', name: '消防炮身', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'fire-hard-complete', name: '雷霆消防炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
 ];
 
 /**
@@ -187,7 +188,7 @@ export const level1_3MediumQuestions: Question[] = [
     type: 'circle' as QuestionType.CIRCLE,
     question: '圈出七巧板可以拼出的图案！',
     instruction: '点击圈出可以用七巧板拼出的图案',
-    image: '/assets/shapes/tangram-examples.svg',
+    image: getAssetPath('/assets/shapes/tangram-examples.svg'),
     answerAreas: [
       { id: 'fish', x: 80, y: 100, radius: 40, label: '小鱼' },
       { id: 'boat', x: 160, y: 100, radius: 40, label: '小船' },

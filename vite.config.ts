@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
+  base: '/grade-one-game/',
   plugins: [react()],
   resolve: {
     alias: {

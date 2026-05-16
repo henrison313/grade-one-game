@@ -1,3 +1,4 @@
+import { getAssetPath } from '@/config/paths.config';
 import type { Question, QuestionType, WeaponPart } from '@/types'
 import { DifficultyLevel } from '@/types'
 
@@ -248,33 +249,33 @@ export const level8QuestionsByDifficulty: Record<DifficultyLevel, Question[]> = 
  * 关卡 8 新手模式武器零件:星辰光箭（5个零件）
  */
 export const level8EasyWeaponParts: WeaponPart[] = [
-  { id: 'easy-star-core', name: '星辰探测核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'easy-star-navigator', name: '星辰导航仪', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'easy-star-arrow-head', name: '星辰光箭头', shapeType: 'triangle', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'easy-star-traverse-pipe', name: '星辰穿梭管', shapeType: 'square', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'easy-star-arrow-complete', name: '星辰光箭完成', shapeType: 'composite', iconImage: '/assets/weapons/easy-weapon.png' },
+  { id: 'easy-star-core', name: '星辰探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'easy-star-navigator', name: '星辰导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'easy-star-arrow-head', name: '星辰光箭头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'easy-star-traverse-pipe', name: '星辰穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'easy-star-arrow-complete', name: '星辰光箭完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
 ]
 
 /**
  * 关卡 8 挑战模式武器零件:银翼骑士战炮（5个零件）
  */
 export const level8MediumWeaponParts: WeaponPart[] = [
-  { id: 'medium-star-core', name: '星辰探测核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'medium-star-locator', name: '星辰定位器', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'medium-star-armor-plate', name: '星辰装甲板', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'medium-star-meter-pipe', name: '星辰计量管', shapeType: 'square', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'medium-silver-knight-cannon-complete', name: '银翼骑士战炮完成', shapeType: 'composite', iconImage: '/assets/weapons/medium-weapon.png' },
+  { id: 'medium-star-core', name: '星辰探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'medium-star-locator', name: '星辰定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'medium-star-armor-plate', name: '星辰装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'medium-star-meter-pipe', name: '星辰计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'medium-silver-knight-cannon-complete', name: '银翼骑士战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
 ]
 
 /**
  * 关卡 8 高手模式武器零件:银翼骑士终极炮（5个零件）
  */
 export const level8HardWeaponParts: WeaponPart[] = [
-  { id: 'hard-partner-star-core', name: '伙伴星辰核心', shapeType: 'circle', iconImage: '/assets/weapons/光能核心.png' },
-  { id: 'hard-star-fairness', name: '星辰公平仪', shapeType: 'triangle', iconImage: '/assets/weapons/光能发射器.png' },
-  { id: 'hard-star-storm-system', name: '星辰风暴系统', shapeType: 'square', iconImage: '/assets/weapons/光能护盾.png' },
-  { id: 'hard-star-armor-pipe', name: '星辰装甲管', shapeType: 'square', iconImage: '/assets/weapons/光能外壳.png' },
-  { id: 'hard-silver-knight-ultimate-cannon-complete', name: '银翼骑士终极炮完成', shapeType: 'composite', iconImage: '/assets/weapons/hard-weapon.png' },
+  { id: 'hard-partner-star-core', name: '伙伴星辰核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
+  { id: 'hard-star-fairness', name: '星辰公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
+  { id: 'hard-star-storm-system', name: '星辰风暴系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
+  { id: 'hard-star-armor-pipe', name: '星辰装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
+  { id: 'hard-silver-knight-ultimate-cannon-complete', name: '银翼骑士终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
 ]
 
 /**
