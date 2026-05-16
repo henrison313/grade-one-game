@@ -190,7 +190,7 @@ const SceneDecorations: Record<SceneType, { emoji: string; color: string; hint: 
 };
 
 // 炫蓝闪电图片路径
-const HERO_IMAGE = getAssetPath('/assets/character/炫蓝闪电 1.png');
+const HERO_IMAGE = getAssetPath('/assets/character/xuanlan-shandian.png');
 
 interface SceneBackgroundProps {
   scene: SceneType;
