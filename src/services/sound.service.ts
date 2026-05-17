@@ -170,23 +170,34 @@ class SoundService {
     // 使用 Audio 对象检测文件是否存在
     return new Promise((resolve) => {
       const audio = new Audio();
+      let resolved = false;
 
       audio.addEventListener('canplaythrough', () => {
-        console.log(`[SoundService] File ${path} exists and can play`);
-        this.audioFilesExist.set(path, true);
-        resolve(true);
+        if (!resolved) {
+          resolved = true;
+          console.log(`[SoundService] File ${path} exists and can play`);
+          this.audioFilesExist.set(path, true);
+          resolve(true);
+        }
       }, { once: true });
 
       audio.addEventListener('error', () => {
-        console.log(`[SoundService] File ${path} not found or error`);
-        resolve(false);
+        if (!resolved) {
+          resolved = true;
+          console.log(`[SoundService] File ${path} not found or error`);
+          resolve(false);
+        }
       }, { once: true });
 
-      // 设置超时，避免长时间等待
+      // 设置超时，避免长时间等待（增加到 8 秒）
       setTimeout(() => {
-        console.log(`[SoundService] File ${path} check timeout`);
-        resolve(false);
-      }, 3000);
+        if (!resolved) {
+          console.log(`[SoundService] File ${path} check timeout, assuming exists`);
+          // 超时时假设文件存在，让实际播放时处理
+          this.audioFilesExist.set(path, true);
+          resolve(true);
+        }
+      }, 8000);
 
       audio.src = path;
       audio.load();
