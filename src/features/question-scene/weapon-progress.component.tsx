@@ -247,10 +247,10 @@ export const WeaponProgress: React.FC<WeaponProgressProps> = ({
   const getWeaponImage = (): string => {
     if (weaponImage) return weaponImage;
     switch (difficulty) {
-      case 'easy': return getAssetPath('/assets/weapons/easy-weapon.png');
-      case 'medium': return getAssetPath('/assets/weapons/medium-weapon.png');
-      case 'hard': return getAssetPath('/assets/weapons/hard-weapon.png');
-      default: return getAssetPath('/assets/weapons/easy-weapon.png');
+      case 'easy': return getAssetPath('/assets/weapons/easy-weapon.webp');
+      case 'medium': return getAssetPath('/assets/weapons/medium-weapon.webp');
+      case 'hard': return getAssetPath('/assets/weapons/hard-weapon.webp');
+      default: return getAssetPath('/assets/weapons/easy-weapon.webp');
     }
   };
 

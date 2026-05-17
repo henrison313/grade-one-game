@@ -200,27 +200,27 @@ export const level52QuestionsByDifficulty: Record<DifficultyLevel, Question[]> =
 }
 
 export const level52EasyWeaponParts: WeaponPart[] = [
-  { id: 'easy-arm-core', name: '神力探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
-  { id: 'easy-arm-nav', name: '神力导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'easy-arm-head', name: '横扫千军头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'easy-arm-pipe', name: '神力穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'easy-arm-complete', name: '横扫千军完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
+  { id: 'easy-arm-core', name: '神力探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
+  { id: 'easy-arm-nav', name: '神力导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
+  { id: 'easy-arm-head', name: '横扫千军头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
+  { id: 'easy-arm-pipe', name: '神力穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'easy-arm-complete', name: '横扫千军完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.webp') },
 ]
 
 export const level52MediumWeaponParts: WeaponPart[] = [
-  { id: 'med-arm-core', name: '神力探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
-  { id: 'med-arm-loc', name: '神力定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'med-arm-armor', name: '神力装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'med-arm-meter', name: '神力计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'med-arm-cannon', name: '钢臂力士战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
+  { id: 'med-arm-core', name: '神力探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
+  { id: 'med-arm-loc', name: '神力定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
+  { id: 'med-arm-armor', name: '神力装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
+  { id: 'med-arm-meter', name: '神力计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'med-arm-cannon', name: '钢臂力士战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.webp') },
 ]
 
 export const level52HardWeaponParts: WeaponPart[] = [
-  { id: 'hard-arm-partner', name: '伙伴神力核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
-  { id: 'hard-arm-fair', name: '神力公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'hard-arm-sys', name: '横扫千军系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'hard-arm-armor', name: '神力装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'hard-arm-ult', name: '钢臂力士终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
+  { id: 'hard-arm-partner', name: '伙伴神力核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
+  { id: 'hard-arm-fair', name: '神力公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
+  { id: 'hard-arm-sys', name: '横扫千军系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
+  { id: 'hard-arm-armor', name: '神力装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'hard-arm-ult', name: '钢臂力士终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.webp') },
 ]
 
 export const level52WeaponPartsByDifficulty: Record<DifficultyLevel, WeaponPart[]> = {

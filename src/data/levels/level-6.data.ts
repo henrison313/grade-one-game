@@ -209,27 +209,27 @@ export const level6QuestionsByDifficulty: Record<DifficultyLevel, Question[]> = 
 }
 
 export const level6EasyWeaponParts: WeaponPart[] = [
-  { id: 'easy-star-core', name: '星际探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
-  { id: 'easy-star-nav', name: '星际导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'easy-star-head', name: '星际穿梭头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'easy-star-pipe', name: '星际穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'easy-star-complete', name: '星际穿梭完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
+  { id: 'easy-star-core', name: '星际探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
+  { id: 'easy-star-nav', name: '星际导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
+  { id: 'easy-star-head', name: '星际穿梭头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
+  { id: 'easy-star-pipe', name: '星际穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'easy-star-complete', name: '星际穿梭完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.webp') },
 ]
 
 export const level6MediumWeaponParts: WeaponPart[] = [
-  { id: 'med-star-core', name: '星际探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
-  { id: 'med-star-loc', name: '星际定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'med-star-armor', name: '星际装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'med-star-meter', name: '星际计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'med-star-cannon', name: '星际游侠战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
+  { id: 'med-star-core', name: '星际探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
+  { id: 'med-star-loc', name: '星际定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
+  { id: 'med-star-armor', name: '星际装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
+  { id: 'med-star-meter', name: '星际计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'med-star-cannon', name: '星际游侠战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.webp') },
 ]
 
 export const level6HardWeaponParts: WeaponPart[] = [
-  { id: 'hard-star-partner', name: '伙伴星际核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
-  { id: 'hard-star-fair', name: '星际公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'hard-star-sys', name: '星际穿梭系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'hard-star-armor', name: '星际装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'hard-star-ult', name: '星际游侠终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
+  { id: 'hard-star-partner', name: '伙伴星际核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
+  { id: 'hard-star-fair', name: '星际公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
+  { id: 'hard-star-sys', name: '星际穿梭系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
+  { id: 'hard-star-armor', name: '星际装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'hard-star-ult', name: '星际游侠终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.webp') },
 ]
 
 export const level6WeaponPartsByDifficulty: Record<DifficultyLevel, WeaponPart[]> = {

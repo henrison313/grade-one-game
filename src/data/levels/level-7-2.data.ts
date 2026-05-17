@@ -200,27 +200,27 @@ export const level72QuestionsByDifficulty: Record<DifficultyLevel, Question[]> =
 }
 
 export const level72EasyWeaponParts: WeaponPart[] = [
-  { id: 'easy-sea-core', name: '海王探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
-  { id: 'easy-sea-nav', name: '海王导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'easy-sea-head', name: '海王之怒头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'easy-sea-pipe', name: '海王穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'easy-sea-complete', name: '海王之怒完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
+  { id: 'easy-sea-core', name: '海王探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
+  { id: 'easy-sea-nav', name: '海王导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
+  { id: 'easy-sea-head', name: '海王之怒头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
+  { id: 'easy-sea-pipe', name: '海王穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'easy-sea-complete', name: '海王之怒完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.webp') },
 ]
 
 export const level72MediumWeaponParts: WeaponPart[] = [
-  { id: 'med-sea-core', name: '海王探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
-  { id: 'med-sea-loc', name: '海王定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'med-sea-armor', name: '海王装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'med-sea-meter', name: '海王计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'med-sea-cannon', name: '深海霸王战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
+  { id: 'med-sea-core', name: '海王探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
+  { id: 'med-sea-loc', name: '海王定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
+  { id: 'med-sea-armor', name: '海王装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
+  { id: 'med-sea-meter', name: '海王计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'med-sea-cannon', name: '深海霸王战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.webp') },
 ]
 
 export const level72HardWeaponParts: WeaponPart[] = [
-  { id: 'hard-sea-partner', name: '伙伴海王核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
-  { id: 'hard-sea-fair', name: '海王公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'hard-sea-sys', name: '海王之怒系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'hard-sea-armor', name: '海王装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'hard-sea-ult', name: '深海霸王终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
+  { id: 'hard-sea-partner', name: '伙伴海王核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
+  { id: 'hard-sea-fair', name: '海王公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
+  { id: 'hard-sea-sys', name: '海王之怒系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
+  { id: 'hard-sea-armor', name: '海王装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'hard-sea-ult', name: '深海霸王终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.webp') },
 ]
 
 export const level72WeaponPartsByDifficulty: Record<DifficultyLevel, WeaponPart[]> = {

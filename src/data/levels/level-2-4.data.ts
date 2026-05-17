@@ -10,31 +10,31 @@ import { DifficultyLevel } from '@/types'
  * 新手模式武器零件：炫光裂变盾
  */
 export const level2_4EasyWeaponParts: WeaponPart[] = [
-  { id: 'fission-easy-core', name: '裂变核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.png') },
-  { id: 'fission-easy-shield', name: '炫光盾面', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.png') },
-  { id: 'fission-easy-edge', name: '裂变边缘', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-3.png') },
-  { id: 'fission-easy-gem', name: '能量宝石', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-4.png') },
-  { id: 'fission-easy-complete', name: '炫光裂变盾完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
+  { id: 'fission-easy-core', name: '裂变核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'fission-easy-shield', name: '炫光盾面', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'fission-easy-edge', name: '裂变边缘', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'fission-easy-gem', name: '能量宝石', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
+  { id: 'fission-easy-complete', name: '炫光裂变盾完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.webp') },
 ]
 
 /**
  * 挑战模式武器零件：裂变圣剑
  */
 export const level2_4MediumWeaponParts: WeaponPart[] = [
-  { id: 'fission-medium-blade', name: '裂变剑刃', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-3.png') },
-  { id: 'fission-medium-handle', name: '圣剑握柄', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.png') },
-  { id: 'fission-medium-guard', name: '剑格护手', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.png') },
-  { id: 'fission-medium-complete', name: '裂变圣剑完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
+  { id: 'fission-medium-blade', name: '裂变剑刃', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'fission-medium-handle', name: '圣剑握柄', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'fission-medium-guard', name: '剑格护手', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'fission-medium-complete', name: '裂变圣剑完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.webp') },
 ]
 
 /**
  * 高手模式武器零件：雷霆裂变机
  */
 export const level2_4HardWeaponParts: WeaponPart[] = [
-  { id: 'fission-hard-engine', name: '雷霆引擎', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.png') },
-  { id: 'fission-hard-body', name: '裂变机体', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/weapon-part-4.png') },
-  { id: 'fission-hard-wing', name: '裂变双翼', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-3.png') },
-  { id: 'fission-hard-complete', name: '雷霆裂变机完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
+  { id: 'fission-hard-engine', name: '雷霆引擎', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'fission-hard-body', name: '裂变机体', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
+  { id: 'fission-hard-wing', name: '裂变双翼', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'fission-hard-complete', name: '雷霆裂变机完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.webp') },
 ]
 
 /**

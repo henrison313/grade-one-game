@@ -10,31 +10,31 @@ import { DifficultyLevel } from '@/types'
  * 新手模式武器零件：炫光喷射弓
  */
 export const level2_3EasyWeaponParts: WeaponPart[] = [
-  { id: 'jet-easy-core', name: '喷射核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
-  { id: 'jet-easy-arrow', name: '炫光箭矢', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'jet-easy-bow', name: '喷射弓架', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'jet-easy-wing', name: '雄鹰羽翼', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'jet-easy-complete', name: '炫光喷射弓完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
+  { id: 'jet-easy-core', name: '喷射核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
+  { id: 'jet-easy-arrow', name: '炫光箭矢', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
+  { id: 'jet-easy-bow', name: '喷射弓架', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
+  { id: 'jet-easy-wing', name: '雄鹰羽翼', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'jet-easy-complete', name: '炫光喷射弓完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.webp') },
 ]
 
 /**
  * 挑战模式武器零件：飞鸟突击炮
  */
 export const level2_3MediumWeaponParts: WeaponPart[] = [
-  { id: 'jet-medium-core', name: '飞鸟核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
-  { id: 'jet-medium-barrel', name: '突击炮管', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'jet-medium-wing', name: '展翅羽翼', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'jet-medium-complete', name: '飞鸟突击炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
+  { id: 'jet-medium-core', name: '飞鸟核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
+  { id: 'jet-medium-barrel', name: '突击炮管', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
+  { id: 'jet-medium-wing', name: '展翅羽翼', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
+  { id: 'jet-medium-complete', name: '飞鸟突击炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.webp') },
 ]
 
 /**
  * 高手模式武器零件：雷霆喷射机
  */
 export const level2_3HardWeaponParts: WeaponPart[] = [
-  { id: 'jet-hard-ring', name: '雷霆能量环', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
-  { id: 'jet-hard-prism', name: '高空聚焦棱', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'jet-hard-barrel', name: '雷霆喷射管', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'jet-hard-complete', name: '雷霆喷射机完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
+  { id: 'jet-hard-ring', name: '雷霆能量环', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
+  { id: 'jet-hard-prism', name: '高空聚焦棱', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
+  { id: 'jet-hard-barrel', name: '雷霆喷射管', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'jet-hard-complete', name: '雷霆喷射机完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.webp') },
 ]
 
 /**

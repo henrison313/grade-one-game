@@ -882,7 +882,7 @@ const QuizGame: React.FC = () => {
       {/* 武器展示界面 */}
       {gamePhase === 'weaponShowcase' && storyConfig?.weapon && (
         <WeaponShowcase
-          weaponImage={storyConfig.weapon.completeImage || getAssetPath('/assets/weapons/easy-weapon.png')}
+          weaponImage={storyConfig.weapon.completeImage || getAssetPath('/assets/weapons/easy-weapon.webp')}
           weaponName={storyConfig.weapon.name || '超级武器'}
           difficulty={difficulty}
           onComplete={() => setGamePhase('battleScene')}

@@ -26,7 +26,7 @@ export const level1_1EasyQuestions: Question[] = [
   {
     type: 'choice' as QuestionType.CHOICE,
     question: '找出图中的三角形物体！',
-    questionImage: getAssetPath('/assets/shapes/triangle1.png'),
+    questionImage: getAssetPath('/assets/shapes/triangle1.webp'),
     options: [
       { id: 'a', text: '太阳伞 ☀️（伞面）' },
       { id: 'b', text: '皮球 🏀' },
