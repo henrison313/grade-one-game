@@ -270,7 +270,7 @@ export const level34EasyWeaponParts: WeaponPart[] = [
   { id: 'easy-heavy-navigator', name: '玄铁导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'easy-heavy-armor-head', name: '玄铁胸甲头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'easy-heavy-shoulder-pipe', name: '玄铁肩火管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'easy-heavy-sword-complete', name: '玄铁重剑完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
+  { id: 'easy-heavy-sword-complete', name: '玄铁重剑完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
 ];
 
 /**
@@ -280,7 +280,7 @@ export const level34MediumWeaponParts: WeaponPart[] = [
   { id: 'medium-heavy-core', name: '重型探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
   { id: 'medium-heavy-locator', name: '重型定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'medium-heavy-armor-plate', name: '重型装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'medium-heavy-cannon-complete', name: '重型能量炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
+  { id: 'medium-heavy-cannon-complete', name: '重型能量炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
 ];
 
 /**
@@ -290,7 +290,7 @@ export const level34HardWeaponParts: WeaponPart[] = [
   { id: 'hard-partner-command-core', name: '伙伴指挥核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
   { id: 'hard-courage-navigator', name: '勇气导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'hard-heavy-sword-system', name: '玄铁重剑系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'hard-heavy-iron-ultimate-cannon-complete', name: '玄铁战神终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
+  { id: 'hard-heavy-iron-ultimate-cannon-complete', name: '玄铁战神终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
 ];
 
 /**

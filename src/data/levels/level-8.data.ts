@@ -253,7 +253,7 @@ export const level8EasyWeaponParts: WeaponPart[] = [
   { id: 'easy-star-navigator', name: '星辰导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'easy-star-arrow-head', name: '星辰光箭头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'easy-star-traverse-pipe', name: '星辰穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'easy-star-arrow-complete', name: '星辰光箭完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
+  { id: 'easy-star-arrow-complete', name: '星辰光箭完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
 ]
 
 /**
@@ -264,7 +264,7 @@ export const level8MediumWeaponParts: WeaponPart[] = [
   { id: 'medium-star-locator', name: '星辰定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'medium-star-armor-plate', name: '星辰装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'medium-star-meter-pipe', name: '星辰计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'medium-silver-knight-cannon-complete', name: '银翼骑士战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
+  { id: 'medium-silver-knight-cannon-complete', name: '银翼骑士战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
 ]
 
 /**
@@ -275,7 +275,7 @@ export const level8HardWeaponParts: WeaponPart[] = [
   { id: 'hard-star-fairness', name: '星辰公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'hard-star-storm-system', name: '星辰风暴系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'hard-star-armor-pipe', name: '星辰装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'hard-silver-knight-ultimate-cannon-complete', name: '银翼骑士终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
+  { id: 'hard-silver-knight-ultimate-cannon-complete', name: '银翼骑士终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
 ]
 
 /**

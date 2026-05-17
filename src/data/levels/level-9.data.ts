@@ -218,7 +218,7 @@ export const level9EasyWeaponParts: WeaponPart[] = [
   { id: 'easy-flame-nav', name: '赤魂导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'easy-flame-head', name: '赤魂灭世头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'easy-flame-pipe', name: '赤魂穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'easy-flame-complete', name: '赤魂灭世完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
+  { id: 'easy-flame-complete', name: '赤魂灭世完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
 ]
 
 export const level9MediumWeaponParts: WeaponPart[] = [
@@ -226,7 +226,7 @@ export const level9MediumWeaponParts: WeaponPart[] = [
   { id: 'med-flame-loc', name: '赤魂定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'med-flame-armor', name: '赤魂装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'med-flame-meter', name: '赤魂计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'med-flame-cannon', name: '重装赤魂王战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
+  { id: 'med-flame-cannon', name: '重装赤魂王战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
 ]
 
 export const level9HardWeaponParts: WeaponPart[] = [
@@ -234,7 +234,7 @@ export const level9HardWeaponParts: WeaponPart[] = [
   { id: 'hard-flame-fair', name: '赤魂公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'hard-flame-sys', name: '赤魂灭世系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'hard-flame-armor', name: '赤魂装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'hard-flame-ult', name: '重装赤魂王终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
+  { id: 'hard-flame-ult', name: '重装赤魂王终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
 ]
 
 export const level9WeaponPartsByDifficulty: Record<DifficultyLevel, WeaponPart[]> = {

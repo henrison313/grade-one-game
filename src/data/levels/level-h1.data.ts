@@ -208,7 +208,7 @@ export const levelH1EasyWeaponParts: WeaponPart[] = [
   { id: 'easy-blue-nav', name: '炫蓝导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'easy-blue-head', name: '炫蓝电光头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'easy-blue-pipe', name: '炫蓝穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'easy-blue-complete', name: '炫蓝电光炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
+  { id: 'easy-blue-complete', name: '炫蓝电光炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
 ]
 
 export const levelH1MediumWeaponParts: WeaponPart[] = [
@@ -216,7 +216,7 @@ export const levelH1MediumWeaponParts: WeaponPart[] = [
   { id: 'med-blue-loc', name: '炫蓝定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'med-blue-armor', name: '炫蓝装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'med-blue-meter', name: '炫蓝计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'med-blue-cannon', name: '炫蓝电光王战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
+  { id: 'med-blue-cannon', name: '炫蓝电光王战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
 ]
 
 export const levelH1HardWeaponParts: WeaponPart[] = [
@@ -224,7 +224,7 @@ export const levelH1HardWeaponParts: WeaponPart[] = [
   { id: 'hard-ult-fair', name: '炫蓝公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'hard-ult-sys', name: '终极爆裂系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'hard-ult-armor', name: '炫蓝装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'hard-ult-ult', name: '超炫电光王终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
+  { id: 'hard-ult-ult', name: '超炫电光王终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
 ]
 
 export const levelH1WeaponPartsByDifficulty: Record<DifficultyLevel, WeaponPart[]> = {

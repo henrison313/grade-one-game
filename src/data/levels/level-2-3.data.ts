@@ -14,7 +14,7 @@ export const level2_3EasyWeaponParts: WeaponPart[] = [
   { id: 'jet-easy-arrow', name: '炫光箭矢', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'jet-easy-bow', name: '喷射弓架', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'jet-easy-wing', name: '雄鹰羽翼', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'jet-easy-complete', name: '炫光喷射弓完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
+  { id: 'jet-easy-complete', name: '炫光喷射弓完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
 ]
 
 /**
@@ -24,7 +24,7 @@ export const level2_3MediumWeaponParts: WeaponPart[] = [
   { id: 'jet-medium-core', name: '飞鸟核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
   { id: 'jet-medium-barrel', name: '突击炮管', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'jet-medium-wing', name: '展翅羽翼', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'jet-medium-complete', name: '飞鸟突击炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
+  { id: 'jet-medium-complete', name: '飞鸟突击炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
 ]
 
 /**
@@ -34,7 +34,7 @@ export const level2_3HardWeaponParts: WeaponPart[] = [
   { id: 'jet-hard-ring', name: '雷霆能量环', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
   { id: 'jet-hard-prism', name: '高空聚焦棱', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'jet-hard-barrel', name: '雷霆喷射管', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'jet-hard-complete', name: '雷霆喷射机完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
+  { id: 'jet-hard-complete', name: '雷霆喷射机完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
 ]
 
 /**

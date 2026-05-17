@@ -14,7 +14,7 @@ export const level3_1EasyWeaponParts: WeaponPart[] = [
   { id: 'axe-easy-blade', name: '炫光斧刃', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'axe-easy-handle', name: '战斧握柄', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'axe-easy-guard', name: '斧柄护手', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'axe-easy-complete', name: '炫光战斧完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
+  { id: 'axe-easy-complete', name: '炫光战斧完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
 ]
 
 /**
@@ -24,7 +24,7 @@ export const level3_1MediumWeaponParts: WeaponPart[] = [
   { id: 'axe-medium-core', name: '战斧炮核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
   { id: 'axe-medium-blade', name: '战斧炮刃', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'axe-medium-barrel', name: '炮管外壳', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'axe-medium-complete', name: '战斧炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
+  { id: 'axe-medium-complete', name: '战斧炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
 ]
 
 /**
@@ -34,7 +34,7 @@ export const level3_1HardWeaponParts: WeaponPart[] = [
   { id: 'axe-hard-ring', name: '雷霆能量环', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
   { id: 'axe-hard-blade', name: '雷霆斧刃', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'axe-hard-barrel', name: '雷霆炮身', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'axe-hard-complete', name: '雷霆战斧完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
+  { id: 'axe-hard-complete', name: '雷霆战斧完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
 ]
 
 /**

@@ -10,7 +10,7 @@ export const level1_3EasyWeaponParts: WeaponPart[] = [
   { id: 'easy-fire-connector', name: '水管连接器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'easy-fire-nozzle', name: '水枪喷头', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'easy-fire-stabilizer', name: '灭火器稳定器', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'easy-fire-complete', name: '炫光水炮枪完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
+  { id: 'easy-fire-complete', name: '炫光水炮枪完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
 ];
 
 export const level1_3MediumWeaponParts: WeaponPart[] = [
@@ -18,7 +18,7 @@ export const level1_3MediumWeaponParts: WeaponPart[] = [
   { id: 'fire-medium-scope', name: '灭火瞄准镜', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'fire-medium-block', name: '灭火稳定块', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'fire-medium-body', name: '灭火锤外壳', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'fire-medium-complete', name: '闪电灭火锤完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
+  { id: 'fire-medium-complete', name: '闪电灭火锤完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
 ];
 
 export const level1_3HardWeaponParts: WeaponPart[] = [
@@ -26,7 +26,7 @@ export const level1_3HardWeaponParts: WeaponPart[] = [
   { id: 'fire-hard-prism', name: '消防聚焦棱', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'fire-hard-stabilizer', name: '消防稳定器', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'fire-hard-barrel', name: '消防炮身', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'fire-hard-complete', name: '雷霆消防炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
+  { id: 'fire-hard-complete', name: '雷霆消防炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
 ];
 
 /**

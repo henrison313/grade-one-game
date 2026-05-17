@@ -199,7 +199,7 @@ export const levelH2EasyWeaponParts: WeaponPart[] = [
   { id: 'easy-trinity-nav', name: '炫蓝雷霆导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'easy-trinity-head', name: '炫蓝雷霆头部', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'easy-trinity-pipe', name: '炫蓝雷霆穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'easy-trinity-complete', name: '炫蓝雷霆战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
+  { id: 'easy-trinity-complete', name: '炫蓝雷霆战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
 ]
 
 export const levelH2MediumWeaponParts: WeaponPart[] = [
@@ -207,7 +207,7 @@ export const levelH2MediumWeaponParts: WeaponPart[] = [
   { id: 'med-trinity-loc', name: '炫蓝雷霆定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'med-trinity-armor', name: '炫蓝雷霆装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'med-trinity-meter', name: '炫蓝雷霆计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'med-trinity-cannon', name: '炫蓝雷霆王战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
+  { id: 'med-trinity-cannon', name: '炫蓝雷霆王战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
 ]
 
 export const levelH2HardWeaponParts: WeaponPart[] = [
@@ -215,7 +215,7 @@ export const levelH2HardWeaponParts: WeaponPart[] = [
   { id: 'hard-trinity-fair', name: '炫蓝雷霆公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'hard-trinity-sys', name: '炫蓝雷霆爆裂系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'hard-trinity-armor', name: '炫蓝雷霆装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'hard-trinity-ult', name: '炫蓝雷霆王终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
+  { id: 'hard-trinity-ult', name: '炫蓝雷霆王终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
 ]
 
 export const levelH2WeaponPartsByDifficulty: Record<DifficultyLevel, WeaponPart[]> = {

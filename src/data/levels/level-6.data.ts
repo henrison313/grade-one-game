@@ -213,7 +213,7 @@ export const level6EasyWeaponParts: WeaponPart[] = [
   { id: 'easy-star-nav', name: '星际导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'easy-star-head', name: '星际穿梭头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'easy-star-pipe', name: '星际穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'easy-star-complete', name: '星际穿梭完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
+  { id: 'easy-star-complete', name: '星际穿梭完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
 ]
 
 export const level6MediumWeaponParts: WeaponPart[] = [
@@ -221,7 +221,7 @@ export const level6MediumWeaponParts: WeaponPart[] = [
   { id: 'med-star-loc', name: '星际定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'med-star-armor', name: '星际装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'med-star-meter', name: '星际计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'med-star-cannon', name: '星际游侠战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
+  { id: 'med-star-cannon', name: '星际游侠战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
 ]
 
 export const level6HardWeaponParts: WeaponPart[] = [
@@ -229,7 +229,7 @@ export const level6HardWeaponParts: WeaponPart[] = [
   { id: 'hard-star-fair', name: '星际公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'hard-star-sys', name: '星际穿梭系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'hard-star-armor', name: '星际装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'hard-star-ult', name: '星际游侠终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
+  { id: 'hard-star-ult', name: '星际游侠终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
 ]
 
 export const level6WeaponPartsByDifficulty: Record<DifficultyLevel, WeaponPart[]> = {

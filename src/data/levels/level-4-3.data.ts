@@ -276,7 +276,7 @@ export const level43EasyWeaponParts: WeaponPart[] = [
   { id: 'easy-thunder-navigator', name: '闪电导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'easy-thunder-blade-head', name: '雷切剑刃', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'easy-thunder-shield-pipe', name: '闪电护盾管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'easy-thunder-sword-complete', name: '炫光雷切剑完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
+  { id: 'easy-thunder-sword-complete', name: '炫光雷切剑完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
 ]
 
 /**
@@ -287,7 +287,7 @@ export const level43MediumWeaponParts: WeaponPart[] = [
   { id: 'medium-lightning-calculator', name: '闪电计算仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'medium-lightning-armor-plate', name: '闪电装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'medium-lightning-meter-pipe', name: '闪电计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'medium-thunder-cannon-complete', name: '霹雳火影战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
+  { id: 'medium-thunder-cannon-complete', name: '霹雳火影战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
 ]
 
 /**
@@ -298,7 +298,7 @@ export const level43HardWeaponParts: WeaponPart[] = [
   { id: 'hard-thunder-fairness', name: '闪电公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'hard-thunder-master-system', name: '闪电大师系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'hard-thunder-armor-pipe', name: '闪电装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'hard-thunder-ultimate-cannon-complete', name: '霹雳火影终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
+  { id: 'hard-thunder-ultimate-cannon-complete', name: '霹雳火影终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
 ]
 
 /**

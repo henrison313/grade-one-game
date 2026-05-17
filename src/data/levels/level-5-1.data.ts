@@ -204,7 +204,7 @@ export const level51EasyWeaponParts: WeaponPart[] = [
   { id: 'easy-sky-nav', name: '疾风导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'easy-sky-head', name: '疾风猛击头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'easy-sky-pipe', name: '疾风穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'easy-sky-complete', name: '疾风猛击完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
+  { id: 'easy-sky-complete', name: '疾风猛击完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
 ]
 
 export const level51MediumWeaponParts: WeaponPart[] = [
@@ -212,7 +212,7 @@ export const level51MediumWeaponParts: WeaponPart[] = [
   { id: 'med-sky-loc', name: '疾风定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'med-sky-armor', name: '疾风装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'med-sky-meter', name: '疾风计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'med-sky-cannon', name: '猎空悍将战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
+  { id: 'med-sky-cannon', name: '猎空悍将战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
 ]
 
 export const level51HardWeaponParts: WeaponPart[] = [
@@ -220,7 +220,7 @@ export const level51HardWeaponParts: WeaponPart[] = [
   { id: 'hard-sky-fair', name: '疾风公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'hard-sky-sys', name: '疾风猛击系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'hard-sky-armor', name: '疾风装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'hard-sky-ult', name: '猎空悍将终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
+  { id: 'hard-sky-ult', name: '猎空悍将终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
 ]
 
 export const level51WeaponPartsByDifficulty: Record<DifficultyLevel, WeaponPart[]> = {

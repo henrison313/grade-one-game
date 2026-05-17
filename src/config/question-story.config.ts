@@ -7,23 +7,23 @@ import { DifficultyLevel, type DifficultyConfig, type QuestionStoryConfig, type 
 export const SceneBackgrounds: Record<SceneType, { gradient: string; elements: string }> = {
   forest: {
     gradient: 'linear-gradient(180deg, #1a4d2e 0%, #2d5a3f 30%, #4a7c4f 70%, #87ceeb 100%)',
-    elements: getAssetPath(getAssetPath('/assets/kenney/Side/tree_default.png')),
+    elements: getAssetPath('/assets/kenney/Side/tree_default.png'),
   },
   ocean: {
     gradient: 'linear-gradient(180deg, #0077be 0%, #00a8cc 30%, #40e0d0 70%, #f0f8ff 100%)',
-    elements: getAssetPath(getAssetPath('/assets/kenney/PNG/Retina/Ships/ship (1).png')),
+    elements: getAssetPath('/assets/kenney/PNG/Retina/Ships/ship (1).png'),
   },
   volcano: {
     gradient: 'linear-gradient(180deg, #8b0000 0%, #ff4500 30%, #ff6b35 70%, #ffd700 100%)',
-    elements: getAssetPath(getAssetPath('/assets/kenney/PNG/Retina/Effects/fire1.png')),
+    elements: getAssetPath('/assets/kenney/PNG/Retina/Effects/fire1.png'),
   },
   desert: {
     gradient: 'linear-gradient(180deg, #c2956e 0%, #d4a76a 30%, #e6c89c 70%, #87ceeb 100%)',
-    elements: getAssetPath(getAssetPath('/assets/kenney/Isometric/crops_dirtDoubleRowCorner_NE.png')),
+    elements: getAssetPath('/assets/kenney/Isometric/crops_dirtDoubleRowCorner_NE.png'),
   },
   space: {
     gradient: 'linear-gradient(180deg, #0a0a2e 0%, #1a1a4e 30%, #2a2a6e 70%, #4a4a9e 100%)',
-    elements: getAssetPath(getAssetPath('/assets/kenney/PNG/Retina/Effects/explosion1.png')),
+    elements: getAssetPath('/assets/kenney/PNG/Retina/Effects/explosion1.png'),
   },
 } as const;
 
@@ -31,11 +31,11 @@ export const SceneBackgrounds: Record<SceneType, { gradient: string; elements: s
  * 武器零件图标（使用实际武器零件图片）
  */
 const shapeIcons = {
-  circle: getAssetPath(getAssetPath('/assets/weapons/光能核心.png')),
-  triangle: getAssetPath(getAssetPath('/assets/weapons/光能发射器.png')),
-  square: getAssetPath(getAssetPath('/assets/weapons/光能护盾.png')),
-  rectangle: getAssetPath(getAssetPath('/assets/weapons/光能外壳.png')),
-  composite: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+  circle: getAssetPath('/assets/weapons/weapon-part-1.png'),
+  triangle: getAssetPath('/assets/weapons/weapon-part-3.png'),
+  square: getAssetPath('/assets/weapons/weapon-part-2.png'),
+  rectangle: getAssetPath('/assets/weapons/weapon-part-4.png'),
+  composite: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
 };
 
 /**
@@ -57,7 +57,7 @@ export const DifficultyConfigs: Record<DifficultyLevel, DifficultyConfig> = {
     ],
     starMultiplier: 1.0,
     starRequirement: 0.6,  // 60% 星星过关
-    weaponImage: getAssetPath(getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png')),
+    weaponImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
   [DifficultyLevel.MEDIUM]: {
     level: DifficultyLevel.MEDIUM,
@@ -73,7 +73,7 @@ export const DifficultyConfigs: Record<DifficultyLevel, DifficultyConfig> = {
     ],
     starMultiplier: 1.5,
     starRequirement: 0.8,  // 80% 星星过关
-    weaponImage: getAssetPath(getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png')),
+    weaponImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
   [DifficultyLevel.HARD]: {
     level: DifficultyLevel.HARD,
@@ -89,7 +89,7 @@ export const DifficultyConfigs: Record<DifficultyLevel, DifficultyConfig> = {
     ],
     starMultiplier: 2.0,
     starRequirement: 1.0,  // 100% 星星过关
-    weaponImage: getAssetPath(getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png')),
+    weaponImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 } as const;
 
@@ -128,7 +128,7 @@ export const EasyStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫蓝光能枪',
     parts: DifficultyConfigs[DifficultyLevel.EASY].weaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -167,7 +167,7 @@ export const MediumStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫蓝闪电枪',
     parts: DifficultyConfigs[DifficultyLevel.MEDIUM].weaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -206,7 +206,7 @@ export const HardStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫蓝雷霆炮',
     parts: DifficultyConfigs[DifficultyLevel.HARD].weaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -291,7 +291,7 @@ export const EasyFirefightingStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫光火焰枪',
     parts: firefightingEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-liehuo-xiuluo-fire.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-liehuo-xiuluo-fire.png'),
   },
 };
 
@@ -330,7 +330,7 @@ export const MediumFirefightingStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '闪电烈焰锤',
     parts: firefightingMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-liehuo-xiuluo-hammer.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-liehuo-xiuluo-hammer.png'),
   },
 };
 
@@ -369,7 +369,7 @@ export const HardFirefightingStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '雷霆焚天炮',
     parts: firefightingHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-liehuo-xiuluo-inferno.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-liehuo-xiuluo-inferno.png'),
   },
 };
 
@@ -445,7 +445,7 @@ export const EasyMedicalStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫光医疗枪',
     parts: medicalEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-jiushi-weishi-medical.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-jiushi-weishi-medical.png'),
   },
 };
 
@@ -484,7 +484,7 @@ export const MediumMedicalStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '闪电医疗钻',
     parts: medicalMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-jiushi-weishi-drill.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-jiushi-weishi-drill.png'),
   },
 };
 
@@ -523,7 +523,7 @@ export const HardMedicalStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '雷霆急救炮',
     parts: medicalHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-jiushi-weishi-thunder.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-jiushi-weishi-thunder.png'),
   },
 };
 
@@ -597,7 +597,7 @@ export const EasyShadowStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫影潜行刃',
     parts: shadowEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-anying-tegong-blade.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-anying-tegong-blade.png'),
   },
 };
 
@@ -631,7 +631,7 @@ export const MediumShadowStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '暗影突击枪',
     parts: shadowMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-anying-tegong-assault.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-anying-tegong-assault.png'),
   },
 };
 
@@ -665,7 +665,7 @@ export const HardShadowStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '雷霆暗影炮',
     parts: shadowHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-anying-tegong-thunder.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-anying-tegong-thunder.png'),
   },
 };
 
@@ -738,7 +738,7 @@ export const EasyIronArmStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫光重拳炮',
     parts: ironArmEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -777,7 +777,7 @@ export const MediumIronArmStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '闪电钢铁臂',
     parts: ironArmMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -816,7 +816,7 @@ export const HardIronArmStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '雷霆粉碎炮',
     parts: ironArmHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -889,7 +889,7 @@ export const EasyGallonStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫光水炮枪',
     parts: gallonEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -928,7 +928,7 @@ export const MediumGallonStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '闪电水龙炮',
     parts: gallonMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -967,7 +967,7 @@ export const HardGallonStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '雷霆海啸炮',
     parts: gallonHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -1040,7 +1040,7 @@ export const EasyFissionStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫光分裂枪',
     parts: fissionEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -1079,7 +1079,7 @@ export const MediumFissionStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '闪电裂变刃',
     parts: fissionMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -1118,7 +1118,7 @@ export const HardFissionStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '雷霆量子炮',
     parts: fissionHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -1191,7 +1191,7 @@ export const EasyThunderStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫光雷切剑',
     parts: thunderEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -1225,7 +1225,7 @@ export const MediumThunderStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '霹雳火影战炮',
     parts: thunderMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -1259,7 +1259,7 @@ export const HardThunderStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '霹雳火影终极炮',
     parts: thunderHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -1332,7 +1332,7 @@ export const EasyTruckStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫光冲撞炮',
     parts: truckEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -1366,7 +1366,7 @@ export const MediumTruckStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '闪电重卡炮',
     parts: truckMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -1400,7 +1400,7 @@ export const HardTruckStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '雷霆毁灭炮',
     parts: truckHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -1473,7 +1473,7 @@ export const EasyAnchorStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫光锚枪',
     parts: anchorEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -1507,7 +1507,7 @@ export const MediumAnchorStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '闪电深海炮',
     parts: anchorMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -1541,7 +1541,7 @@ export const HardAnchorStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '雷霆海王炮',
     parts: anchorHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -1614,7 +1614,7 @@ export const EasyGravityStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫光重力炮',
     parts: gravityEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -1648,7 +1648,7 @@ export const MediumGravityStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '闪电重力锤',
     parts: gravityMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -1682,7 +1682,7 @@ export const HardGravityStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '雷霆引力炮',
     parts: gravityHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -1755,7 +1755,7 @@ export const EasyIronStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫光玄铁炮',
     parts: ironEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -1789,7 +1789,7 @@ export const MediumIronStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '闪电玄铁刃',
     parts: ironMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -1823,7 +1823,7 @@ export const HardIronStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '雷霆玄铁炮',
     parts: ironHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -1896,7 +1896,7 @@ export const EasyFalconStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫光猎空枪',
     parts: falconEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -1935,7 +1935,7 @@ export const MediumFalconStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '闪电猎空炮',
     parts: falconMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -1974,7 +1974,7 @@ export const HardFalconStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '雷霆猎空炮',
     parts: falconHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -2047,7 +2047,7 @@ export const EasyTitanStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫光钢臂炮',
     parts: titanEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -2086,7 +2086,7 @@ export const MediumTitanStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '闪电钢臂锤',
     parts: titanMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -2125,7 +2125,7 @@ export const HardTitanStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '雷霆钢臂炮',
     parts: titanHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -2199,7 +2199,7 @@ export const EasyStarRangerStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '星际穿梭',
     parts: starRangerEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -2239,7 +2239,7 @@ export const MediumStarRangerStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '星际游侠战炮',
     parts: starRangerMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -2279,7 +2279,7 @@ export const HardStarRangerStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '星际游侠终极炮',
     parts: starRangerHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -2353,7 +2353,7 @@ export const EasyDrillStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '爆旋轰钻',
     parts: drillEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -2393,7 +2393,7 @@ export const MediumDrillStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '爆旋洛克战炮',
     parts: drillMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -2433,7 +2433,7 @@ export const HardDrillStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '爆旋洛克终极炮',
     parts: drillHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -2507,7 +2507,7 @@ export const EasySeaStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '海王之怒',
     parts: seaEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -2547,7 +2547,7 @@ export const MediumSeaStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '深海霸王战炮',
     parts: seaMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -2587,7 +2587,7 @@ export const HardSeaStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '深海霸王终极炮',
     parts: seaHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -2661,7 +2661,7 @@ export const EasySilverStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '星辰光箭',
     parts: silverEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -2701,7 +2701,7 @@ export const MediumSilverStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '银翼骑士战炮',
     parts: silverMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -2741,7 +2741,7 @@ export const HardSilverStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '银翼骑士终极炮',
     parts: silverHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -2815,7 +2815,7 @@ export const EasyFlameStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '赤魂灭世',
     parts: flameEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -2855,7 +2855,7 @@ export const MediumFlameStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '重装赤魂王战炮',
     parts: flameMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -2895,7 +2895,7 @@ export const HardFlameStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '重装赤魂王终极炮',
     parts: flameHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -2968,7 +2968,7 @@ export const EasyDragonStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫光焰龙枪',
     parts: dragonEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -3002,7 +3002,7 @@ export const MediumDragonStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '闪电焰龙炮',
     parts: dragonMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -3036,7 +3036,7 @@ export const HardDragonStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '雷霆龙神炮',
     parts: dragonHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 
@@ -3172,7 +3172,7 @@ export const EasyUltimateStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫光电光炮',
     parts: ultimateEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-chaoxuan-dianguangwang-blast.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-chaoxuan-dianguangwang-blast.png'),
   },
 };
 
@@ -3212,7 +3212,7 @@ export const MediumUltimateStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '闪电数位炮',
     parts: ultimateMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-chaoxuan-dianguangwang-digit.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-chaoxuan-dianguangwang-digit.png'),
   },
 };
 
@@ -3252,7 +3252,7 @@ export const HardUltimateStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '雷霆电光爆裂炮',
     parts: ultimateHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-chaoxuan-dianguangwang-burst.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-chaoxuan-dianguangwang-burst.png'),
   },
 };
 
@@ -3326,7 +3326,7 @@ export const EasyThunderKingStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫蓝雷霆炮',
     parts: thunderKingEasyWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/easy-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png'),
   },
 };
 
@@ -3366,7 +3366,7 @@ export const MediumThunderKingStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫蓝雷霆王战炮',
     parts: thunderKingMediumWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/medium-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png'),
   },
 };
 
@@ -3406,7 +3406,7 @@ export const HardThunderKingStoryConfig: QuestionStoryConfig = {
   weapon: {
     name: '炫蓝雷霆灭世炮',
     parts: thunderKingHardWeaponParts,
-    completeImage: getAssetPath(getAssetPath('/assets/weapons/hard-weapon.png')),
+    completeImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png'),
   },
 };
 

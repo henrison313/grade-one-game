@@ -200,27 +200,27 @@ export const level71QuestionsByDifficulty: Record<DifficultyLevel, Question[]> =
 }
 
 export const level71EasyWeaponParts: WeaponPart[] = [
-  { id: 'easy-drill-core', name: '爆旋探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
-  { id: 'easy-drill-nav', name: '爆旋导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'easy-drill-head', name: '爆旋轰钻头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'easy-drill-pipe', name: '爆旋穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'easy-drill-complete', name: '爆旋轰钻完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
+  { id: 'easy-drill-core', name: '爆旋探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.png') },
+  { id: 'easy-drill-nav', name: '爆旋导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-3.png') },
+  { id: 'easy-drill-head', name: '爆旋轰钻头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.png') },
+  { id: 'easy-drill-pipe', name: '爆旋穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.png') },
+  { id: 'easy-drill-complete', name: '爆旋轰钻完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
 ]
 
 export const level71MediumWeaponParts: WeaponPart[] = [
-  { id: 'med-drill-core', name: '爆旋探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
-  { id: 'med-drill-loc', name: '爆旋定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'med-drill-armor', name: '爆旋装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'med-drill-meter', name: '爆旋计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'med-drill-cannon', name: '爆旋洛克战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
+  { id: 'med-drill-core', name: '爆旋探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.png') },
+  { id: 'med-drill-loc', name: '爆旋定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-3.png') },
+  { id: 'med-drill-armor', name: '爆旋装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-2.png') },
+  { id: 'med-drill-meter', name: '爆旋计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.png') },
+  { id: 'med-drill-cannon', name: '爆旋洛克战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
 ]
 
 export const level71HardWeaponParts: WeaponPart[] = [
-  { id: 'hard-drill-partner', name: '伙伴爆旋核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
-  { id: 'hard-drill-fair', name: '爆旋公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'hard-drill-sys', name: '爆旋轰钻系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'hard-drill-armor', name: '爆旋装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'hard-drill-ult', name: '爆旋洛克终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
+  { id: 'hard-drill-partner', name: '伙伴爆旋核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.png') },
+  { id: 'hard-drill-fair', name: '爆旋公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-3.png') },
+  { id: 'hard-drill-sys', name: '爆旋轰钻系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-2.png') },
+  { id: 'hard-drill-armor', name: '爆旋装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.png') },
+  { id: 'hard-drill-ult', name: '爆旋洛克终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
 ]
 
 export const level71WeaponPartsByDifficulty: Record<DifficultyLevel, WeaponPart[]> = {

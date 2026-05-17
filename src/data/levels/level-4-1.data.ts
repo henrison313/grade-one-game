@@ -270,7 +270,7 @@ export const level41EasyWeaponParts: WeaponPart[] = [
   { id: 'easy-blue-s-navigator', name: '炫蓝导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'easy-blue-s-punch-head', name: '炫蓝重拳头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
   { id: 'easy-blue-s-armor-pipe', name: '炫蓝战甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'easy-blue-s-punch-complete', name: '炫蓝重拳S完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
+  { id: 'easy-blue-s-punch-complete', name: '炫蓝重拳S完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
 ]
 
 /**
@@ -280,7 +280,7 @@ export const level41MediumWeaponParts: WeaponPart[] = [
   { id: 'medium-meteor-core', name: '流星探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
   { id: 'medium-meteor-locator', name: '流星定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'medium-meteor-armor-plate', name: '流星装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'medium-meteor-punch-cannon-complete', name: '流星重拳炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
+  { id: 'medium-meteor-punch-cannon-complete', name: '流星重拳炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
 ]
 
 /**
@@ -290,7 +290,7 @@ export const level41HardWeaponParts: WeaponPart[] = [
   { id: 'hard-starburst-command-core', name: '星爆指挥核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
   { id: 'hard-courage-navigator', name: '勇气导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'hard-starburst-punch-system', name: '星爆重拳系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
-  { id: 'hard-starburst-smash-punch-complete', name: '星爆粉碎拳完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
+  { id: 'hard-starburst-smash-punch-complete', name: '星爆粉碎拳完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
 ]
 
 /**

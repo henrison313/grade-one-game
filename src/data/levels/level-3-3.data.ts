@@ -18,7 +18,7 @@ export const level3_3EasyWeaponParts: WeaponPart[] = [
   { id: 'gravity-easy-shell', name: '炫光外壳', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
   { id: 'gravity-easy-cannon', name: '炫光炮管', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
   { id: 'gravity-easy-gauge', name: '重力仪表', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.png') },
-  { id: 'gravity-easy-complete', name: '炫光重力炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-weapon.png') },
+  { id: 'gravity-easy-complete', name: '炫光重力炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.png') },
 ]
 
 /**
@@ -28,7 +28,7 @@ export const level3_3MediumWeaponParts: WeaponPart[] = [
   { id: 'gravity-medium-core', name: '重力炮核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
   { id: 'gravity-medium-shell', name: '重力炮身', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
   { id: 'gravity-medium-cannon', name: '重型炮管', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'gravity-medium-complete', name: '重力炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-weapon.png') },
+  { id: 'gravity-medium-complete', name: '重力炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.png') },
 ]
 
 /**
@@ -38,7 +38,7 @@ export const level3_3HardWeaponParts: WeaponPart[] = [
   { id: 'gravity-hard-ring', name: '雷霆能量环', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.png') },
   { id: 'gravity-hard-shell', name: '雷霆炮身', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.png') },
   { id: 'gravity-hard-cannon', name: '雷霆炮管', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.png') },
-  { id: 'gravity-hard-complete', name: '雷霆重力炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-weapon.png') },
+  { id: 'gravity-hard-complete', name: '雷霆重力炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.png') },
 ]
 
 /**
