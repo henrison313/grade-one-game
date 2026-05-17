@@ -20,6 +20,7 @@ class SoundService {
 
   // 音频缓存
   private sfxCache: Map<string, HTMLAudioElement> = new Map();
+  private bgmCache: Map<BGMType, HTMLAudioElement> = new Map();
   private currentBGM: HTMLAudioElement | null = null;
   private currentBGMType: BGMType | null = null;
   private bgmDucked: boolean = false;
@@ -27,6 +28,7 @@ class SoundService {
   private audioFilesExist: Map<string, boolean> = new Map();
   private audioUnlocked: boolean = false;
   private pendingBGM: BGMType | null = null;
+  private preloaded: boolean = false;
 
   // BGM 请求 ID - 用于取消过期的请求
   private currentBGMRequest: number = 0;
@@ -596,80 +598,90 @@ class SoundService {
    * 实际执行 BGM 播放（内部方法）
    */
   private async _doPlayBGM(type: BGMType, requestId: number): Promise<void> {
-    console.log(`[SoundService] _doPlayBGM: ${type}, path: ${soundConfig.bgmFiles[type]}, requestId: ${requestId}`);
+    console.log(`[SoundService] _doPlayBGM: ${type}, requestId: ${requestId}`);
 
     // 立即检查是否是过期请求
     if (requestId !== this.currentBGMRequest) {
-      console.log(`[SoundService] Request ${requestId} is stale (current: ${this.currentBGMRequest}), skipping`);
+      console.log(`[SoundService] Request ${requestId} is stale, skipping`);
       return;
     }
 
-    // 动态导入配置（避免循环依赖）
-    const { bgmSceneConfig } = await import('@/config');
-    const path = soundConfig.bgmFiles[type];
+    // 检查缓存中是否有预加载的 BGM
+    let audio = this.bgmCache.get(type);
 
-    // 检查文件是否存在
-    const fileExists = await this.checkAudioFileExists(path);
-    console.log(`[SoundService] File exists: ${fileExists}`);
+    if (audio) {
+      console.log(`[SoundService] Using cached BGM for ${type}`);
+      // 重置播放位置
+      audio.currentTime = 0;
+      audio.volume = this.settings.bgmVolume;
+    } else {
+      // 没有缓存，创建新的 Audio 对象
+      const path = soundConfig.bgmFiles[type];
+      console.log(`[SoundService] Creating new Audio for ${type} from ${path}`);
 
-    if (fileExists) {
-      // 再次检查请求是否过期（文件检查是异步的）
-      if (requestId !== this.currentBGMRequest) {
-        console.log(`[SoundService] Request ${requestId} became stale during file check, skipping`);
-        return;
-      }
+      // 标记文件存在（跳过检测）
+      this.audioFilesExist.set(path, true);
 
-      // 设置当前 BGM 类型（在创建 audio 之前）
-      this.currentBGMType = type;
+      // 动态导入配置
+      const { bgmSceneConfig } = await import('@/config');
 
-      const audio = new Audio(path);
-      const config = bgmSceneConfig[type];
-      audio.loop = config.loop;
+      audio = new Audio(path);
+      audio.loop = bgmSceneConfig[type].loop;
       audio.volume = this.settings.bgmVolume;
 
-      // 设置状态
-      this.currentBGM = audio;
-
+      // 等待音频加载
       await new Promise<void>((resolve) => {
-        const onCanPlay = () => {
-          console.log(`[SoundService] Audio ready, playing: ${path}`);
-          audio.play().then(() => {
-            console.log(`[SoundService] BGM ${type} started playing successfully`);
-            this.pendingBGM = null;
-          }).catch((error) => {
-            console.warn('[SoundService] BGM play failed:', error.name);
-            if (error.name === 'NotAllowedError') {
-              console.log(`[SoundService] Setting pending BGM: ${type}`);
-              this.pendingBGM = type;
-            } else {
-              this.stopBGMInternal();
-              this.playGeneratedBGM(type);
-            }
-          });
+        const onReady = () => {
+          cleanup();
           resolve();
         };
 
         const onError = () => {
-          console.warn(`[SoundService] Audio failed to load: ${path}`);
-          this.stopBGMInternal();
+          cleanup();
+          console.warn(`[SoundService] Failed to load BGM ${type}`);
+          // 使用生成的 BGM
+          this.currentBGMType = type;
           this.playGeneratedBGM(type);
           resolve();
         };
 
-        audio.addEventListener('canplaythrough', onCanPlay, { once: true });
-        audio.addEventListener('error', onError, { once: true });
-        audio.load();
+        const cleanup = () => {
+          audio!.removeEventListener('canplaythrough', onReady);
+          audio!.removeEventListener('error', onError);
+        };
+
+        audio!.addEventListener('canplaythrough', onReady, { once: true });
+        audio!.addEventListener('error', onError, { once: true });
+        audio!.load();
       });
 
-      // 播放完成后再次检查请求是否过期
+      // 检查请求是否过期
       if (requestId !== this.currentBGMRequest) {
-        console.log(`[SoundService] Request ${requestId} completed but is stale, stopping BGM`);
-        this.stopBGMInternal();
+        console.log(`[SoundService] Request ${requestId} expired during load`);
+        return;
       }
-    } else {
-      console.log(`[SoundService] Falling back to generated BGM: ${type}`);
-      this.currentBGMType = type;
-      this.playGeneratedBGM(type);
+    }
+
+    // 设置当前 BGM 类型
+    this.currentBGMType = type;
+    this.currentBGM = audio;
+
+    // 播放
+    try {
+      await audio.play();
+      console.log(`[SoundService] BGM ${type} started playing`);
+      this.pendingBGM = null;
+    } catch (error: any) {
+      console.warn('[SoundService] BGM play failed:', error.name);
+      if (error.name === 'NotAllowedError') {
+        // 浏览器阻止自动播放，等待用户交互
+        console.log(`[SoundService] Setting pending BGM: ${type}`);
+        this.pendingBGM = type;
+      } else {
+        // 其他错误，使用生成的 BGM
+        this.stopBGMInternal();
+        this.playGeneratedBGM(type);
+      }
     }
   }
 
@@ -761,6 +773,111 @@ class SoundService {
   playDrag(): void { this.play('drag'); }
   playDrop(): void { this.play('drop'); }
   playSummon(): void { this.play('summon'); }
+
+  // ========== 预加载 ==========
+
+  /**
+   * 预加载指定音效
+   */
+  async preloadSFX(types: SoundType[]): Promise<void> {
+    console.log(`[SoundService] Preloading ${types.length} SFX files...`);
+    const promises = types.map(async (type) => {
+      const path = this.getSfxPath(type);
+      if (!this.sfxCache.has(path)) {
+        const audio = new Audio(path);
+        audio.preload = 'auto';
+        this.sfxCache.set(path, audio);
+        // 标记文件存在
+        this.audioFilesExist.set(path, true);
+      }
+    });
+    await Promise.all(promises);
+    console.log('[SoundService] SFX preload complete');
+  }
+
+  /**
+   * 预加载指定 BGM
+   */
+  async preloadBGM(type: BGMType): Promise<void> {
+    if (this.bgmCache.has(type)) {
+      console.log(`[SoundService] BGM ${type} already cached`);
+      return;
+    }
+
+    const path = soundConfig.bgmFiles[type];
+    console.log(`[SoundService] Preloading BGM: ${type} from ${path}`);
+
+    return new Promise((resolve) => {
+      const audio = new Audio(path);
+      audio.preload = 'auto';
+
+      const cleanup = () => {
+        audio.removeEventListener('canplaythrough', onSuccess);
+        audio.removeEventListener('error', onError);
+      };
+
+      const onSuccess = () => {
+        cleanup();
+        this.bgmCache.set(type, audio);
+        this.audioFilesExist.set(path, true);
+        console.log(`[SoundService] BGM ${type} preloaded successfully`);
+        resolve();
+      };
+
+      const onError = () => {
+        cleanup();
+        console.warn(`[SoundService] Failed to preload BGM ${type}`);
+        resolve();
+      };
+
+      audio.addEventListener('canplaythrough', onSuccess, { once: true });
+      audio.addEventListener('error', onError, { once: true });
+      audio.load();
+    });
+  }
+
+  /**
+   * 预加载所有常用音频
+   * 应在用户第一次交互后调用
+   */
+  async preloadAll(): Promise<void> {
+    if (this.preloaded) {
+      console.log('[SoundService] Already preloaded');
+      return;
+    }
+
+    console.log('[SoundService] Starting full preload...');
+    const startTime = Date.now();
+
+    // 常用音效
+    const commonSFX: SoundType[] = [
+      'correct', 'wrong', 'click',
+      'card-reveal', 'star-earn', 'level-complete',
+      'victory', 'defeat', 'transform',
+      'drag', 'drop', 'summon',
+      'combo-1', 'combo-5', 'combo-10',
+    ];
+
+    // 所有 BGM
+    const allBGM: BGMType[] = ['menu', 'battle', 'victory', 'story', 'collection'];
+
+    // 并行预加载
+    await Promise.all([
+      this.preloadSFX(commonSFX),
+      ...allBGM.map(type => this.preloadBGM(type)),
+    ]);
+
+    this.preloaded = true;
+    const elapsed = Date.now() - startTime;
+    console.log(`[SoundService] Full preload complete in ${elapsed}ms`);
+  }
+
+  /**
+   * 检查是否已预加载
+   */
+  isPreloaded(): boolean {
+    return this.preloaded;
+  }
 }
 
 export const soundService = new SoundService();

@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ThemeColors } from '@/config';
 import { getAssetPath } from '@/config/paths.config';
 import { Button, SoundControl } from '@/shared/components';
-import { storageService } from '@/services';
+import { storageService, soundService } from '@/services';
 import { useSound } from '@/shared/hooks';
 
 const Container = styled.div`
@@ -110,13 +110,22 @@ const HomePage: React.FC = () => {
     playBGM('menu');
   }, [playBGM]);
 
-  const handleStart = () => {
+  // 预加载音频（在用户第一次交互后）
+  const handleStart = useCallback(() => {
+    // 后台预加载所有音频
+    if (!soundService.isPreloaded()) {
+      soundService.preloadAll().catch(() => {});
+    }
     navigate('/levels');
-  };
+  }, [navigate]);
 
-  const handleCollection = () => {
+  const handleCollection = useCallback(() => {
+    // 后台预加载所有音频
+    if (!soundService.isPreloaded()) {
+      soundService.preloadAll().catch(() => {});
+    }
     navigate('/collection');
-  };
+  }, [navigate]);
 
   return (
     <Container>
