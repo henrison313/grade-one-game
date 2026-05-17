@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { GameConfig } from '@/config';
 import { getAssetPath } from '@/config/paths.config';
-import { storageService } from '@/services';
+import { storageService, soundService } from '@/services';
 import { useSound } from '@/shared/hooks';
 import { getLevelById } from '@/data/levels.data';
 import { getHiddenLevelById } from '@/data/hidden-levels.data';
@@ -309,6 +309,8 @@ const QuizGame: React.FC = () => {
 
   useEffect(() => {
     playBGM('battle');
+    // 预加载胜利 BGM
+    soundService.preloadBGM('victory').catch(() => {});
     return () => { stopBGM(); };
   }, [playBGM, stopBGM]);
 

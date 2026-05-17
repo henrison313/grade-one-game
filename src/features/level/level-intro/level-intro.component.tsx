@@ -11,6 +11,7 @@ import { StoryPlayer } from '@/features/story';
 import { DifficultyLevel } from '@/types';
 import { DifficultyConfigs } from '@/config/question-story.config';
 import { getWeaponPartsByLevel, getWeaponNameByLevel } from '@/data/weapon-configs.data';
+import { soundService } from '@/services';
 
 // 🎨 糖果色系
 const CandyColors = {
@@ -357,6 +358,32 @@ const LevelIntroPage: React.FC = () => {
   }, [playBGM, stopBGM]);
 
   const level = getLevelById(levelId || '1-1') || getHiddenLevelById(levelId || '');
+
+  // 预加载战斗资源
+  useEffect(() => {
+    const preloadBattleResources = async () => {
+      // 预加载战斗 BGM
+      await soundService.preloadBGM('battle');
+
+      // 预加载常用答题音效
+      await soundService.preloadSFX([
+        'correct', 'wrong', 'click',
+        'drag', 'drop', 'star-earn',
+        'combo-1', 'combo-5', 'combo-10',
+      ]);
+
+      // 预加载武器零件图片
+      const weaponParts = getWeaponPartsByLevel(levelId || '1-1', DifficultyLevel.EASY);
+      weaponParts.forEach((part) => {
+        if (part.iconImage) {
+          const img = new Image();
+          img.src = part.iconImage;
+        }
+      });
+    };
+
+    preloadBattleResources().catch(() => {});
+  }, [levelId]);
 
   useEffect(() => {
     if (!level?.story || level.story.length === 0) {

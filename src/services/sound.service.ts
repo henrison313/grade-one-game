@@ -65,6 +65,11 @@ class SoundService {
         this.audioUnlocked = true;
         console.log('[SoundService] Audio unlocked');
 
+        // 在后台预加载常用音频
+        if (!this.preloaded) {
+          this.preloadAll().catch(() => {});
+        }
+
         // 如果有 pending BGM，播放它
         if (this.pendingBGM) {
           console.log(`[SoundService] Playing pending BGM: ${this.pendingBGM}`);
