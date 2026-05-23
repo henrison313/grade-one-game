@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeColors, GameConfig } from '@/config';
 import type { StorySegment } from '@/types';
-import { speechService } from '@/services';
+import { speechService, storageService } from '@/services';
 
 interface StoryPlayerProps {
   segments: StorySegment[];
@@ -108,6 +108,21 @@ const ContinueButton = styled(motion.button)`
   cursor: pointer;
 `;
 
+const VoiceTip = styled(motion.div)`
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 60px;
+  padding: 10px 14px;
+  background: rgba(255, 193, 7, 0.9);
+  color: #333;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  z-index: 10;
+  cursor: pointer;
+`;
+
 const segmentVariants = {
   enter: {
     opacity: 0,
@@ -139,6 +154,8 @@ const StoryPlayer: React.FC<StoryPlayerProps> = ({
   const [isTyping, setIsTyping] = useState(false);
   const [displayedText, setDisplayedText] = useState('');
   const [speechComplete, setSpeechComplete] = useState(false);
+  const [showVoiceTip, setShowVoiceTip] = useState(false);
+  const voiceTipDismissed = useRef(false);
 
   const currentSegment = segments[currentIndex];
   const isLastSegment = currentIndex === segments.length - 1;
@@ -183,6 +200,14 @@ const StoryPlayer: React.FC<StoryPlayerProps> = ({
 
     // 稍后开始播放，让打字机效果先开始
     const speechTimer = setTimeout(() => {
+      // 检测是否缺少本地中文语音，显示一次性提示
+      if (!voiceTipDismissed.current && speechService.needsLocalVoice()) {
+        const userData = storageService.getUserData();
+        if (!userData.settings?.voiceTipDismissed) {
+          setShowVoiceTip(true);
+        }
+      }
+
       const text = currentSegment.text;
 
       // 如果文本为空，直接标记完成
@@ -249,10 +274,32 @@ const StoryPlayer: React.FC<StoryPlayerProps> = ({
     onComplete?.();
   };
 
+  const dismissVoiceTip = () => {
+    setShowVoiceTip(false);
+    voiceTipDismissed.current = true;
+    const userData = storageService.getUserData();
+    storageService.saveUserData({
+      ...userData,
+      settings: { ...userData.settings, voiceTipDismissed: true },
+    });
+  };
+
   if (!currentSegment) return null;
 
   return (
     <Container>
+      <AnimatePresence>
+        {showVoiceTip && (
+          <VoiceTip
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            onClick={dismissVoiceTip}
+          >
+            语音提示：当前浏览器缺少本地中文语音，故事朗读可能无法正常播放。建议安装 Windows 中文语音（设置→时间和语言→语音→添加"中文(简体，中国)"），或使用 Edge 浏览器。点击关闭
+          </VoiceTip>
+        )}
+      </AnimatePresence>
       {showSkip && (
         <SkipButton
           onClick={handleSkip}

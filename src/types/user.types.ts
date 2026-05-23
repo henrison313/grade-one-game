@@ -106,6 +106,7 @@ export interface UserSettings {
   bgmVolume: number; // BGM 音量 0-1
   speechVolume: number; // 语音音量 0-1
   speechEnabled: boolean; // 语音开关
+  voiceTipDismissed?: boolean; // 语音提示是否已关闭
 }
 
 /**

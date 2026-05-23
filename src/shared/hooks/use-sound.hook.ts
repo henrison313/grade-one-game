@@ -156,6 +156,20 @@ export function useSound() {
   // ========== 设置控制 ==========
 
   /**
+   * 检查音频是否已解锁
+   */
+  const isAudioUnlocked = useCallback((): boolean => {
+    return soundService.isAudioUnlocked();
+  }, []);
+
+  /**
+   * 在用户手势上下文中解锁音频并播放 pending BGM
+   */
+  const unlockAndPlayPending = useCallback(async (): Promise<void> => {
+    return soundService.unlockAndPlayPending();
+  }, []);
+
+  /**
    * 获取当前设置
    */
   const getSettings = useCallback((): SoundSettings => {
@@ -213,6 +227,9 @@ export function useSound() {
     // 语音播放
     speak,
     stopSpeaking,
+    // 音频解锁
+    isAudioUnlocked,
+    unlockAndPlayPending,
     // 设置控制
     getSettings,
     updateSettings,

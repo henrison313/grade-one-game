@@ -13,3 +13,4 @@ export { default as MazeGame } from './maze-game/maze-game.component';
 export { default as CalculatorGame } from './calculator-game/calculator-game.component';
 export { default as SoundControl } from './sound-control/sound-control.component';
 export { default as ErrorBoundary } from './error-boundary/error-boundary.component';
+export { default as LoadingSpinner } from './loading-spinner/loading-spinner.component';

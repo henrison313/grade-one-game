@@ -280,7 +280,7 @@ export const level1_3HardQuestions: Question[] = [
   {
     type: 'fill_blank' as QuestionType.FILL_BLANK,
     question: '一个大三角形可以分成{{___}}个小三角形',
-    answer: ['2,4'],
+    answer: ['2', '4'],
     explanation: '一个大三角形可以分成 2 个或 4 个小三角形！就像把消防水管分成多个分支一样！',
     hint: '想想怎么把三角形对折',
   },

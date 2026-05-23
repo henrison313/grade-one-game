@@ -1,4 +1,5 @@
 import { soundConfig } from '@/config';
+import { getAssetPath } from '@/config/paths.config';
 import { storageService } from './storage.service';
 import type { SoundType, BGMType, RarityType, SoundSettings } from '@/types';
 
@@ -23,6 +24,7 @@ class SoundService {
   private bgmCache: Map<BGMType, HTMLAudioElement> = new Map();
   private currentBGM: HTMLAudioElement | null = null;
   private currentBGMType: BGMType | null = null;
+  private activeBGMAudios: Set<HTMLAudioElement> = new Set(); // 追踪所有活跃的 BGM Audio
   private bgmDucked: boolean = false;
   private preDuckVolume: number = 0;
   private audioFilesExist: Map<string, boolean> = new Map();
@@ -160,7 +162,7 @@ class SoundService {
    * 获取音效文件路径
    */
   private getSfxPath(type: SoundType): string {
-    return soundConfig.sfxFiles[type];
+    return getAssetPath(soundConfig.sfxFiles[type]);
   }
 
   /**
@@ -573,27 +575,33 @@ class SoundService {
       return;
     }
 
+    // 如果已经是当前类型（正在播放或正在加载），直接跳过
+    // 这也防止了 React Strict Mode 双重调用创建多个 Audio
+    if (this.currentBGMType === type) {
+      if (this.currentBGM && !this.currentBGM.paused) {
+        console.log(`[SoundService] BGM ${type} already playing`);
+        return;
+      }
+      if (this.pendingBGM === type) {
+        console.log(`[SoundService] BGM ${type} already pending, skipping`);
+        return;
+      }
+      if (this.currentBGM && this.currentBGM.paused) {
+        console.log(`[SoundService] Resuming paused BGM ${type}`);
+        this.currentBGM.play().catch(() => {});
+        return;
+      }
+      // 正在加载中（currentBGMType 已设置但 currentBGM 还没有），跳过
+      console.log(`[SoundService] BGM ${type} already loading, skipping`);
+      return;
+    }
+
+    // 切换到新类型：立即停止当前 BGM 并设置新类型（防止并发重复调用）
+    this.stopBGMInternal();
+    this.currentBGMType = type;
+
     // 生成新的请求 ID
     const requestId = ++this.currentBGMRequest;
-
-    // 如果已经是当前播放的 BGM，直接返回
-    if (this.currentBGMType === type && this.currentBGM && !this.currentBGM.paused) {
-      console.log(`[SoundService] BGM ${type} already playing`);
-      return;
-    }
-
-    // 如果已暂停的同类型，恢复播放
-    if (this.currentBGMType === type && this.currentBGM && this.currentBGM.paused) {
-      console.log(`[SoundService] Resuming paused BGM ${type}`);
-      this.currentBGM.play().catch(() => {});
-      return;
-    }
-
-    // 切换到新类型：立即停止当前 BGM
-    if (this.currentBGMType && this.currentBGMType !== type) {
-      console.log(`[SoundService] Stopping BGM ${this.currentBGMType} to switch to ${type}`);
-      this.stopBGMInternal();
-    }
 
     // 执行播放
     await this._doPlayBGM(type, requestId);
@@ -611,54 +619,40 @@ class SoundService {
       return;
     }
 
-    // 检查缓存中是否有预加载的 BGM
-    let audio = this.bgmCache.get(type);
+    const path = getAssetPath(soundConfig.bgmFiles[type]);
+    const { bgmSceneConfig } = await import('@/config');
 
-    if (audio) {
-      console.log(`[SoundService] Using cached BGM for ${type}`);
-      // 重置播放位置
-      audio.currentTime = 0;
-      audio.volume = this.settings.bgmVolume;
-    } else {
-      // 没有缓存，创建新的 Audio 对象
-      const path = soundConfig.bgmFiles[type];
-      console.log(`[SoundService] Creating new Audio for ${type} from ${path}`);
+    // 始终创建新的 Audio 对象，避免复用导致 AbortError
+    // 如果已预加载（bgmCache 中有），浏览器 HTTP 缓存会瞬间加载
+    const isPreloaded = this.bgmCache.has(type);
+    console.log(`[SoundService] Creating Audio for ${type} from ${path} (preloaded: ${isPreloaded})`);
 
-      // 标记文件存在（跳过检测）
+    const audio = new Audio(path);
+    audio.loop = bgmSceneConfig[type].loop;
+    audio.volume = this.settings.bgmVolume;
+
+    // 未预加载时，等待音频文件加载
+    if (!isPreloaded) {
       this.audioFilesExist.set(path, true);
 
-      // 动态导入配置
-      const { bgmSceneConfig } = await import('@/config');
-
-      audio = new Audio(path);
-      audio.loop = bgmSceneConfig[type].loop;
-      audio.volume = this.settings.bgmVolume;
-
-      // 等待音频加载
-      await new Promise<void>((resolve) => {
-        const onReady = () => {
-          cleanup();
-          resolve();
-        };
-
-        const onError = () => {
-          cleanup();
-          console.warn(`[SoundService] Failed to load BGM ${type}`);
-          // 使用生成的 BGM
-          this.currentBGMType = type;
-          this.playGeneratedBGM(type);
-          resolve();
-        };
-
+      const loadResult = await new Promise<boolean>((resolve) => {
+        const onReady = () => { cleanup(); resolve(true); };
+        const onError = () => { cleanup(); resolve(false); };
         const cleanup = () => {
-          audio!.removeEventListener('canplaythrough', onReady);
-          audio!.removeEventListener('error', onError);
+          audio.removeEventListener('canplaythrough', onReady);
+          audio.removeEventListener('error', onError);
         };
-
-        audio!.addEventListener('canplaythrough', onReady, { once: true });
-        audio!.addEventListener('error', onError, { once: true });
-        audio!.load();
+        audio.addEventListener('canplaythrough', onReady, { once: true });
+        audio.addEventListener('error', onError, { once: true });
+        audio.load();
       });
+
+      if (!loadResult) {
+        console.warn(`[SoundService] Failed to load BGM ${type}, using generated`);
+        this.currentBGMType = type;
+        this.playGeneratedBGM(type);
+        return;
+      }
 
       // 检查请求是否过期
       if (requestId !== this.currentBGMRequest) {
@@ -667,9 +661,15 @@ class SoundService {
       }
     }
 
-    // 设置当前 BGM 类型
-    this.currentBGMType = type;
+    // 更新缓存（供 preloadBGM 标记和后续判断）
+    this.bgmCache.set(type, audio);
+
+    // 追踪活跃的 BGM Audio（确保 stopBGM 能全部停止）
+    this.activeBGMAudios.add(audio);
+
+    // 设置当前 BGM（最新实例）
     this.currentBGM = audio;
+    // currentBGMType 已在 playBGM 入口处设置
 
     // 播放
     try {
@@ -678,8 +678,10 @@ class SoundService {
       this.pendingBGM = null;
     } catch (error: any) {
       console.warn('[SoundService] BGM play failed:', error.name);
-      if (error.name === 'NotAllowedError') {
-        // 浏览器阻止自动播放，等待用户交互
+      if (error.name === 'NotAllowedError' || error.name === 'AbortError') {
+        // NotAllowedError: 浏览器阻止自动播放
+        // AbortError: 播放被中断（如 stopBGM 被调用）
+        // 两种情况都设置 pendingBGM，等待下次用户交互或重试
         console.log(`[SoundService] Setting pending BGM: ${type}`);
         this.pendingBGM = type;
       } else {
@@ -696,12 +698,13 @@ class SoundService {
   private stopBGMInternal(): void {
     console.log('[SoundService] stopBGMInternal called');
 
-    // 停止音频文件 BGM
-    if (this.currentBGM) {
-      this.currentBGM.pause();
-      this.currentBGM.currentTime = 0;
-      this.currentBGM = null;
+    // 停止所有活跃的 BGM Audio（包括 Strict Mode 产生的多余实例）
+    for (const audio of this.activeBGMAudios) {
+      audio.pause();
+      audio.currentTime = 0;
     }
+    this.activeBGMAudios.clear();
+    this.currentBGM = null;
 
     // 停止生成 BGM
     if ((this as any)._bgmIntervalId) {
@@ -719,6 +722,7 @@ class SoundService {
   stopBGM(): void {
     console.log('[SoundService] stopBGM called');
     this.currentBGMRequest++; // 使之前的请求失效
+    this.pendingBGM = null; // 清除 pending BGM，避免阻止后续播放
     this.stopBGMInternal();
   }
 
@@ -766,6 +770,55 @@ class SoundService {
     this.bgmDucked = false;
   }
 
+  // ========== 音频解锁 ==========
+
+  /**
+   * 检查音频是否已解锁
+   */
+  isAudioUnlocked(): boolean {
+    return this.audioUnlocked;
+  }
+
+  /**
+   * 在用户手势上下文中解锁音频并播放 pending BGM
+   * 应从点击/触摸事件处理器中调用，确保浏览器允许播放
+   */
+  async unlockAndPlayPending(): Promise<void> {
+    // 恢复 AudioContext
+    if (this.audioContext?.state === 'suspended') {
+      try {
+        await this.audioContext.resume();
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    // 播放无声音频解锁浏览器限制
+    try {
+      const silentAudio = new Audio();
+      silentAudio.volume = 0.001;
+      await silentAudio.play();
+      silentAudio.pause();
+      this.audioUnlocked = true;
+      console.log('[SoundService] Audio unlocked via unlockAndPlayPending');
+    } catch (e) {
+      console.warn('[SoundService] unlockAndPlayPending: silent play failed', e);
+    }
+
+    // 预加载音频
+    if (!this.preloaded) {
+      this.preloadAll().catch(() => {});
+    }
+
+    // 播放 pending BGM（不等待完成，避免阻塞 UI）
+    if (this.pendingBGM) {
+      console.log(`[SoundService] Playing pending BGM: ${this.pendingBGM}`);
+      const type = this.pendingBGM;
+      this.pendingBGM = null;
+      this.playBGM(type).catch(() => {});
+    }
+  }
+
   // ========== 便捷方法 ==========
 
   playCorrect(): void { this.play('correct'); }
@@ -809,7 +862,7 @@ class SoundService {
       return;
     }
 
-    const path = soundConfig.bgmFiles[type];
+    const path = getAssetPath(soundConfig.bgmFiles[type]);
     console.log(`[SoundService] Preloading BGM: ${type} from ${path}`);
 
     return new Promise((resolve) => {

@@ -100,6 +100,7 @@ const FighterImage = styled(motion.img)`
   height: 180px;
   object-fit: contain;
   filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.5));
+  will-change: transform;
 `;
 
 // ⚔️ 武器图像（战斗中展示 - 放在机器人下方）
@@ -109,6 +110,7 @@ const WeaponImage = styled(motion.img)<{ $firing: boolean }>`
   object-fit: contain;
   filter: drop-shadow(0 0 20px ${BattleColors.lightning});
   margin-top: 16px;
+  will-change: transform, filter;
   ${(props) => props.$firing && css`
     animation: ${weaponPulse} 0.5s ease-in-out infinite;
   `}
@@ -128,6 +130,7 @@ const EnergyBeam = styled(motion.div)`
     0 0 10px ${BattleColors.lightning},
     0 0 20px ${BattleColors.energy},
     0 0 30px ${BattleColors.lightning};
+  will-change: width, opacity;
   animation: ${energyBeam} 1s ease-out forwards;
 `;
 
@@ -137,6 +140,7 @@ const CharacterWeaponBox = styled(motion.div)`
   flex-direction: column;
   align-items: center;
   position: relative;
+  will-change: transform, opacity;
 `;
 
 // 📝 角色名称
@@ -167,6 +171,7 @@ const UltimateDisplay = styled(motion.div)`
   box-shadow:
     0 0 30px rgba(255, 215, 0, 0.8),
     0 0 60px rgba(255, 230, 109, 0.6);
+  will-change: transform, opacity;
 `;
 
 // 💥 碰撞效果
@@ -179,6 +184,7 @@ const CollisionEffect = styled(motion.div)`
   height: 150px;
   border-radius: 50%;
   background: radial-gradient(circle, white 0%, ${BattleColors.energy} 30%, transparent 70%);
+  will-change: transform, opacity;
   animation: ${collisionFlash} 0.5s ease-out;
 `;
 
@@ -194,6 +200,7 @@ const EnergyWave = styled(motion.div)`
     rgba(255, 215, 0, 0.3) 50%,
     transparent 100%
   );
+  will-change: transform, opacity;
   animation: ${waveMotion} 1s ease-out;
 `;
 
@@ -205,6 +212,7 @@ const BackgroundParticle = styled(motion.div)<{ $color: string }>`
   border-radius: 50%;
   background: ${(props) => props.$color};
   opacity: 0.6;
+  will-change: transform, opacity;
 `;
 
 // 🎯 胜利光芒
@@ -215,6 +223,7 @@ const VictoryGlow = styled(motion.div)`
     rgba(255, 215, 0, 0.5) 0%,
     transparent 50%
   );
+  will-change: opacity;
 `;
 
 // 📋 战斗信息

@@ -55,6 +55,7 @@ const GlowEffect = styled(motion.div)<{ color: string }>`
     transparent 70%
   );
   opacity: 0.5;
+  will-change: transform, opacity;
 `;
 
 // 角色图像容器
@@ -64,6 +65,7 @@ const CharacterContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  will-change: transform, opacity;
 `;
 
 // 角色图像
@@ -72,6 +74,7 @@ const CharacterImage = styled(motion.img)`
   height: 300px;
   object-fit: contain;
   filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.5));
+  will-change: transform;
 `;
 
 // 冲击波
@@ -82,6 +85,7 @@ const Shockwave = styled(motion.div)`
   border: 4px solid rgba(255, 255, 255, 0.8);
   border-radius: 50%;
   opacity: 0;
+  will-change: transform, opacity;
 `;
 
 // 粒子容器
@@ -100,6 +104,7 @@ const Particle = styled(motion.div)<{ color: string }>`
   background: ${({ color }) => color};
   border-radius: 50%;
   box-shadow: 0 0 10px ${({ color }) => color};
+  will-change: transform, opacity;
 `;
 
 // 跳过按钮

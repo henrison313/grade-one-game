@@ -1,22 +1,7 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { GlobalStyle } from './shared/styles/global.styles';
-import { ErrorBoundary } from './shared/components';
-
-// 加载 fallback 组件
-const LoadingFallback = () => (
-  <div style={{
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    fontSize: '24px',
-    color: '#fff',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-  }}>
-    加载中...
-  </div>
-);
+import { ErrorBoundary, LoadingSpinner } from './shared/components';
 
 // 懒加载路由
 const HomePage = React.lazy(() => import('./features/home/home.component'));
@@ -30,8 +15,8 @@ const App: React.FC = () => {
   return (
     <ErrorBoundary>
       <GlobalStyle />
-      <BrowserRouter>
-        <Suspense fallback={<LoadingFallback />}>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <Suspense fallback={<LoadingSpinner size="large" text="炫卡加载中..." />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/levels" element={<LevelSelectPage />} />

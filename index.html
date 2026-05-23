@@ -7,9 +7,9 @@
     <meta name="theme-color" content="#4F46E5" />
     <meta name="description" content="炫卡收集游戏 - 一年级数学学习卡牌收集游戏" />
     <title>炫卡收集游戏</title>
-    <!-- 移动端调试面板 (开发环境) -->
+    <!-- 移动端调试面板 (开发环境或 ?debug=1 参数) -->
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>if (location.port === '3000') eruda.init();</script>
+    <script>if (location.port === '3000' || new URLSearchParams(location.search).get('debug') === '1') eruda.init();</script>
   </head>
   <body>
     <div id="root"></div>

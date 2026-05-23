@@ -15,12 +15,16 @@ interface LinkQuestionProps {
 
 // 题目文字
 const QuestionText = styled.h2`
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 700;
   color: #333;
   text-align: center;
   margin-bottom: 12px;
   line-height: 1.5;
+
+  @media (min-width: 600px) {
+    font-size: 24px;
+  }
 `;
 
 // 提示信息
@@ -46,33 +50,48 @@ const LinkArea = styled.div`
   justify-content: space-between;
   width: 100%;
   max-width: 900px;
-  padding: 20px;
+  padding: 20px 10px;
   position: relative;
-  gap: 200px;
+  gap: 40px;
+
+  @media (min-width: 600px) {
+    padding: 20px;
+    gap: 200px;
+  }
 `;
 
 // 左右列
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
   z-index: 1;
+
+  @media (min-width: 600px) {
+    gap: 16px;
+  }
 `;
 
 // 选项项
 const OptionItem = styled(motion.div)<{ selected?: boolean; matched?: boolean }>`
-  padding: 16px 24px;
+  padding: 12px 16px;
   background: ${({ selected, matched }) =>
     matched ? '#10b981' : selected ? '#667eea' : 'white'};
   color: ${({ matched }) => (matched ? 'white' : '#333')};
   border-radius: 12px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  min-width: 150px;
+  min-width: 80px;
   text-align: center;
   border: 2px solid ${({ selected }) => (selected ? '#667eea' : 'transparent')};
+
+  @media (min-width: 600px) {
+    padding: 16px 24px;
+    font-size: 16px;
+    min-width: 150px;
+  }
 
   &:hover {
     transform: translateY(-2px);

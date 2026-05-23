@@ -26,6 +26,7 @@ const CharacterImage = styled(motion.img)`
   height: 220px;
   object-fit: contain;
   filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.4));
+  will-change: transform, opacity, filter;
 `;
 
 const CharacterName = styled(motion.h2)`
@@ -44,6 +45,7 @@ const EnergyRing = styled(motion.div)`
   border-radius: 50%;
   border-top-color: transparent;
   border-bottom-color: transparent;
+  will-change: transform;
 `;
 
 const Particle = styled(motion.div)<{ $angle: number; $distance: number }>`
@@ -53,6 +55,7 @@ const Particle = styled(motion.div)<{ $angle: number; $distance: number }>`
   background: white;
   border-radius: 50%;
   transform-origin: center;
+  will-change: transform, opacity;
 `;
 
 const TransformationText = styled(motion.div)`

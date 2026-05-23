@@ -37,6 +37,7 @@ const Star = styled(motion.div)<{ $size: 'small' | 'medium' | 'large'; $filled: 
     }
   }};
   filter: ${(props) => props.$filled ? 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.8))' : 'none'};
+  will-change: transform, filter;
 `;
 
 const StarSvg = ({ filled }: { filled: boolean }) => (

@@ -1,8 +1,8 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { ThemeColors } from '@/config';
-import { useSound } from '@/shared/hooks';
+import { useSound, useScale } from '@/shared/hooks';
 import type { DragQuestionData, DragItem, DragTarget } from '@/types';
 
 interface DragQuestionProps {
@@ -146,12 +146,18 @@ const TargetsContainer = styled.div`
   gap: 20px;
 `;
 
+// 外层容器 - 用于获取实际屏幕宽度，打破循环依赖
+const AbsoluteLayoutWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
 // 绝对定位布局容器
 const AbsoluteLayoutContainer = styled.div<{ $size: { width: number; height: number } }>`
   position: relative;
   width: ${(props) => props.$size.width}px;
   height: ${(props) => props.$size.height}px;
-  margin: 0 auto;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 16px;
 `;
@@ -535,6 +541,11 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
   const [itemRotations, setItemRotations] = useState<Record<string, number>>({}); // 记录每个item的旋转角度
   const [longPressTimer, setLongPressTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
   const [isLongPress, setIsLongPress] = useState(false); // 区分长按和单击
+
+  // 响应式缩放支持
+  const containerRef = useRef<HTMLDivElement>(null);
+  const designWidth = question.layoutSize?.width || 700;
+  const scale = useScale(containerRef, designWidth);
 
   // 检查是否是数位摆数题型（有tens和ones两个目标）
   const isDigitPlacement = question.targets.length === 2 &&
@@ -922,11 +933,21 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
     );
   };
 
-  // 渲染绝对定位的目标
+  // 渲染绝对定位的目标（带缩放）
   const renderAbsoluteTarget = (target: DragTarget) => {
     const state = getTargetState(target);
     const placedItemIds = placements[target.id] || [];
     const placedItems = placedItemIds.map((id) => question.items.find((i) => i.id === id)).filter(Boolean) as DragItem[];
+
+    // 缩放后的位置和尺寸
+    const scaledPosition = {
+      x: target.position.x * scale,
+      y: target.position.y * scale,
+    };
+    const scaledSize = {
+      width: target.size.width * scale,
+      height: target.size.height * scale,
+    };
 
     return (
       <AbsoluteDropTarget
@@ -936,8 +957,8 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
         $hasItem={state.hasItem}
         $isCorrect={state.isCorrect}
         $isWrong={state.isWrong}
-        $size={target.size}
-        $position={target.position}
+        $size={scaledSize}
+        $position={scaledPosition}
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => {
           e.preventDefault();
@@ -985,6 +1006,12 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
   // 判断是否使用绝对定位布局
   const useAbsoluteLayout = question.useAbsoluteLayout;
   const layoutSize = question.layoutSize || { width: 700, height: 350 };
+
+  // 缩放后的布局尺寸
+  const scaledLayoutSize = {
+    width: layoutSize.width * scale,
+    height: layoutSize.height * scale,
+  };
 
   return (
     <QuestionContainer>
@@ -1131,9 +1158,11 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
             </DigitGroupsContainer>
           </>
         ) : useAbsoluteLayout ? (
-          <AbsoluteLayoutContainer $size={layoutSize}>
-            {question.targets.map(renderAbsoluteTarget)}
-          </AbsoluteLayoutContainer>
+          <AbsoluteLayoutWrapper ref={containerRef}>
+            <AbsoluteLayoutContainer $size={scaledLayoutSize}>
+              {question.targets.map(renderAbsoluteTarget)}
+            </AbsoluteLayoutContainer>
+          </AbsoluteLayoutWrapper>
         ) : (
           <TargetsContainer>
             {/* 连线层 */}

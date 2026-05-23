@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { ThemeColors } from '@/config';
-import { useSound } from '@/shared/hooks';
+import { useSound, useScale } from '@/shared/hooks';
 import type { ShapeComposeQuestionData, DragItem } from '@/types';
 
 interface PlacedShape {
@@ -213,21 +213,21 @@ const ValueLabel = styled.span`
   margin-top: 4px;
 `;
 
-const CanvasArea = styled.div<{ $width: number; $height: number }>`
+// 外层容器 - 用于获取实际屏幕宽度，打破循环依赖
+const CanvasWrapper = styled.div`
   width: 100%;
-  max-width: ${(props) => props.$width}px;
+  display: flex;
+  justify-content: center;
+`;
+
+const CanvasArea = styled.div<{ $width: number; $height: number }>`
+  width: ${(props) => props.$width}px;
   height: ${(props) => props.$height}px;
   background: rgba(255, 255, 255, 0.8);
   border: 3px dashed ${ThemeColors.primaryLight};
   border-radius: 16px;
   position: relative;
   overflow: hidden;
-  margin: 0 auto;
-
-  @media (max-width: ${(props) => props.$width}px) {
-    width: 100%;
-    height: ${(props) => props.$height * 0.8}px;
-  }
 `;
 
 
@@ -358,28 +358,22 @@ const ShapeComposeQuestion: React.FC<ShapeComposeQuestionProps> = ({
   const [placedShapes, setPlacedShapes] = useState<PlacedShape[]>([]);
   const [draggingItemId, setDraggingItemId] = useState<string | null>(null);
   const [hoveredShapeId, setHoveredShapeId] = useState<string | null>(null); // 悬停的画布图形ID
-  const [actualCanvasSize, setActualCanvasSize] = useState<{ width: number; height: number } | null>(null); // 实际画布尺寸
   const [rotation, setRotation] = useState<RotationState | null>(null); // 旋转状态
   const shapeRefs = useRef<Record<string, HTMLDivElement | null>>({}); // 图形元素引用
+  const containerRef = useRef<HTMLDivElement>(null); // 画布容器引用
 
   // 图形缩放比例（从题目配置获取，默认 1）
   const shapeScale = question.shapeScale || 1;
 
-  // 获取画布实际渲染尺寸
-  const updateCanvasRect = useCallback(() => {
-    const canvasElement = document.querySelector('[data-canvas]');
-    if (canvasElement) {
-      const rect = canvasElement.getBoundingClientRect();
-      setActualCanvasSize({ width: rect.width, height: rect.height });
-    }
-  }, []);
+  // 响应式缩放：根据屏幕宽度计算缩放比例
+  const designWidth = question.canvasSize.width;
+  const scale = useScale(containerRef, designWidth);
 
-  // 初始化和窗口大小变化时更新画布尺寸
-  React.useEffect(() => {
-    updateCanvasRect();
-    window.addEventListener('resize', updateCanvasRect);
-    return () => window.removeEventListener('resize', updateCanvasRect);
-  }, [updateCanvasRect]);
+  // 计算缩放后的画布尺寸
+  const scaledCanvasSize = {
+    width: question.canvasSize.width * scale,
+    height: question.canvasSize.height * scale,
+  };
 
   // 计算鼠标相对于中心点的角度
   const calculateAngle = useCallback((clientX: number, clientY: number, centerX: number, centerY: number): number => {
@@ -512,15 +506,19 @@ const ShapeComposeQuestion: React.FC<ShapeComposeQuestionProps> = ({
       if (placedShapes.some((p) => p.id === draggingItemId)) return;
 
       const canvasRect = e.currentTarget.getBoundingClientRect();
-      // 使用图形实际尺寸计算边界
-      const shapeSize = getShapeSize(item.shape!, shapeScale);
-      const padding = 10;
+      // 使用图形实际尺寸计算边界（考虑缩放）
+      const shapeSize = getShapeSize(item.shape!, shapeScale * scale);
+      const padding = 10 * scale;
       const minX = padding;
       const maxX = canvasRect.width - shapeSize.width - padding;
       const minY = padding;
       const maxY = canvasRect.height - shapeSize.height - padding;
-      let x = Math.max(minX, Math.min(e.clientX - canvasRect.left - shapeSize.width / 2, maxX));
-      let y = Math.max(minY, Math.min(e.clientY - canvasRect.top - shapeSize.height / 2, maxY));
+      // 计算放置位置（缩放后的坐标）
+      const scaledX = Math.max(minX, Math.min(e.clientX - canvasRect.left - shapeSize.width / 2, maxX));
+      const scaledY = Math.max(minY, Math.min(e.clientY - canvasRect.top - shapeSize.height / 2, maxY));
+      // 转换回设计坐标
+      const x = scaledX / scale;
+      const y = scaledY / scale;
 
       // 获取初始旋转角度
       const initialRotation = item.rotation || 0;
@@ -537,7 +535,7 @@ const ShapeComposeQuestion: React.FC<ShapeComposeQuestionProps> = ({
       playDrop();
       setDraggingItemId(null);
     },
-    [draggingItemId, isAnswered, placedShapes, question.items, playDrop]
+    [draggingItemId, isAnswered, placedShapes, question.items, playDrop, scale, shapeScale]
   );
 
   // 更新画布内图形位置
@@ -599,15 +597,19 @@ const ShapeComposeQuestion: React.FC<ShapeComposeQuestionProps> = ({
             ) {
               const item = question.items.find((i) => i.id === draggingItemId);
               if (item && item.shape && !placedShapes.some((p) => p.id === draggingItemId)) {
-                // 使用图形实际尺寸计算边界
-                const shapeSize = getShapeSize(item.shape!, shapeScale);
-                const padding = 10;
+                // 使用图形实际尺寸计算边界（考虑响应式缩放）
+                const shapeSize = getShapeSize(item.shape!, shapeScale * scale);
+                const padding = 10 * scale;
                 const minX = padding;
                 const maxX = canvasRect.width - shapeSize.width - padding;
                 const minY = padding;
                 const maxY = canvasRect.height - shapeSize.height - padding;
-                let x = Math.max(minX, Math.min(touch.clientX - canvasRect.left - shapeSize.width / 2, maxX));
-                let y = Math.max(minY, Math.min(touch.clientY - canvasRect.top - shapeSize.height / 2, maxY));
+                // 计算放置位置（缩放后的坐标）
+                const scaledX = Math.max(minX, Math.min(touch.clientX - canvasRect.left - shapeSize.width / 2, maxX));
+                const scaledY = Math.max(minY, Math.min(touch.clientY - canvasRect.top - shapeSize.height / 2, maxY));
+                // 转换回设计坐标
+                const x = scaledX / scale;
+                const y = scaledY / scale;
                 // 放入画布时使用初始旋转角度
                 const initialRotation = item.rotation || 0;
 
@@ -631,16 +633,16 @@ const ShapeComposeQuestion: React.FC<ShapeComposeQuestionProps> = ({
   // 渲染画布内图形
   const renderCanvasShape = (placed: PlacedShape) => {
     const isHovered = hoveredShapeId === placed.id;
-    // 获取图形实际尺寸用于边界约束
-    const shapeSize = getShapeSize(placed.shape, shapeScale);
-    const padding = 10;
+    // 获取图形实际尺寸用于边界约束（考虑响应式缩放）
+    const shapeSize = getShapeSize(placed.shape, shapeScale * scale);
+    const padding = 10 * scale;
     // 获取图形的值
     const item = question.items.find((i) => i.id === placed.id);
     const value = item?.value;
 
-    // 使用实际画布尺寸，如果没有则使用配置尺寸
-    const actualWidth = actualCanvasSize?.width || question.canvasSize.width;
-    const actualHeight = actualCanvasSize?.height || question.canvasSize.height;
+    // 使用缩放后的画布尺寸
+    const actualWidth = scaledCanvasSize.width;
+    const actualHeight = scaledCanvasSize.height;
 
     // 边界约束有效性检查：确保画布尺寸大于图形尺寸
     const isValidConstraint = actualWidth > shapeSize.width + padding * 2 &&
@@ -653,6 +655,10 @@ const ShapeComposeQuestion: React.FC<ShapeComposeQuestionProps> = ({
     const constraintBottom = isValidConstraint
       ? Math.max(padding, actualHeight - shapeSize.height - padding)
       : padding;
+
+    // 缩放后的位置
+    const scaledX = placed.x * scale;
+    const scaledY = placed.y * scale;
 
     return (
       <CanvasShapeWrapper
@@ -669,8 +675,9 @@ const ShapeComposeQuestion: React.FC<ShapeComposeQuestionProps> = ({
         dragMomentum={false}
         onDragStart={() => setHoveredShapeId(null)}
         onDragEnd={(_e, info) => {
-          const newX = placed.x + info.offset.x;
-          const newY = placed.y + info.offset.y;
+          // 将拖拽偏移转换回设计坐标
+          const newX = placed.x + info.offset.x / scale;
+          const newY = placed.y + info.offset.y / scale;
 
           updateShapePosition(placed.id, newX, newY);
           playDrop();
@@ -678,15 +685,15 @@ const ShapeComposeQuestion: React.FC<ShapeComposeQuestionProps> = ({
         onMouseEnter={() => setHoveredShapeId(placed.id)}
         onMouseLeave={() => setHoveredShapeId(null)}
         animate={{
-          x: placed.x,
-          y: placed.y,
+          x: scaledX,
+          y: scaledY,
           rotate: placed.rotation || 0,
           scale: 1
         }}
         transition={{ type: 'spring', stiffness: 500, damping: 30 }}
         style={{ cursor: isAnswered ? 'default' : 'grab' }}
       >
-        <ShapeSVG shape={placed.shape} scale={shapeScale} />
+        <ShapeSVG shape={placed.shape} scale={shapeScale * scale} />
         {value && <ValueLabel>{value}</ValueLabel>}
 
         {/* 悬停旋转按钮 - 按住拖动自由旋转 */}
@@ -722,15 +729,17 @@ const ShapeComposeQuestion: React.FC<ShapeComposeQuestionProps> = ({
           )}
         </Toolbar>
 
-        <CanvasArea
-          data-canvas
-          $width={question.canvasSize.width}
-          $height={question.canvasSize.height}
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={handleCanvasDrop}
-        >
-          {placedShapes.map(renderCanvasShape)}
-        </CanvasArea>
+        <CanvasWrapper ref={containerRef}>
+          <CanvasArea
+            data-canvas
+            $width={scaledCanvasSize.width}
+            $height={scaledCanvasSize.height}
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={handleCanvasDrop}
+          >
+            {placedShapes.map(renderCanvasShape)}
+          </CanvasArea>
+        </CanvasWrapper>
 
         {/* 进度显示 */}
         {question.targetValue && (

@@ -15,25 +15,25 @@ interface VoiceConfig {
  */
 const VOICE_PRESETS: Record<string, VoiceConfig> = {
   // 炫蓝闪电 - 智慧导师，活泼友好
-  炫蓝闪电: { pitch: 1.2, rate: 1.0 },
+  炫蓝闪电: { pitch: 1.3, rate: 1.1 },
   // 巨力风暴 - 力量守护者，低沉有力
-  巨力风暴: { pitch: 0.8, rate: 0.9 },
+  巨力风暴: { pitch: 0.7, rate: 0.85 },
   // 急救卫士 - 医疗救援，温和
-  急救卫士: { pitch: 1.1, rate: 1.0 },
+  急救卫士: { pitch: 1.2, rate: 1.0 },
   // 烈火修罗 - 火焰战士，热情
-  烈火修罗: { pitch: 0.9, rate: 1.1 },
+  烈火修罗: { pitch: 0.85, rate: 1.2 },
   // 暗影特工 - 潜行者，神秘
-  暗影特工: { pitch: 0.85, rate: 0.95 },
+  暗影特工: { pitch: 0.75, rate: 0.9 },
   // 铁臂爵士 - 力量战士，沉稳
-  铁臂爵士: { pitch: 0.75, rate: 0.85 },
+  铁臂爵士: { pitch: 0.65, rate: 0.8 },
   // 喷射加仑 - 消防战士，活泼
-  喷射加仑: { pitch: 1.15, rate: 1.05 },
+  喷射加仑: { pitch: 1.25, rate: 1.15 },
   // 裂变骑士 - 分裂战士，快速
-  裂变骑士: { pitch: 1.0, rate: 1.15 },
+  裂变骑士: { pitch: 1.0, rate: 1.25 },
   // 暴烈重卡 - 运输战士，厚重
-  暴烈重卡: { pitch: 0.7, rate: 0.8 },
+  暴烈重卡: { pitch: 0.6, rate: 0.75 },
   // 深海天锚 - 海洋战士，深沉
-  深海天锚: { pitch: 0.85, rate: 0.9 },
+  深海天锚: { pitch: 0.8, rate: 0.85 },
   // 默认旁白音色
   narration: { pitch: 1.0, rate: 1.0 },
   // 默认音色
@@ -60,6 +60,9 @@ class SpeechService {
   private bgmWasPlaying: boolean = false;
   private speechUnlocked: boolean = false;
   private voicesLoaded: boolean = false;
+  private speechTimeout: ReturnType<typeof setTimeout> | null = null;
+  private resumeInterval: ReturnType<typeof setInterval> | null = null; // Chrome 冻结保护
+  private useDefaultVoice: boolean = false; // 仅设 lang 不设 voice，让 Chrome 用 OS TTS
 
   constructor() {
     this.initSynth();
@@ -138,18 +141,16 @@ class SpeechService {
       this.synth = window.speechSynthesis;
       // 加载语音列表
       this.loadVoices();
-      // 某些浏览器需要等待 voiceschanged 事件
-      // 使用 onvoiceschanged 属性以兼容更多浏览器
-      if (this.synth.onvoiceschanged !== undefined) {
-        this.synth.onvoiceschanged = () => this.loadVoices();
-      }
 
-      // 移动端：页面加载后延迟再次加载语音
-      if (isMobileDevice()) {
-        setTimeout(() => this.loadVoices(), 1000);
-      }
+      // 使用 addEventListener 监听语音加载（比 onvoiceschanged 属性赋值更可靠）
+      this.synth.addEventListener('voiceschanged', () => this.loadVoices());
+
+      // Chrome 桌面端 getVoices() 首次返回空数组，需要延迟重试
+      // 即使 voiceschanged 事件在某些版本不可靠也能加载
+      setTimeout(() => this.loadVoices(), 500);
+      setTimeout(() => this.loadVoices(), 2000);
     } else {
-      console.warn('Web Speech API not supported');
+      console.warn('[SpeechService] Web Speech API not supported');
     }
   }
 
@@ -170,6 +171,8 @@ class SpeechService {
 
   /**
    * 加载可用的中文语音
+   * 每次 voiceschanged 触发都会重新选择，确保本地语音加载后能覆盖 Google 云端语音
+   * 使用 voice.localService 属性判断是否为本地语音，比字符串匹配更可靠
    */
   private loadVoices(): void {
     if (!this.synth) return;
@@ -177,14 +180,13 @@ class SpeechService {
     const voices = this.synth.getVoices();
 
     if (voices.length === 0) {
-      // 移动端可能需要等待
-      if (isMobileDevice()) {
-        console.log('[SpeechService] No voices available yet, will retry');
-      }
+      console.log('[SpeechService] No voices available yet, will retry');
       return;
     }
 
-    // 优先选择普通话语音，按优先级排序
+    console.log('[SpeechService] Available voices:', voices.map(v => `${v.name} (${v.lang}) local=${v.localService}`));
+
+    // 优先选择普通话语音
     const chineseVoices = voices.filter(
       (voice) =>
         voice.lang.startsWith('zh-CN') ||
@@ -192,29 +194,66 @@ class SpeechService {
         voice.lang === 'zh'
     );
 
-    // 优先级：Google > Microsoft > 系统内置
-    const preferredProviders = ['Google', 'Microsoft', 'Safari', 'Apple'];
-    for (const provider of preferredProviders) {
-      const voice = chineseVoices.find((v) => v.name.includes(provider));
-      if (voice) {
-        this.chineseVoice = voice;
-        this.voicesLoaded = true;
-        console.log('[SpeechService] Using voice:', voice.name);
-        return;
-      }
+    // 第一优先：Microsoft 在线自然语音（Edge 大声朗读使用的语音，稳定可靠）
+    const onlineNaturalVoice = chineseVoices.find(v =>
+      (v.name.includes('Online') && v.name.includes('Natural')) ||
+      (v.name.includes('Microsoft') && v.name.includes('Xiaoxiao'))
+    );
+    if (onlineNaturalVoice) {
+      if (this.chineseVoice?.name === onlineNaturalVoice.name && !this.useDefaultVoice) return;
+      this.chineseVoice = onlineNaturalVoice;
+      this.useDefaultVoice = false;
+      this.voicesLoaded = true;
+      console.log('[SpeechService] Using Microsoft online voice:', onlineNaturalVoice.name);
+      return;
     }
 
-    // 使用第一个可用的中文语音
+    // 第二优先：非 Google 的中文语音（可能是其他系统语音）
+    const nonGoogleVoices = chineseVoices.filter(v => !v.name.includes('Google'));
+    if (nonGoogleVoices.length > 0) {
+      if (this.chineseVoice?.name === nonGoogleVoices[0].name && !this.useDefaultVoice) return;
+      this.chineseVoice = nonGoogleVoices[0];
+      this.useDefaultVoice = false;
+      this.voicesLoaded = true;
+      console.log('[SpeechService] Using non-Google voice:', nonGoogleVoices[0].name);
+      return;
+    }
+
+    // 第三优先：本地中文语音（localService=true）
+    // 注意：Windows 上可能缺少语音文件导致 synthesis-failed
+    const localVoice = chineseVoices.find(v => v.localService);
+    if (localVoice) {
+      if (this.chineseVoice?.name === localVoice.name && !this.useDefaultVoice) return;
+      this.chineseVoice = localVoice;
+      this.useDefaultVoice = false;
+      this.voicesLoaded = true;
+      console.log('[SpeechService] Using local voice:', localVoice.name);
+      return;
+    }
+
+    // 兜底：Google 云端语音
+    // 不设 utterance.voice，只设 utterance.lang，让 Chrome 用 OS TTS 引擎
+    const googleVoice = chineseVoices.find(v => v.name.includes('Google'));
+    if (googleVoice) {
+      if (this.chineseVoice?.name === googleVoice.name && this.useDefaultVoice) return;
+      this.chineseVoice = googleVoice;
+      this.useDefaultVoice = true;
+      this.voicesLoaded = true;
+      console.log('[SpeechService] Only Google cloud voice available, will use OS TTS via lang only:', googleVoice.name);
+      return;
+    }
+
+    // 完全没有中文语音，使用任何可用语音
     if (chineseVoices.length > 0) {
       this.chineseVoice = chineseVoices[0];
+      this.useDefaultVoice = !chineseVoices[0].localService;
       this.voicesLoaded = true;
       console.log('[SpeechService] Using first Chinese voice:', chineseVoices[0].name);
     } else {
-      // 移动端可能没有中文语音，使用默认语音
       console.warn('[SpeechService] No Chinese voice found, using default');
-      // 尝试使用任何可用的语音
       if (voices.length > 0) {
         this.chineseVoice = voices[0];
+        this.useDefaultVoice = true;
         this.voicesLoaded = true;
       }
     }
@@ -277,9 +316,52 @@ class SpeechService {
       .replace(/[~~]/g, '')
       // 将省略号替换为逗号（帮助断句）
       .replace(/[……]{2,}/g, '，')
+      // 将破折号替换为逗号（Microsoft SAPI 可能不支持）
+      .replace(/[—–－]+/g, '，')
       // 移除多余空格
       .replace(/\s+/g, ' ')
       .trim();
+  }
+
+  /**
+   * 将长文本拆分为短片段
+   * Chrome 的 speechSynthesis 朗读超过约 15 秒会冻结
+   * 按中文标点拆分，每段不超过 maxLen 字符
+   * Windows Chrome 使用更短的分块（50 字符）降低冻结概率
+   */
+  private splitText(text: string, maxLen: number = 50): string[] {
+    if (text.length <= maxLen) return [text];
+
+    const chunks: string[] = [];
+    let remaining = text;
+
+    while (remaining.length > 0) {
+      if (remaining.length <= maxLen) {
+        chunks.push(remaining);
+        break;
+      }
+
+      // 在 maxLen 范围内找最后一个中文标点作为分割点
+      const puncts = ['，', '。', '！', '？', '；', '：', '、', '…'];
+      let splitIdx = -1;
+
+      for (let i = maxLen; i > maxLen * 0.4; i--) {
+        if (puncts.includes(remaining[i])) {
+          splitIdx = i + 1;
+          break;
+        }
+      }
+
+      // 找不到标点就强制分割
+      if (splitIdx === -1) {
+        splitIdx = maxLen;
+      }
+
+      chunks.push(remaining.slice(0, splitIdx));
+      remaining = remaining.slice(splitIdx);
+    }
+
+    return chunks;
   }
 
   /**
@@ -301,13 +383,11 @@ class SpeechService {
       return;
     }
 
-    // 停止当前播放
-    this.stop();
+    // 清除之前的计时器
+    this.clearTimers();
 
-    // 移动端：确保 resume 被调用（Android bug workaround）
-    if (isMobileDevice()) {
-      this.synth.resume();
-    }
+    // 停止当前播放
+    this.stopInternal();
 
     // 如果需要压低 BGM
     if (this.priorityMode && soundService.isBGMPlaying()) {
@@ -318,50 +398,129 @@ class SpeechService {
     // 预处理文本：移除不需要朗读的符号
     const cleanedText = this.cleanTextForSpeech(text);
 
-    const utterance = new SpeechSynthesisUtterance(cleanedText);
+    // 拆分长文本避免 Chrome 冻结 bug
+    const chunks = this.splitText(cleanedText);
+    console.log('[SpeechService] Speaking:', cleanedText.slice(0, 50) + '...', 'voice:', this.chineseVoice?.name ?? 'default', 'chunks:', chunks.length);
 
-    // 设置语音
-    if (this.chineseVoice) {
-      utterance.voice = this.chineseVoice;
-    }
-    utterance.lang = 'zh-CN';
+    // 启动周期性 resume() 定时器（Chrome ~15 秒后自动暂停的 workaround）
+    this.resumeInterval = setInterval(() => {
+      if (this.synth && this.synth.speaking) {
+        this.synth.resume();
+      }
+    }, 5000);
 
-    // 应用角色音色配置
-    const config = this.getVoiceConfig(speaker);
-    utterance.pitch = config.pitch;
-    utterance.rate = config.rate;
-    utterance.volume = this.volume;
+    // 逐段播放
+    let chunkIndex = 0;
+    let chunkTimeout: ReturnType<typeof setTimeout> | null = null;
+    let completed = false;
 
-    // 设置回调
-    utterance.onstart = () => {
-      console.log('[SpeechService] Speech started');
-    };
-
-    utterance.onend = () => {
-      console.log('[SpeechService] Speech ended');
-      this.onSpeechEnd();
-      onEnd?.();
-    };
-
-    utterance.onerror = (event) => {
-      if (event.error !== 'canceled') {
-        console.warn('[SpeechService] Speech error:', event.error);
+    const finish = () => {
+      if (completed) return;
+      completed = true;
+      this.clearTimers();
+      if (chunkTimeout) {
+        clearTimeout(chunkTimeout);
+        chunkTimeout = null;
       }
       this.onSpeechEnd();
       onEnd?.();
     };
 
-    console.log('[SpeechService] Speaking:', cleanedText.slice(0, 50) + '...');
-    this.synth.speak(utterance);
+    const playNextChunk = (fallbackMode: boolean = false) => {
+      if (chunkTimeout) {
+        clearTimeout(chunkTimeout);
+        chunkTimeout = null;
+      }
 
-    // 移动端：Android 有时需要这个 workaround
-    if (isMobileDevice()) {
-      // 强制触发播放
-      setTimeout(() => {
-        if (this.synth && !this.synth.speaking && this.synth.pending) {
-          this.synth.resume();
+      if (chunkIndex >= chunks.length) {
+        finish();
+        return;
+      }
+
+      const chunk = chunks[chunkIndex];
+      chunkIndex++;
+
+      const utterance = new SpeechSynthesisUtterance(chunk);
+
+      if (fallbackMode) {
+        // fallback 模式：不设 voice/pitch/rate，尝试多种 lang 值
+        // Microsoft SAPI 可能对 zh-CN / zh-Hans 有不同处理
+        utterance.lang = 'zh-Hans';
+        utterance.volume = this.volume;
+      } else {
+        // 正常模式：设 voice + lang + 音色配置
+        utterance.lang = 'zh-CN';
+        if (!this.useDefaultVoice && this.chineseVoice) {
+          utterance.voice = this.chineseVoice;
         }
-      }, 100);
+        const config = this.getVoiceConfig(speaker);
+        utterance.pitch = config.pitch;
+        utterance.rate = config.rate;
+        utterance.volume = this.volume;
+      }
+
+      utterance.onstart = () => {
+        console.log('[SpeechService] Speech started', fallbackMode ? '(fallback)' : '', 'voice:', this.chineseVoice?.name ?? 'default');
+      };
+
+      utterance.onend = () => {
+        console.log('[SpeechService] Speech chunk ended');
+        if (fallbackMode) {
+          this.useDefaultVoice = true;
+        }
+        playNextChunk(fallbackMode);
+      };
+
+      utterance.onerror = (event) => {
+        if (event.error === 'canceled') {
+          return;
+        }
+        // synthesis-failed：Microsoft 语音 bug，cancel 后延迟重试用 fallback 模式
+        if (event.error === 'synthesis-failed' && !fallbackMode) {
+          console.warn('[SpeechService] synthesis-failed, retrying in fallback mode');
+          chunkIndex--; // 回退当前 chunk
+          this.synth!.cancel();
+          setTimeout(() => playNextChunk(true), 100);
+          return;
+        }
+        console.warn('[SpeechService] Speech error:', event.error);
+        finish();
+      };
+
+      this.synth!.speak(utterance);
+      this.synth!.resume();
+
+      // 每个 chunk 超时保护
+      chunkTimeout = setTimeout(() => {
+        if (!completed && this.synth?.speaking) {
+          console.warn('[SpeechService] Chunk timeout, skipping to next');
+          this.synth.cancel();
+          setTimeout(() => playNextChunk(fallbackMode), 100);
+        }
+      }, 10000);
+    };
+
+    playNextChunk();
+
+    // 全局超时保护
+    const totalTimeout = chunks.length * 12000;
+    this.speechTimeout = setTimeout(() => {
+      console.warn('[SpeechService] Speech total timeout, forcing cancel');
+      finish();
+    }, totalTimeout);
+  }
+
+  /**
+   * 清除所有计时器
+   */
+  private clearTimers(): void {
+    if (this.speechTimeout) {
+      clearTimeout(this.speechTimeout);
+      this.speechTimeout = null;
+    }
+    if (this.resumeInterval) {
+      clearInterval(this.resumeInterval);
+      this.resumeInterval = null;
     }
   }
 
@@ -376,13 +535,21 @@ class SpeechService {
   }
 
   /**
+   * 内部停止（不清理计时器，由调用方负责）
+   */
+  private stopInternal(): void {
+    if (this.synth) {
+      this.synth.cancel();
+    }
+  }
+
+  /**
    * 停止当前播放
    */
   stop(): void {
-    if (this.synth) {
-      this.synth.cancel();
-      this.onSpeechEnd();
-    }
+    this.clearTimers();
+    this.stopInternal();
+    this.onSpeechEnd();
   }
 
   /**
@@ -418,6 +585,14 @@ class SpeechService {
    */
   isVoicesLoaded(): boolean {
     return this.voicesLoaded;
+  }
+
+  /**
+   * 检查是否缺少本地中文语音（仅有 Google 云端语音）
+   * 用于 UI 层提示用户安装中文语音或使用 Edge 浏览器
+   */
+  needsLocalVoice(): boolean {
+    return this.useDefaultVoice;
   }
 }
 

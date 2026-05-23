@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -103,16 +103,14 @@ const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const userData = storageService.getUserData();
   const { playBGM } = useSound();
-  const [showSettings, setShowSettings] = React.useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   // 播放主菜单 BGM
   useEffect(() => {
     playBGM('menu');
   }, [playBGM]);
 
-  // 预加载音频（在用户第一次交互后）
   const handleStart = useCallback(() => {
-    // 后台预加载所有音频
     if (!soundService.isPreloaded()) {
       soundService.preloadAll().catch(() => {});
     }
@@ -120,7 +118,6 @@ const HomePage: React.FC = () => {
   }, [navigate]);
 
   const handleCollection = useCallback(() => {
-    // 后台预加载所有音频
     if (!soundService.isPreloaded()) {
       soundService.preloadAll().catch(() => {});
     }
