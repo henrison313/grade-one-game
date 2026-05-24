@@ -75,7 +75,7 @@ export const levelH2EasyQuestions: Question[] = [
 export const levelH2MediumQuestions: Question[] = [
   {
     type: 'fill_blank' as QuestionType.FILL_BLANK,
-    question: '炫蓝雷霆王觉醒！三合体由炫蓝闪电S（兰博基尼警车）+悍马装甲车+警用巴士组成！他说："三位一体！终极的炫卡力量！用三个单元的知识解决！计算：76-28+15=_"',
+    question: '炫蓝雷霆王觉醒！三合体由炫蓝闪电S（兰博基尼警车）+悍马装甲车+警用巴士组成！他说："三位一体！终极的炫卡力量！用三个单元的知识解决！计算：76-28+15={{___}}"',
     answer: '63',
     explanation: '炫蓝雷霆王："76-28=48，48+15=63！三位一体融合考验通过！炫蓝雷霆王力量觉醒！"',
     hint: '先算减法，再算加法',

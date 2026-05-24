@@ -719,6 +719,39 @@ export const zhongZhuangChiHunWangVariants: CharacterVariant[] = [
 ];
 
 /**
+ * 炫蓝雷霆王的多形态配置（隐藏关卡 H2）
+ */
+export const xuanLanLeiTingWangVariants: CharacterVariant[] = [
+  {
+    characterId: 'xuanlan-leitingwang',
+    variant: 'base',
+    rarity: 'gold',
+    image: getAssetPath('/assets/character/xuanlan-leitingwang-robot.webp'),
+    difficulty: DifficultyLevel.EASY,
+    displayName: '炫蓝雷霆王',
+    stats: { height: '5.0 米', weight: '4.0 吨', speed: '300km/h', power: '11000 马力' },
+  },
+  {
+    characterId: 'xuanlan-leitingwang',
+    variant: 'flame',
+    rarity: 'rainbow',
+    image: getAssetPath('/assets/character/xuanlan-leitingwang-spacetime.webp'),
+    difficulty: DifficultyLevel.MEDIUM,
+    displayName: '炫蓝雷霆王·时空形态',
+    stats: { height: '5.5 米', weight: '4.5 吨', speed: '350km/h', power: '14000 马力' },
+  },
+  {
+    characterId: 'xuanlan-leitingwang',
+    variant: 'ultimate',
+    rarity: 'prismatic',
+    image: getAssetPath('/assets/character/xuanlan-leitingwang-ultimate.webp'),
+    difficulty: DifficultyLevel.HARD,
+    displayName: '炫蓝雷霆王·终极形态',
+    stats: { height: '6.0 米', weight: '5.0 吨', speed: '400km/h', power: '18000 马力' },
+  },
+];
+
+/**
  * 超炫电光王的多形态配置（隐藏关卡 H1）
  */
 export const chaoXuanDianGuangWangVariants: CharacterVariant[] = [
@@ -777,6 +810,7 @@ export const allCharacterVariants: CharacterVariant[] = [
   ...yinYiQiShiVariants,
   ...zhongZhuangChiHunWangVariants,
   ...chaoXuanDianGuangWangVariants,
+  ...xuanLanLeiTingWangVariants,
 ];
 
 /**
