@@ -20,11 +20,11 @@ import { DifficultyLevel } from '@/types';
 // 布局类型
 type LayoutMode = 'A' | 'C';
 
-// 所有可收集的角色 ID - 包含全部21个炫卡斗士
+// 所有可收集的角色 ID - 包含全部炫卡斗士（含隐藏关卡）
 const allCollectibleCharacters = [
   // 第一单元：图形与几何
   'juli-fengbao',      // 001: 巨力风暴 - 1-1
-  'baoche-jiushi',     // 002: 急救卫士 - 1-2  
+  'baoche-jiushi',     // 002: 急救卫士 - 1-2
   'liehuo-xiuluo',     // 003: 烈火修罗 - 1-3
   // 第二单元：20以内退位减法
   'anying-tegong',     // 004: 暗影特工 - 2-1
@@ -38,8 +38,11 @@ const allCollectibleCharacters = [
   'xuantie-zhanshen',  // 011: 玄铁战神 - 3-4
   // 第四单元：100以内口算加减法
   'xuanlan-shandian-s', // 012: 炫蓝闪电S - 4-1
+  'yanlong-zhanshen',  // 焰龙战神 - 4-2
+  'pili-huoying',      // 霹雳火影 - 4-3
   // 第五单元：100以内笔算加减法
   'gangbi-lishi',      // 钢臂力士 - 5-1/5-2
+  'liekong-hanjiang',  // 猎空悍将 - 5-3
   // 第六单元：BOSS关
   'xingji-youxia',     // 016: 星际游侠 - 6
   // 第七单元：欢乐购物街
@@ -49,6 +52,9 @@ const allCollectibleCharacters = [
   'yinyi-qishi',       // 银翼骑士 - 8
   // 第九单元：期末综合
   'zhongzhang-chihunwang', // 重装赤魂王 - 9
+  // 隐藏关卡
+  'chaoxuan-dianguangwang', // H1: 超炫电光王
+  'xuanlan-leitingwang',    // H2: 炫蓝雷霆王
 ];
 
 // 扩展稀有度配置
