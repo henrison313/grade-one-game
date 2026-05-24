@@ -271,10 +271,10 @@ export const level42QuestionsByDifficulty: Record<DifficultyLevel, Question[]> =
  * 关卡 4-2 新手模式武器零件:烈焰轰击(5个零件)
  */
 export const level42EasyWeaponParts: WeaponPart[] = [
-  { id: 'easy-flame-core', name: '焰龙探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'easy-flame-navigator', name: '焰龙导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'easy-flame-pincer-head', name: '焰龙巨钳头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
-  { id: 'easy-flame-energy-pipe', name: '焰龙能量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'easy-flame-core', name: '焰龙探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'easy-flame-navigator', name: '焰龙导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'easy-flame-pincer-head', name: '焰龙巨钳头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'easy-flame-energy-pipe', name: '焰龙能量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'easy-flame-cannon-complete', name: '焰龙战神战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.webp') },
 ]
 
@@ -282,10 +282,10 @@ export const level42EasyWeaponParts: WeaponPart[] = [
  * 关卡 4-2 挑战模式武器零件:火焰弹(5个零件)
  */
 export const level42MediumWeaponParts: WeaponPart[] = [
-  { id: 'medium-blaze-core', name: '烈焰探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'medium-flame-calculator', name: '焰龙计算仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'medium-flame-armor-plate', name: '焰龙装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
-  { id: 'medium-flame-meter-pipe', name: '焰龙计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'medium-blaze-core', name: '烈焰探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'medium-flame-calculator', name: '焰龙计算仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'medium-flame-armor-plate', name: '焰龙装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'medium-flame-meter-pipe', name: '焰龙计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'medium-flame-cannon-complete', name: '焰龙战神战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.webp') },
 ]
 
@@ -293,10 +293,10 @@ export const level42MediumWeaponParts: WeaponPart[] = [
  * 关卡 4-2 高手模式武器零件:地狱火(5个零件)
  */
 export const level42HardWeaponParts: WeaponPart[] = [
-  { id: 'hard-partner-core', name: '伙伴焰龙核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'hard-flame-fairness', name: '焰龙公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'hard-hellfire-system', name: '焰龙地狱火系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
-  { id: 'hard-flame-armor-pipe', name: '焰龙装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'hard-partner-core', name: '伙伴焰龙核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'hard-flame-fairness', name: '焰龙公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'hard-hellfire-system', name: '焰龙地狱火系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'hard-flame-armor-pipe', name: '焰龙装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'hard-flame-ultimate-cannon-complete', name: '焰龙战神终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.webp') },
 ]
 

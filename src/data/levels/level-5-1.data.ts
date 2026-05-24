@@ -200,26 +200,26 @@ export const level51QuestionsByDifficulty: Record<DifficultyLevel, Question[]> =
 }
 
 export const level51EasyWeaponParts: WeaponPart[] = [
-  { id: 'easy-sky-core', name: '疾风探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'easy-sky-nav', name: '疾风导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'easy-sky-head', name: '疾风猛击头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
-  { id: 'easy-sky-pipe', name: '疾风穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'easy-sky-core', name: '疾风探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'easy-sky-nav', name: '疾风导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'easy-sky-head', name: '疾风猛击头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'easy-sky-pipe', name: '疾风穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'easy-sky-complete', name: '疾风猛击完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.webp') },
 ]
 
 export const level51MediumWeaponParts: WeaponPart[] = [
-  { id: 'med-sky-core', name: '疾风探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'med-sky-loc', name: '疾风定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'med-sky-armor', name: '疾风装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
-  { id: 'med-sky-meter', name: '疾风计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'med-sky-core', name: '疾风探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'med-sky-loc', name: '疾风定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'med-sky-armor', name: '疾风装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'med-sky-meter', name: '疾风计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'med-sky-cannon', name: '猎空悍将战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.webp') },
 ]
 
 export const level51HardWeaponParts: WeaponPart[] = [
-  { id: 'hard-sky-partner', name: '伙伴疾风核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'hard-sky-fair', name: '疾风公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'hard-sky-sys', name: '疾风猛击系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
-  { id: 'hard-sky-armor', name: '疾风装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'hard-sky-partner', name: '伙伴疾风核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'hard-sky-fair', name: '疾风公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'hard-sky-sys', name: '疾风猛击系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'hard-sky-armor', name: '疾风装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'hard-sky-ult', name: '猎空悍将终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.webp') },
 ]
 

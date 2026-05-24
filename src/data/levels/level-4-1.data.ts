@@ -266,10 +266,10 @@ export const level41QuestionsByDifficulty: Record<DifficultyLevel, Question[]> =
  * 关卡 4-1 新手模式武器零件:炫蓝重拳S(5个零件)
  */
 export const level41EasyWeaponParts: WeaponPart[] = [
-  { id: 'easy-blue-s-core', name: '炫蓝探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'easy-blue-s-navigator', name: '炫蓝导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'easy-blue-s-punch-head', name: '炫蓝重拳头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
-  { id: 'easy-blue-s-armor-pipe', name: '炫蓝战甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'easy-blue-s-core', name: '炫蓝探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'easy-blue-s-navigator', name: '炫蓝导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'easy-blue-s-punch-head', name: '炫蓝重拳头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'easy-blue-s-armor-pipe', name: '炫蓝战甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'easy-blue-s-punch-complete', name: '炫蓝重拳S完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.webp') },
 ]
 
@@ -277,9 +277,9 @@ export const level41EasyWeaponParts: WeaponPart[] = [
  * 关卡 4-1 挑战模式武器零件:流星重拳炮(4个零件)
  */
 export const level41MediumWeaponParts: WeaponPart[] = [
-  { id: 'medium-meteor-core', name: '流星探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'medium-meteor-locator', name: '流星定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'medium-meteor-armor-plate', name: '流星装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
+  { id: 'medium-meteor-core', name: '流星探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'medium-meteor-locator', name: '流星定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'medium-meteor-armor-plate', name: '流星装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
   { id: 'medium-meteor-punch-cannon-complete', name: '流星重拳炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.webp') },
 ]
 
@@ -287,9 +287,9 @@ export const level41MediumWeaponParts: WeaponPart[] = [
  * 关卡 4-1 高手模式武器零件:星爆粉碎拳(4个零件)
  */
 export const level41HardWeaponParts: WeaponPart[] = [
-  { id: 'hard-starburst-command-core', name: '星爆指挥核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'hard-courage-navigator', name: '勇气导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'hard-starburst-punch-system', name: '星爆重拳系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'hard-starburst-command-core', name: '星爆指挥核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'hard-courage-navigator', name: '勇气导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'hard-starburst-punch-system', name: '星爆重拳系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'hard-starburst-smash-punch-complete', name: '星爆粉碎拳完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.webp') },
 ]
 

@@ -131,8 +131,8 @@ export const levelH2MediumQuestions: Question[] = [
 export const levelH2HardQuestions: Question[] = [
   {
     type: 'fill_blank' as QuestionType.FILL_BLANK,
-    question: '【第二季第26集大结局】重装赤魂王的阴谋！他说："我是星球守卫的重装赤魂王！炫蓝闪电曾经是我的下属！用终极跨单元知识解决：找规律：1、1、2、3、5、8、_（斐波那契数列）。这个数减去13后是_"',
-    answer: '0',
+    question: '【第二季第26集大结局】重装赤魂王的阴谋！他说："我是星球守卫的重装赤魂王！炫蓝闪电曾经是我的下属！用终极跨单元知识解决：找规律：1、1、2、3、5、8、{{___}}（斐波那契数列）。这个数减去13后是{{___}}"',
+    answer: ['13', '0'],
     explanation: '炫蓝雷霆王："斐波那契数列：1+1=2，1+2=3，2+3=5，3+5=8，5+8=13！13-13=0！重装赤魂王阴谋破解第一步！"',
     hint: '斐波那契数列：前两个数相加等于后一个数',
   },
@@ -195,26 +195,26 @@ export const levelH2QuestionsByDifficulty: Record<DifficultyLevel, Question[]> =
 }
 
 export const levelH2EasyWeaponParts: WeaponPart[] = [
-  { id: 'easy-trinity-core', name: '炫蓝雷霆核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'easy-trinity-nav', name: '炫蓝雷霆导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'easy-trinity-head', name: '炫蓝雷霆头部', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
-  { id: 'easy-trinity-pipe', name: '炫蓝雷霆穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'easy-trinity-core', name: '炫蓝雷霆核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'easy-trinity-nav', name: '炫蓝雷霆导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'easy-trinity-head', name: '炫蓝雷霆头部', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'easy-trinity-pipe', name: '炫蓝雷霆穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'easy-trinity-complete', name: '炫蓝雷霆战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.webp') },
 ]
 
 export const levelH2MediumWeaponParts: WeaponPart[] = [
-  { id: 'med-trinity-core', name: '炫蓝雷霆探测核心（升级）', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'med-trinity-loc', name: '炫蓝雷霆定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'med-trinity-armor', name: '炫蓝雷霆装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
-  { id: 'med-trinity-meter', name: '炫蓝雷霆计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'med-trinity-core', name: '炫蓝雷霆探测核心（升级）', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'med-trinity-loc', name: '炫蓝雷霆定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'med-trinity-armor', name: '炫蓝雷霆装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'med-trinity-meter', name: '炫蓝雷霆计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'med-trinity-cannon', name: '炫蓝雷霆王战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.webp') },
 ]
 
 export const levelH2HardWeaponParts: WeaponPart[] = [
-  { id: 'hard-trinity-partner', name: '伙伴雷霆核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'hard-trinity-fair', name: '炫蓝雷霆公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'hard-trinity-sys', name: '炫蓝雷霆爆裂系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
-  { id: 'hard-trinity-armor', name: '炫蓝雷霆装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'hard-trinity-partner', name: '伙伴雷霆核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'hard-trinity-fair', name: '炫蓝雷霆公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'hard-trinity-sys', name: '炫蓝雷霆爆裂系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'hard-trinity-armor', name: '炫蓝雷霆装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'hard-trinity-ult', name: '炫蓝雷霆王终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.webp') },
 ]
 

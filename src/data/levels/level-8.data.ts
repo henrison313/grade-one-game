@@ -249,10 +249,10 @@ export const level8QuestionsByDifficulty: Record<DifficultyLevel, Question[]> = 
  * 关卡 8 新手模式武器零件:星辰光箭（5个零件）
  */
 export const level8EasyWeaponParts: WeaponPart[] = [
-  { id: 'easy-star-core', name: '星辰探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'easy-star-navigator', name: '星辰导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'easy-star-arrow-head', name: '星辰光箭头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
-  { id: 'easy-star-traverse-pipe', name: '星辰穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'easy-star-core', name: '星辰探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'easy-star-navigator', name: '星辰导航仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'easy-star-arrow-head', name: '星辰光箭头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'easy-star-traverse-pipe', name: '星辰穿梭管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'easy-star-arrow-complete', name: '星辰光箭完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.webp') },
 ]
 
@@ -260,10 +260,10 @@ export const level8EasyWeaponParts: WeaponPart[] = [
  * 关卡 8 挑战模式武器零件:银翼骑士战炮（5个零件）
  */
 export const level8MediumWeaponParts: WeaponPart[] = [
-  { id: 'medium-star-core', name: '星辰探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'medium-star-locator', name: '星辰定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'medium-star-armor-plate', name: '星辰装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
-  { id: 'medium-star-meter-pipe', name: '星辰计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'medium-star-core', name: '星辰探测核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'medium-star-locator', name: '星辰定位器', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'medium-star-armor-plate', name: '星辰装甲板', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'medium-star-meter-pipe', name: '星辰计量管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'medium-silver-knight-cannon-complete', name: '银翼骑士战炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.webp') },
 ]
 
@@ -271,10 +271,10 @@ export const level8MediumWeaponParts: WeaponPart[] = [
  * 关卡 8 高手模式武器零件:银翼骑士终极炮（5个零件）
  */
 export const level8HardWeaponParts: WeaponPart[] = [
-  { id: 'hard-partner-star-core', name: '伙伴星辰核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'hard-star-fairness', name: '星辰公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'hard-star-storm-system', name: '星辰风暴系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
-  { id: 'hard-star-armor-pipe', name: '星辰装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'hard-partner-star-core', name: '伙伴星辰核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'hard-star-fairness', name: '星辰公平仪', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'hard-star-storm-system', name: '星辰风暴系统', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'hard-star-armor-pipe', name: '星辰装甲管', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'hard-silver-knight-ultimate-cannon-complete', name: '银翼骑士终极炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.webp') },
 ]
 

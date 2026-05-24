@@ -10,10 +10,10 @@ import { DifficultyLevel } from '@/types';
  * 新手模式武器零件：炫光钻探机
  */
 export const level2_2EasyWeaponParts: WeaponPart[] = [
-  { id: 'drill-easy-core', name: '钻探核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'drill-easy-bit', name: '炫光钻头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'drill-easy-handle', name: '隧道手柄', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/光能护盾.webp') },
-  { id: 'drill-easy-guard', name: '岩石护甲', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'drill-easy-core', name: '钻探核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'drill-easy-bit', name: '炫光钻头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'drill-easy-handle', name: '隧道手柄', shapeType: 'square', iconImage: getAssetPath('/assets/weapons/weapon-part-3.webp') },
+  { id: 'drill-easy-guard', name: '岩石护甲', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'drill-easy-complete', name: '炫光钻探机完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/easy-xuanlan-shandian-light.webp') },
 ];
 
@@ -21,9 +21,9 @@ export const level2_2EasyWeaponParts: WeaponPart[] = [
  * 挑战模式武器零件：螺旋钻头炮
  */
 export const level2_2MediumWeaponParts: WeaponPart[] = [
-  { id: 'drill-medium-core', name: '螺旋核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'drill-medium-bit', name: '深层钻头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'drill-medium-barrel', name: '钻头炮管', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'drill-medium-core', name: '螺旋核心', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'drill-medium-bit', name: '深层钻头', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'drill-medium-barrel', name: '钻头炮管', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'drill-medium-complete', name: '螺旋钻头炮完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/medium-xuanlan-shandian-bolt.webp') },
 ];
 
@@ -31,9 +31,9 @@ export const level2_2MediumWeaponParts: WeaponPart[] = [
  * 高手模式武器零件：雷霆钻探机
  */
 export const level2_2HardWeaponParts: WeaponPart[] = [
-  { id: 'drill-hard-ring', name: '雷霆能量环', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/光能核心.webp') },
-  { id: 'drill-hard-prism', name: '地心聚焦棱', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/光能发射器.webp') },
-  { id: 'drill-hard-barrel', name: '雷霆钻探管', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/光能外壳.webp') },
+  { id: 'drill-hard-ring', name: '雷霆能量环', shapeType: 'circle', iconImage: getAssetPath('/assets/weapons/weapon-part-1.webp') },
+  { id: 'drill-hard-prism', name: '地心聚焦棱', shapeType: 'triangle', iconImage: getAssetPath('/assets/weapons/weapon-part-2.webp') },
+  { id: 'drill-hard-barrel', name: '雷霆钻探管', shapeType: 'rectangle', iconImage: getAssetPath('/assets/weapons/weapon-part-4.webp') },
   { id: 'drill-hard-complete', name: '雷霆钻探机完成', shapeType: 'composite', iconImage: getAssetPath('/assets/weapons/hard-xuanlan-shandian-thunder.webp') },
 ];
 
