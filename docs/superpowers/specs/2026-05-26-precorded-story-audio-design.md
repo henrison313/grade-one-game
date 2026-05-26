@@ -8,11 +8,13 @@ status: approved
 
 ## 背景
 
-炫卡斗士游戏在部分设备（如华为鸿蒙 6.0 平板）上 Web Speech API 无法正常工作。为解决语音播放兼容性问题，采用预录制音频文件作为降级方案。
+炫卡斗士游戏在部分设备（如华为鸿蒙 6.0 平板）上 Web Speech API 无法正常工作。为解决语音播放兼容性问题，采用预录制音频文件作为优先方案，百度云端 TTS 作为兜底。
 
 ## 目标
 
-- 在 Web Speech API 不可用时，自动降级到预录制音频播放
+- 预录制音频作为优先播放方案
+- Web Speech API 作为降级方案
+- 百度云端 TTS 作为最终兜底
 - 支持三种音色：独白/旁白、小俊、其他守护者
 - 对调用方透明，无需修改 StoryPlayer 组件逻辑
 
@@ -49,33 +51,26 @@ public/audio/story/
 
 ```
 检测顺序：
-1. Web Speech API → 可用则播放
-2. 预录制音频 → 存在则播放
-3. 静音模式 → 以上都不可用
+1. 预录制音频 → 存在则播放（优先）
+2. Web Speech API → 可用则播放
+3. 百度云端 TTS → 已配置则播放
+4. 静音模式 → 以上都不可用
 ```
 
 **TTSMode 枚举调整**：
 
 ```typescript
 enum TTSMode {
-  WEB_SPEECH = 'web_speech',    // 优先使用
-  PRECORDED = 'precoreded',     // 降级方案
-  SILENT = 'silent',            // 兜底静音
+  PRECORDED = 'precoreded',     // 优先：预录制音频
+  WEB_SPEECH = 'web_speech',    // 降级：Web Speech API
+  BAIDU_TTS = 'baidu_tts',      // 兜底：百度云端 TTS
+  SILENT = 'silent',            // 最终兜底：静音
 }
 ```
 
 ### 3. 核心服务改动
 
-#### 3.1 移除百度 TTS
-
-- 删除 `src/services/baidu-tts.service.ts`
-- 清理 `speech.service.ts` 中百度 TTS 相关代码：
-  - 移除 `baiduTTSService` 导入
-  - 移除 `speakWithBaidu()` 方法
-  - 移除 `configureBaiduTTS()` 方法
-  - 移除 `BAIDU_TTS` 模式分支
-
-#### 3.2 新增预录制音频支持
+#### 3.1 新增预录制音频支持
 
 **speech.service.ts 新增**：
 
@@ -117,7 +112,7 @@ class SpeechService {
 }
 ```
 
-#### 3.3 speak() 方法调整
+#### 3.2 speak() 方法调整
 
 ```typescript
 speak(
@@ -132,16 +127,19 @@ speak(
   }
 
   switch (this.ttsMode) {
-    case TTSMode.WEB_SPEECH:
-      this.speakWithWebSpeech(text, speaker, onEnd);
-      return;
     case TTSMode.PRECORDED:
       if (segmentIndex !== undefined && this.currentLevelId) {
         this.playPrecorded(segmentIndex, onEnd);
       } else {
-        // 无索引信息，跳过播放
-        onEnd?.();
+        // 无索引信息，降级到下一模式
+        this.tryFallback(text, speaker, onEnd);
       }
+      return;
+    case TTSMode.WEB_SPEECH:
+      this.speakWithWebSpeech(text, speaker, onEnd);
+      return;
+    case TTSMode.BAIDU_TTS:
+      this.speakWithBaidu(text, speaker, onEnd);
       return;
     case TTSMode.SILENT:
     default:
@@ -155,20 +153,30 @@ speak(
 
 ```typescript
 private updateTTSMode(): void {
-  // 优先使用 Web Speech
-  if (this.webSpeechWorking) {
-    this.ttsMode = TTSMode.WEB_SPEECH;
+  // 优先检查预录制音频
+  if (this.currentLevelId && this.precordedCache.size > 0) {
+    this.ttsMode = TTSMode.PRECORDED;
+    console.log('[SpeechService] Using PRECORDED mode');
     return;
   }
 
-  // 检查是否有预录制音频
-  if (this.currentLevelId && this.precordedCache.size > 0) {
-    this.ttsMode = TTSMode.PRECORDED;
+  // 其次检查 Web Speech
+  if (this.webSpeechWorking) {
+    this.ttsMode = TTSMode.WEB_SPEECH;
+    console.log('[SpeechService] Using WEB_SPEECH mode');
+    return;
+  }
+
+  // 再次检查百度 TTS
+  if (baiduTTSService.isConfigured()) {
+    this.ttsMode = TTSMode.BAIDU_TTS;
+    console.log('[SpeechService] Using BAIDU_TTS mode');
     return;
   }
 
   // 兜底静音
   this.ttsMode = TTSMode.SILENT;
+  console.log('[SpeechService] No TTS available, mode: SILENT');
 }
 ```
 
@@ -258,27 +266,29 @@ private mapSpeaker(speaker?: string, type?: string): string {
 
 ## 实现步骤
 
-1. 删除百度 TTS 相关代码
-2. 更新 `TTSMode` 枚举
-3. 新增预录制音频加载和播放逻辑
-4. 修改 `speak()` 方法支持片段索引
-5. 更新 `StoryPlayer` 组件调用
-6. 创建示例音频文件目录结构
+1. 更新 `TTSMode` 枚举，新增 `PRECORDED`
+2. 新增预录制音频属性和类型
+3. 实现角色映射、路径生成方法
+4. 实现预加载和播放方法
+5. 修改 `speak()` 方法支持片段索引
+6. 更新模式切换逻辑
+7. 更新 `StoryPlayer` 组件调用
+8. 创建示例音频文件目录结构
 
 ## 测试要点
 
-1. Web Speech API 可用时正常播放
-2. Web Speech API 不可用时降级到预录制音频
-3. 预录制音频不存在时静音跳过
-4. 音频预加载不影响页面性能
+1. 预录制音频存在时优先播放
+2. 预录制音频不存在时降级到 Web Speech API
+3. Web Speech API 不可用时降级到百度 TTS
+4. 百度 TTS 未配置时静音跳过
 5. 切换关卡时正确加载对应音频
 
 ## 文件清单
 
 | 文件 | 操作 |
 |-----|------|
-| `src/services/baidu-tts.service.ts` | 删除 |
+| `src/services/baidu-tts.service.ts` | 保留 |
 | `src/services/speech.service.ts` | 修改 |
-| `src/services/index.ts` | 修改（移除百度 TTS 导出） |
+| `src/services/index.ts` | 保留 |
 | `src/features/story/story-player/story-player.component.tsx` | 修改 |
 | `public/audio/story/` | 新建目录 |
