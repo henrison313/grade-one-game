@@ -1,6 +1,8 @@
 import { soundService } from './sound.service';
 import { storageService } from './storage.service';
 import { baiduTTSService } from './baidu-tts.service';
+// @ts-expect-error - StorySegment type for future preload method
+import type { StorySegment } from '@/types';
 
 /**
  * 角色音色配置
@@ -80,6 +82,16 @@ class SpeechService {
   private ttsMode: TTSMode = TTSMode.WEB_SPEECH;
   private webSpeechTested: boolean = false;
   private webSpeechWorking: boolean = false;
+
+  // 预录制音频管理
+  private _currentLevelId: string | null = null;
+  private _precordedCache: Map<string, HTMLAudioElement> = new Map();
+  private _currentPrecordedAudio: HTMLAudioElement | null = null;
+
+  // Getters for future preload method access
+  get currentLevelId() { return this._currentLevelId; }
+  get precordedCache() { return this._precordedCache; }
+  get currentPrecordedAudio() { return this._currentPrecordedAudio; }
 
   constructor() {
     this.initSynth();
