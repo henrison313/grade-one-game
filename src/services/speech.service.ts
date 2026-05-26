@@ -14,9 +14,10 @@ interface VoiceConfig {
  * TTS 模式
  */
 export enum TTSMode {
-  WEB_SPEECH = 'web_speech',   // 浏览器 Web Speech API
-  BAIDU_TTS = 'baidu_tts',     // 百度云端 TTS
-  SILENT = 'silent',           // 静音模式（不可用）
+  PRECORDED = 'precorded',     // 优先：预录制音频
+  WEB_SPEECH = 'web_speech',   // 降级：Web Speech API
+  BAIDU_TTS = 'baidu_tts',     // 兜底：百度云端 TTS
+  SILENT = 'silent',           // 最终兜底：静音
 }
 
 /**
