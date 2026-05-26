@@ -174,16 +174,9 @@ class SpeechService {
         if (!testCompleted) {
           testCompleted = true;
           this.synth?.cancel();
-          // 如果 2 秒内没有响应，认为 API 不可用
-          // 但只有在百度 TTS 已配置时才切换
-          if (baiduTTSService.isConfigured()) {
-            this.webSpeechWorking = false;
-            this.updateTTSMode();
-          } else {
-            // 百度未配置，保持使用 Web Speech（即使可能有问题）
-            this.webSpeechWorking = true;
-            this.ttsMode = TTSMode.WEB_SPEECH;
-          }
+          // 超时认为 API 不可用，更新模式
+          this.webSpeechWorking = false;
+          this.updateTTSMode();
         }
       }, 2000);
 
@@ -198,16 +191,30 @@ class SpeechService {
    * 更新 TTS 模式
    */
   private updateTTSMode(): void {
-    if (baiduTTSService.isConfigured() && !this.webSpeechWorking) {
-      this.ttsMode = TTSMode.BAIDU_TTS;
-      console.log('[SpeechService] Switched to BAIDU_TTS mode');
-    } else if (this.webSpeechWorking) {
+    // 优先检查预录制音频
+    if (this._currentLevelId && this._precordedCache.size > 0) {
+      this.ttsMode = TTSMode.PRECORDED;
+      console.log('[SpeechService] Using PRECORDED mode');
+      return;
+    }
+
+    // 其次检查 Web Speech
+    if (this.webSpeechWorking) {
       this.ttsMode = TTSMode.WEB_SPEECH;
       console.log('[SpeechService] Using WEB_SPEECH mode');
-    } else {
-      this.ttsMode = TTSMode.SILENT;
-      console.log('[SpeechService] No TTS available, mode: SILENT');
+      return;
     }
+
+    // 再次检查百度 TTS
+    if (baiduTTSService.isConfigured()) {
+      this.ttsMode = TTSMode.BAIDU_TTS;
+      console.log('[SpeechService] Using BAIDU_TTS mode');
+      return;
+    }
+
+    // 兜底静音
+    this.ttsMode = TTSMode.SILENT;
+    console.log('[SpeechService] No TTS available, mode: SILENT');
   }
 
   /**
