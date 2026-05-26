@@ -1,5 +1,6 @@
 import { soundService } from './sound.service';
 import { storageService } from './storage.service';
+import { baiduTTSService } from './baidu-tts.service';
 
 /**
  * 角色音色配置
@@ -7,6 +8,15 @@ import { storageService } from './storage.service';
 interface VoiceConfig {
   pitch: number; // 音高 (0.5 - 2)
   rate: number; // 语速 (0.5 - 2)
+}
+
+/**
+ * TTS 模式
+ */
+export enum TTSMode {
+  WEB_SPEECH = 'web_speech',   // 浏览器 Web Speech API
+  BAIDU_TTS = 'baidu_tts',     // 百度云端 TTS
+  SILENT = 'silent',           // 静音模式（不可用）
 }
 
 /**
@@ -50,6 +60,7 @@ const isMobileDevice = (): boolean => {
 /**
  * 语音服务
  * 使用 Web Speech API 实现中文语音播放
+ * 当 Web Speech API 不可用时，自动切换到百度云端 TTS
  */
 class SpeechService {
   private synth: SpeechSynthesis | null = null;
@@ -64,10 +75,146 @@ class SpeechService {
   private resumeInterval: ReturnType<typeof setInterval> | null = null; // Chrome 冻结保护
   private useDefaultVoice: boolean = false; // 仅设 lang 不设 voice，让 Chrome 用 OS TTS
 
+  // TTS 模式管理
+  private ttsMode: TTSMode = TTSMode.WEB_SPEECH;
+  private webSpeechTested: boolean = false;
+  private webSpeechWorking: boolean = false;
+
   constructor() {
     this.initSynth();
     this.loadSettings();
     this.setupSpeechUnlock();
+    this.testWebSpeechAvailability();
+  }
+
+  /**
+   * 测试 Web Speech API 是否真正可用
+   * 某些浏览器（如鸿蒙浏览器）虽然有 API 但无法正常工作
+   */
+  private testWebSpeechAvailability(): void {
+    if (!this.synth) {
+      this.ttsMode = TTSMode.SILENT;
+      console.log('[SpeechService] Web Speech API not available, mode: SILENT');
+      return;
+    }
+
+    // 延迟测试，等待语音列表加载
+    setTimeout(() => {
+      this.performWebSpeechTest();
+    }, 3000);
+  }
+
+  /**
+   * 执行 Web Speech API 可用性测试
+   */
+  private performWebSpeechTest(): void {
+    if (this.webSpeechTested) return;
+    this.webSpeechTested = true;
+
+    const voices = this.synth?.getVoices() || [];
+    const chineseVoices = voices.filter(v =>
+      v.lang.startsWith('zh-CN') ||
+      v.lang.startsWith('zh_CN') ||
+      v.lang === 'zh'
+    );
+
+    // 如果没有中文语音，标记为不可用
+    if (chineseVoices.length === 0) {
+      console.log('[SpeechService] No Chinese voices available');
+      this.webSpeechWorking = false;
+      this.updateTTSMode();
+      return;
+    }
+
+    // 尝试一次静音测试
+    try {
+      const testUtterance = new SpeechSynthesisUtterance('测试');
+      testUtterance.volume = 0;
+      testUtterance.lang = 'zh-CN';
+
+      let testCompleted = false;
+
+      testUtterance.onstart = () => {
+        testCompleted = true;
+        this.webSpeechWorking = true;
+        this.ttsMode = TTSMode.WEB_SPEECH;
+        console.log('[SpeechService] Web Speech API working, mode: WEB_SPEECH');
+        this.synth?.cancel();
+      };
+
+      testUtterance.onerror = (event) => {
+        if (!testCompleted) {
+          testCompleted = true;
+          this.webSpeechWorking = false;
+          console.log('[SpeechService] Web Speech API error:', event.error);
+          this.updateTTSMode();
+        }
+      };
+
+      this.synth?.speak(testUtterance);
+
+      // 超时检测
+      setTimeout(() => {
+        if (!testCompleted) {
+          testCompleted = true;
+          this.synth?.cancel();
+          // 如果 2 秒内没有响应，认为 API 不可用
+          // 但只有在百度 TTS 已配置时才切换
+          if (baiduTTSService.isConfigured()) {
+            this.webSpeechWorking = false;
+            this.updateTTSMode();
+          } else {
+            // 百度未配置，保持使用 Web Speech（即使可能有问题）
+            this.webSpeechWorking = true;
+            this.ttsMode = TTSMode.WEB_SPEECH;
+          }
+        }
+      }, 2000);
+
+    } catch (error) {
+      console.warn('[SpeechService] Web Speech test failed:', error);
+      this.webSpeechWorking = false;
+      this.updateTTSMode();
+    }
+  }
+
+  /**
+   * 更新 TTS 模式
+   */
+  private updateTTSMode(): void {
+    if (baiduTTSService.isConfigured() && !this.webSpeechWorking) {
+      this.ttsMode = TTSMode.BAIDU_TTS;
+      console.log('[SpeechService] Switched to BAIDU_TTS mode');
+    } else if (this.webSpeechWorking) {
+      this.ttsMode = TTSMode.WEB_SPEECH;
+      console.log('[SpeechService] Using WEB_SPEECH mode');
+    } else {
+      this.ttsMode = TTSMode.SILENT;
+      console.log('[SpeechService] No TTS available, mode: SILENT');
+    }
+  }
+
+  /**
+   * 配置百度 TTS
+   * 当 Web Speech API 不可用时自动使用百度 TTS
+   */
+  configureBaiduTTS(apiKey: string, secretKey: string, accessToken?: string): void {
+    baiduTTSService.init({ apiKey, secretKey, accessToken });
+    this.updateTTSMode();
+  }
+
+  /**
+   * 获取当前 TTS 模式
+   */
+  getTTSMode(): TTSMode {
+    return this.ttsMode;
+  }
+
+  /**
+   * 检查语音服务是否可用
+   */
+  isAvailable(): boolean {
+    return this.ttsMode !== TTSMode.SILENT;
   }
 
   /**
@@ -260,13 +407,6 @@ class SpeechService {
   }
 
   /**
-   * 检查语音服务是否可用
-   */
-  isAvailable(): boolean {
-    return this.synth !== null;
-  }
-
-  /**
    * 设置是否启用语音
    */
   setEnabled(enabled: boolean): void {
@@ -371,7 +511,44 @@ class SpeechService {
    * @param onEnd 播放完成回调
    */
   speak(text: string, speaker?: string, onEnd?: () => void): void {
-    if (!this.synth || !this.enabled || !text.trim()) {
+    if (!this.enabled || !text.trim()) {
+      onEnd?.();
+      return;
+    }
+
+    // 根据当前模式选择 TTS 引擎
+    switch (this.ttsMode) {
+      case TTSMode.BAIDU_TTS:
+        this.speakWithBaidu(text, speaker, onEnd);
+        return;
+      case TTSMode.SILENT:
+        console.log('[SpeechService] TTS not available, skipping');
+        onEnd?.();
+        return;
+      case TTSMode.WEB_SPEECH:
+      default:
+        this.speakWithWebSpeech(text, speaker, onEnd);
+        return;
+    }
+  }
+
+  /**
+   * 使用百度 TTS 播放语音
+   */
+  private async speakWithBaidu(text: string, speaker?: string, onEnd?: () => void): Promise<void> {
+    try {
+      await baiduTTSService.speak(text, speaker, onEnd);
+    } catch (error) {
+      console.error('[SpeechService] Baidu TTS error:', error);
+      onEnd?.();
+    }
+  }
+
+  /**
+   * 使用 Web Speech API 播放语音
+   */
+  private speakWithWebSpeech(text: string, speaker?: string, onEnd?: () => void): void {
+    if (!this.synth) {
       onEnd?.();
       return;
     }
