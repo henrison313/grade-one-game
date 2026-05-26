@@ -472,6 +472,7 @@ const LevelIntroPage: React.FC = () => {
             style={{ width: '100%', maxWidth: 500 }}
           >
             <StoryPlayer
+              levelId={levelId || '1-1'}
               segments={level.story}
               onComplete={handleStoryComplete}
               showSkip

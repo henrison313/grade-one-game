@@ -6,6 +6,7 @@ import type { StorySegment } from '@/types';
 import { speechService, storageService } from '@/services';
 
 interface StoryPlayerProps {
+  levelId: string;           // 新增：关卡 ID
   segments: StorySegment[];
   onComplete?: () => void;
   autoPlay?: boolean;
@@ -145,6 +146,7 @@ const segmentVariants = {
 };
 
 const StoryPlayer: React.FC<StoryPlayerProps> = ({
+  levelId,
   segments,
   onComplete,
   autoPlay = true,
@@ -159,6 +161,13 @@ const StoryPlayer: React.FC<StoryPlayerProps> = ({
 
   const currentSegment = segments[currentIndex];
   const isLastSegment = currentIndex === segments.length - 1;
+
+  // 预加载关卡剧情音频
+  useEffect(() => {
+    if (levelId && segments.length > 0) {
+      speechService.preloadStoryAudio(levelId, segments);
+    }
+  }, [levelId, segments]);
 
   // 打字机效果
   useEffect(() => {
@@ -221,9 +230,9 @@ const StoryPlayer: React.FC<StoryPlayerProps> = ({
         currentSegment.speaker,
         () => {
           console.log('[StoryPlayer] 语音播放完成:', text.substring(0, 20));
-          // 语音播放完成，标记可以切换
           setSpeechComplete(true);
-        }
+        },
+        currentIndex  // 新增：传入片段索引
       );
     }, 200);
 
