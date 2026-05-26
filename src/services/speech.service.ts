@@ -61,8 +61,8 @@ const isMobileDevice = (): boolean => {
 
 /**
  * 语音服务
- * 使用 Web Speech API 实现中文语音播放
- * 当 Web Speech API 不可用时，自动切换到百度云端 TTS
+ * 使用预录制音频作为优先方案
+ * 降级顺序：预录制 → Web Speech API → 百度云端 TTS → 静音
  */
 class SpeechService {
   private synth: SpeechSynthesis | null = null;
@@ -687,8 +687,9 @@ class SpeechService {
    * @param text 要朗读的文本
    * @param speaker 说话人（用于匹配音色）
    * @param onEnd 播放完成回调
+   * @param segmentIndex 片段索引（用于预录制音频）
    */
-  speak(text: string, speaker?: string, onEnd?: () => void): void {
+  speak(text: string, speaker?: string, onEnd?: () => void, segmentIndex?: number): void {
     if (!this.enabled || !text.trim()) {
       onEnd?.();
       return;
@@ -696,16 +697,24 @@ class SpeechService {
 
     // 根据当前模式选择 TTS 引擎
     switch (this.ttsMode) {
+      case TTSMode.PRECORDED:
+        if (segmentIndex !== undefined && this.currentLevelId) {
+          this.playPrecorded(segmentIndex, onEnd);
+        } else {
+          // 无索引信息，降级到下一模式
+          this.speakWithWebSpeech(text, speaker, onEnd);
+        }
+        return;
+      case TTSMode.WEB_SPEECH:
+        this.speakWithWebSpeech(text, speaker, onEnd);
+        return;
       case TTSMode.BAIDU_TTS:
         this.speakWithBaidu(text, speaker, onEnd);
         return;
       case TTSMode.SILENT:
+      default:
         console.log('[SpeechService] TTS not available, skipping');
         onEnd?.();
-        return;
-      case TTSMode.WEB_SPEECH:
-      default:
-        this.speakWithWebSpeech(text, speaker, onEnd);
         return;
     }
   }
@@ -960,8 +969,8 @@ export const speechService = new SpeechService();
 /**
  * 便捷函数：播放语音
  */
-export function speak(text: string, speaker?: string, onEnd?: () => void): void {
-  speechService.speak(text, speaker, onEnd);
+export function speak(text: string, speaker?: string, onEnd?: () => void, segmentIndex?: number): void {
+  speechService.speak(text, speaker, onEnd, segmentIndex);
 }
 
 /**
@@ -974,8 +983,8 @@ export function stopSpeaking(): void {
 /**
  * 便捷函数：带 Promise 的语音播放
  */
-export function speakAsync(text: string, speaker?: string): Promise<void> {
+export function speakAsync(text: string, speaker?: string, segmentIndex?: number): Promise<void> {
   return new Promise((resolve) => {
-    speechService.speak(text, speaker, () => resolve());
+    speechService.speak(text, speaker, () => resolve(), segmentIndex);
   });
 }
