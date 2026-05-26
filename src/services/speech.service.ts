@@ -98,6 +98,9 @@ class SpeechService {
     this.loadSettings();
     this.setupSpeechUnlock();
     this.testWebSpeechAvailability();
+    // 预留给未来预录制音频系统使用
+    void this.getPrecordedAudioPath;
+    void this.hasPrecordedAudio;
   }
 
   /**
@@ -472,6 +475,42 @@ class SpeechService {
 
     // 其他守护者统一使用 guardian 音色
     return 'guardian';
+  }
+
+  /**
+   * 获取预录制音频文件路径
+   * @param levelId 关卡 ID
+   * @param index 片段索引（从 0 开始）
+   * @param speaker 说话人
+   * @param type 片段类型
+   * @returns 音频文件路径
+   */
+  private getPrecordedAudioPath(
+    levelId: string,
+    index: number,
+    speaker?: string,
+    type?: string
+  ): string {
+    const speakerId = this.mapSpeaker(speaker, type);
+    const fileName = `${String(index + 1).padStart(2, '0')}-${speakerId}.mp3`;
+    return `/audio/story/${levelId}/${fileName}`;
+  }
+
+  /**
+   * 检查关卡是否有预录制音频
+   * @param levelId 关卡 ID
+   * @returns 是否存在预录制音频
+   */
+  async hasPrecordedAudio(levelId: string): Promise<boolean> {
+    const testPath = `/audio/story/${levelId}/01-narration.mp3`;
+
+    return new Promise((resolve) => {
+      const audio = new Audio();
+      audio.addEventListener('canplaythrough', () => resolve(true), { once: true });
+      audio.addEventListener('error', () => resolve(false), { once: true });
+      audio.src = testPath;
+      audio.load();
+    });
   }
 
   /**
