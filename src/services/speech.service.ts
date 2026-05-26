@@ -454,6 +454,27 @@ class SpeechService {
   }
 
   /**
+   * 将说话人映射到预录制音频文件名中的角色标识
+   * @param speaker 说话人名称
+   * @param type 片段类型
+   * @returns 音频文件中的角色标识
+   */
+  private mapSpeaker(speaker?: string, type?: string): string {
+    // 独白/旁白类型
+    if (type === 'narration' || !speaker) {
+      return 'narration';
+    }
+
+    // 小俊（主角）和炫蓝闪电（导师）使用 xiaojun 音色
+    if (speaker === '小俊' || speaker === '炫蓝闪电') {
+      return 'xiaojun';
+    }
+
+    // 其他守护者统一使用 guardian 音色
+    return 'guardian';
+  }
+
+  /**
    * 清理文本用于语音朗读
    * 移除不需要朗读的符号，保留基本断句标点
    */
