@@ -1,7 +1,6 @@
 import { soundService } from './sound.service';
 import { storageService } from './storage.service';
 import { baiduTTSService } from './baidu-tts.service';
-// @ts-expect-error - StorySegment type for future preload method
 import type { StorySegment } from '@/types';
 
 /**
@@ -511,6 +510,51 @@ class SpeechService {
       audio.src = testPath;
       audio.load();
     });
+  }
+
+  /**
+   * 预加载关卡剧情音频
+   * @param levelId 关卡 ID（如 'level-1-1'）
+   * @param segments 剧情片段数组
+   */
+  async preloadStoryAudio(levelId: string, segments: StorySegment[]): Promise<void> {
+    this._currentLevelId = levelId;
+    this._precordedCache.clear();
+    this._currentPrecordedAudio?.pause();
+    this._currentPrecordedAudio = null;
+
+    const basePath = `/audio/story/${levelId}/`;
+
+    for (let i = 0; i < segments.length; i++) {
+      const segment = segments[i];
+      // 跳过 action 类型（无语音）
+      if (segment.type === 'action') continue;
+
+      const speaker = this.mapSpeaker(segment.speaker, segment.type);
+      const fileName = `${String(i + 1).padStart(2, '0')}-${speaker}.mp3`;
+      const path = basePath + fileName;
+
+      try {
+        const audio = new Audio(path);
+        audio.preload = 'auto';
+
+        // 等待音频加载完成
+        await new Promise<void>((resolve, reject) => {
+          audio.addEventListener('canplaythrough', () => resolve(), { once: true });
+          audio.addEventListener('error', () => reject(new Error(`Failed to load: ${path}`)), { once: true });
+          audio.load();
+        });
+
+        this._precordedCache.set(String(i), audio);
+        console.log(`[SpeechService] Preloaded: ${path}`);
+      } catch {
+        // 音频文件不存在，跳过
+        console.warn(`[SpeechService] Audio not found: ${path}`);
+      }
+    }
+
+    // 更新模式
+    this.updateTTSMode();
   }
 
   /**
