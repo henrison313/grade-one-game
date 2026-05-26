@@ -100,6 +100,7 @@ class SpeechService {
     // 预留给未来预录制音频系统使用
     void this.getPrecordedAudioPath;
     void this.hasPrecordedAudio;
+    void this.playPrecorded;
   }
 
   /**
@@ -558,6 +559,59 @@ class SpeechService {
   }
 
   /**
+   * 播放预录制音频
+   * @param segmentIndex 片段索引（从 0 开始）
+   * @param onEnd 播放完成回调
+   * @returns 是否成功播放
+   */
+  private playPrecorded(segmentIndex: number, onEnd?: () => void): Promise<boolean> {
+    return new Promise((resolve) => {
+      const audio = this._precordedCache.get(String(segmentIndex));
+
+      if (!audio) {
+        console.log(`[SpeechService] No precorded audio for index ${segmentIndex}`);
+        onEnd?.();
+        resolve(false);
+        return;
+      }
+
+      // 停止之前的播放
+      this._currentPrecordedAudio?.pause();
+
+      // 克隆音频以支持重复播放
+      const audioClone = audio.cloneNode() as HTMLAudioElement;
+      audioClone.volume = this.volume;
+      this._currentPrecordedAudio = audioClone;
+
+      // 如果需要压低 BGM
+      if (this.priorityMode && soundService.isBGMPlaying()) {
+        this.bgmWasPlaying = true;
+        soundService.duckBGM();
+      }
+
+      audioClone.addEventListener('ended', () => {
+        this.onSpeechEnd();
+        onEnd?.();
+        resolve(true);
+      });
+
+      audioClone.addEventListener('error', (e) => {
+        console.warn('[SpeechService] Audio playback error:', e);
+        this.onSpeechEnd();
+        onEnd?.();
+        resolve(false);
+      });
+
+      audioClone.play().catch((error) => {
+        console.warn('[SpeechService] Audio play failed:', error);
+        this.onSpeechEnd();
+        onEnd?.();
+        resolve(false);
+      });
+    });
+  }
+
+  /**
    * 清理文本用于语音朗读
    * 移除不需要朗读的符号，保留基本断句标点
    */
@@ -843,6 +897,9 @@ class SpeechService {
   stop(): void {
     this.clearTimers();
     this.stopInternal();
+    // 停止预录制音频
+    this._currentPrecordedAudio?.pause();
+    this._currentPrecordedAudio = null;
     this.onSpeechEnd();
   }
 
