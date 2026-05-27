@@ -30,7 +30,7 @@ interface BaiduTTSConfig {
 // 默认配置
 const DEFAULT_CONFIG: Partial<BaiduTTSConfig> = {
   voice: 0,      // 普通女声
-  speed: 7,      // 语速 0-15，快 30%（默认 5）
+  speed: 5,
   pitch: 5,
   volume: 9,
 };

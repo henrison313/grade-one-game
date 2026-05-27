@@ -182,6 +182,10 @@ interface QuestionStoryProps {
   partName?: string;
   enableSpeech?: boolean;
   speaker?: string;
+  levelId?: string;       // 关卡 ID，用于预录制音频
+  difficulty?: string;     // 'easy' | 'medium' | 'hard'
+  questionIndex?: number;  // 当前问题索引（从 0 开始）
+  questionCount?: number;  // 总问题数（用于预加载）
 }
 
 export const QuestionStory: React.FC<QuestionStoryProps> = ({
@@ -189,10 +193,20 @@ export const QuestionStory: React.FC<QuestionStoryProps> = ({
   partName,
   enableSpeech = true,
   speaker = '炫蓝闪电',
+  levelId,
+  difficulty = 'easy',
+  questionIndex = -1,
+  questionCount = 5,
 }) => {
   const isSpeakingRef = useRef(false);
 
-  // 🎙️ 语音朗读
+  // 预加载当前关卡+难度的气泡音频
+  useEffect(() => {
+    if (!levelId || !difficulty) return;
+    speechService.preloadQuestionAudio(levelId, difficulty, questionCount);
+  }, [levelId, difficulty, questionCount]);
+
+  // 🎙️ 语音朗读（优先预录制音频）
   useEffect(() => {
     if (!enableSpeech || !narrative) return;
 
@@ -200,9 +214,11 @@ export const QuestionStory: React.FC<QuestionStoryProps> = ({
 
     const timer = setTimeout(() => {
       isSpeakingRef.current = true;
+      const diffShort = difficulty[0]; // 'e', 'm', 'h'
+      const cacheKey = questionIndex >= 0 ? `q-${diffShort}-${questionIndex}` : undefined;
       speechService.speak(narrative, speaker, () => {
         isSpeakingRef.current = false;
-      });
+      }, cacheKey);
     }, 300);
 
     return () => {
@@ -210,7 +226,7 @@ export const QuestionStory: React.FC<QuestionStoryProps> = ({
       speechService.stop();
       isSpeakingRef.current = false;
     };
-  }, [narrative, enableSpeech, speaker]);
+  }, [narrative, enableSpeech, speaker, levelId, difficulty, questionIndex]);
 
   // 高亮零件名称
   const renderHighlightedText = () => {

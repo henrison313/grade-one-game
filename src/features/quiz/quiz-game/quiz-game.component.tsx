@@ -828,6 +828,10 @@ const QuizGame: React.FC = () => {
               key={currentQuestionIndex}
               narrative={storyConfig.narratives[currentQuestionIndex].text}
               partName={storyConfig.weapon.parts?.[currentQuestionIndex]?.name}
+              levelId={levelId || '1-1'}
+              difficulty={difficulty}
+              questionIndex={currentQuestionIndex}
+              questionCount={Object.keys(storyConfig.narratives).length}
             />
           )}
 

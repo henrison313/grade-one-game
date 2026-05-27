@@ -522,8 +522,39 @@ class SpeechService {
   }
 
   /**
+   * 预加载答题气泡音频
+   * @param levelId 关卡 ID（如 '1-1'）
+   * @param difficulty 难度 'easy' | 'medium' | 'hard'
+   * @param count 气泡数量
+   */
+  preloadQuestionAudio(levelId: string, difficulty: string, count: number): void {
+    const diffShort = difficulty[0]; // 'e', 'm', 'h'
+    const basePath = getAssetPath(`/audio/story/${levelId}/`);
+
+    for (let i = 0; i < count; i++) {
+      const key = `q-${diffShort}-${i}`;
+      const filename = `q-${diffShort}-${String(i + 1).padStart(2, '0')}-xiaojun.mp3`;
+      const path = basePath + filename;
+
+      const audio = new Audio(path);
+      audio.preload = 'auto';
+
+      audio.addEventListener('canplaythrough', () => {
+        this._precordedCache.set(key, audio);
+        console.log(`[SpeechService] Preloaded question: ${path}`);
+      }, { once: true });
+
+      audio.addEventListener('error', () => {
+        console.warn(`[SpeechService] Question audio not found: ${path}`);
+      }, { once: true });
+
+      audio.load();
+    }
+  }
+
+  /**
    * 预加载关卡剧情音频
-   * @param levelId 关卡 ID（如 'level-1-1'）
+   * @param levelId 关卡 ID（如 '1-1'）
    * @param segments 剧情片段数组
    */
   async preloadStoryAudio(levelId: string, segments: StorySegment[]): Promise<void> {
@@ -588,7 +619,7 @@ class SpeechService {
    * @param onEnd 播放完成回调
    * @returns 是否成功播放
    */
-  private playPrecorded(segmentIndex: number, onEnd?: () => void): Promise<boolean> {
+  private playPrecorded(segmentIndex: number | string, onEnd?: () => void): Promise<boolean> {
     return new Promise((resolve) => {
       const audio = this._precordedCache.get(String(segmentIndex));
 
@@ -708,7 +739,7 @@ class SpeechService {
    * @param onEnd 播放完成回调
    * @param segmentIndex 片段索引（用于预录制音频）
    */
-  speak(text: string, speaker?: string, onEnd?: () => void, segmentIndex?: number): void {
+  speak(text: string, speaker?: string, onEnd?: () => void, segmentIndex?: number | string): void {
     if (!this.enabled || !text.trim()) {
       onEnd?.();
       return;
@@ -841,7 +872,7 @@ class SpeechService {
         }
         const config = this.getVoiceConfig(speaker);
         utterance.pitch = config.pitch;
-        utterance.rate = config.rate * 1.30; // 快 30%
+        utterance.rate = config.rate;
         utterance.volume = this.volume;
       }
 
@@ -994,7 +1025,7 @@ export const speechService = new SpeechService();
 /**
  * 便捷函数：播放语音
  */
-export function speak(text: string, speaker?: string, onEnd?: () => void, segmentIndex?: number): void {
+export function speak(text: string, speaker?: string, onEnd?: () => void, segmentIndex?: number | string): void {
   speechService.speak(text, speaker, onEnd, segmentIndex);
 }
 
@@ -1008,7 +1039,7 @@ export function stopSpeaking(): void {
 /**
  * 便捷函数：带 Promise 的语音播放
  */
-export function speakAsync(text: string, speaker?: string, segmentIndex?: number): Promise<void> {
+export function speakAsync(text: string, speaker?: string, segmentIndex?: number | string): Promise<void> {
   return new Promise((resolve) => {
     speechService.speak(text, speaker, () => resolve(), segmentIndex);
   });

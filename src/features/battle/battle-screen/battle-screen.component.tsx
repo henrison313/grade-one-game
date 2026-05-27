@@ -434,6 +434,10 @@ export const BattleScreen: React.FC<BattleScreenProps> = ({
       <QuestionStory
         narrative={storyConfig.narratives[currentQuestionIndex]?.text || ''}
         partName={storyConfig.weapon.parts[currentQuestionIndex]?.name}
+        levelId={level.id}
+        difficulty={difficulty}
+        questionIndex={currentQuestionIndex}
+        questionCount={Object.keys(storyConfig.narratives).length}
       />
 
       {/* 问题区域（带场景背景） */}
