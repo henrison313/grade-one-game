@@ -1,6 +1,7 @@
 import { soundService } from './sound.service';
 import { storageService } from './storage.service';
 import { baiduTTSService } from './baidu-tts.service';
+import { getAssetPath } from '@/config/paths.config';
 import type { StorySegment } from '@/types';
 
 /**
@@ -475,8 +476,8 @@ class SpeechService {
       return 'narration';
     }
 
-    // 小俊（主角）和炫蓝闪电（导师）使用 xiaojun 音色
-    if (speaker === '小俊' || speaker === '炫蓝闪电') {
+    // 小俊（主角）和炫蓝闪电/炫蓝闪电S（导师）使用 xiaojun 音色
+    if (speaker === '小俊' || speaker === '炫蓝闪电' || speaker === '炫蓝闪电S' || speaker === '炫蓝雷霆王') {
       return 'xiaojun';
     }
 
@@ -500,7 +501,7 @@ class SpeechService {
   ): string {
     const speakerId = this.mapSpeaker(speaker, type);
     const fileName = `${String(index + 1).padStart(2, '0')}-${speakerId}.mp3`;
-    return `/audio/story/${levelId}/${fileName}`;
+    return getAssetPath(`/audio/story/${levelId}/${fileName}`);
   }
 
   /**
@@ -509,7 +510,7 @@ class SpeechService {
    * @returns 是否存在预录制音频
    */
   async hasPrecordedAudio(levelId: string): Promise<boolean> {
-    const testPath = `/audio/story/${levelId}/01-narration.mp3`;
+    const testPath = getAssetPath(`/audio/story/${levelId}/01-narration.mp3`);
 
     return new Promise((resolve) => {
       const audio = new Audio();
@@ -531,7 +532,10 @@ class SpeechService {
     this._currentPrecordedAudio?.pause();
     this._currentPrecordedAudio = null;
 
-    const basePath = `/audio/story/${levelId}/`;
+    const basePath = getAssetPath(`/audio/story/${levelId}/`);
+
+    // 并行加载所有音频文件，加快移动端加载速度
+    const loadPromises: Promise<void>[] = [];
 
     for (let i = 0; i < segments.length; i++) {
       const segment = segments[i];
@@ -542,24 +546,37 @@ class SpeechService {
       const fileName = `${String(i + 1).padStart(2, '0')}-${speaker}.mp3`;
       const path = basePath + fileName;
 
-      try {
-        const audio = new Audio(path);
-        audio.preload = 'auto';
+      loadPromises.push(
+        new Promise<void>((resolve) => {
+          const audio = new Audio(path);
+          audio.preload = 'auto';
 
-        // 等待音频加载完成
-        await new Promise<void>((resolve, reject) => {
-          audio.addEventListener('canplaythrough', () => resolve(), { once: true });
-          audio.addEventListener('error', () => reject(new Error(`Failed to load: ${path}`)), { once: true });
+          const cleanup = () => {
+            audio.removeEventListener('canplaythrough', onLoad);
+            audio.removeEventListener('error', onError);
+          };
+
+          const onLoad = () => {
+            cleanup();
+            this._precordedCache.set(String(i), audio);
+            console.log(`[SpeechService] Preloaded: ${path}`);
+            resolve();
+          };
+
+          const onError = () => {
+            cleanup();
+            console.warn(`[SpeechService] Audio not found: ${path}`);
+            resolve(); // 不阻塞其他文件加载
+          };
+
+          audio.addEventListener('canplaythrough', onLoad, { once: true });
+          audio.addEventListener('error', onError, { once: true });
           audio.load();
-        });
-
-        this._precordedCache.set(String(i), audio);
-        console.log(`[SpeechService] Preloaded: ${path}`);
-      } catch {
-        // 音频文件不存在，跳过
-        console.warn(`[SpeechService] Audio not found: ${path}`);
-      }
+        })
+      );
     }
+
+    await Promise.allSettled(loadPromises);
 
     // 更新模式
     this.updateTTSMode();
@@ -695,15 +712,18 @@ class SpeechService {
       return;
     }
 
+    // 优先使用预录制音频（无论当前 TTS 模式是什么）
+    // 解决：preload 异步完成前 speak 就被调用的竞态问题
+    if (segmentIndex !== undefined && this._precordedCache.has(String(segmentIndex))) {
+      this.playPrecorded(segmentIndex, onEnd);
+      return;
+    }
+
     // 根据当前模式选择 TTS 引擎
     switch (this.ttsMode) {
       case TTSMode.PRECORDED:
-        if (segmentIndex !== undefined && this.currentLevelId) {
-          this.playPrecorded(segmentIndex, onEnd);
-        } else {
-          // 无索引信息，降级到下一模式
-          this.speakWithWebSpeech(text, speaker, onEnd);
-        }
+        // preload 还没完成，降级
+        this.speakWithWebSpeech(text, speaker, onEnd);
         return;
       case TTSMode.WEB_SPEECH:
         this.speakWithWebSpeech(text, speaker, onEnd);
@@ -837,6 +857,9 @@ class SpeechService {
 
       utterance.onerror = (event) => {
         if (event.error === 'canceled') {
+          // 被取消也正常结束流程，避免 StoryPlayer 卡住
+          console.log('[SpeechService] Speech canceled, finishing');
+          finish();
           return;
         }
         // synthesis-failed：Microsoft 语音 bug，cancel 后延迟重试用 fallback 模式

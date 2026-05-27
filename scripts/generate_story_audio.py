@@ -20,7 +20,7 @@ VOICE_MAP = {
 }
 
 # 小俊的说话人名字
-XIAOJUN_SPEAKERS = {'炫蓝闪电', '炫蓝闪电S'}
+XIAOJUN_SPEAKERS = {'炫蓝闪电', '炫蓝闪电S', '炫蓝雷霆王'}
 
 
 def map_speaker_id(speaker, seg_type):
