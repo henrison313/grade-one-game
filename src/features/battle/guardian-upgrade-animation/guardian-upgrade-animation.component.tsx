@@ -62,7 +62,7 @@ const AnimationContainer = styled.div`
     rgba(42, 42, 74, 0.9) 50%,
     rgba(74, 74, 127, 0.85) 100%
   );
-  overflow: hidden;
+  overflow: hidden auto;
 `;
 
 // 🌟 能量光环
@@ -117,20 +117,20 @@ const GuardianContainer = styled(motion.div)`
 
 // 🎭 守护者图像
 const GuardianImage = styled(motion.img)`
-  width: 280px;
-  height: 280px;
+  width: min(280px, 50vw);
+  height: min(280px, 50vw);
   object-fit: contain;
   filter: drop-shadow(0 0 30px ${CandyColors.gold});
 `;
 
 // 📝 守护者名称
 const GuardianName = styled(motion.div)`
-  margin-top: 24px;
-  padding: 12px 36px;
+  margin-top: clamp(12px, 3vh, 24px);
+  padding: clamp(8px, 1.5vh, 12px) clamp(24px, 5vw, 36px);
   background: linear-gradient(135deg, ${CandyColors.purple} 0%, ${CandyColors.coral} 100%);
   border-radius: 24px;
   border: 3px solid ${CandyColors.gold};
-  font-size: 24px;
+  font-size: clamp(16px, 4vw, 24px);
   font-weight: 700;
   color: white;
   text-align: center;
@@ -164,10 +164,7 @@ const Sparkle = styled(motion.div)<{ $delay: number }>`
 
 // 💬 对话框
 const DialogueBox = styled(motion.div)`
-  position: absolute;
-  bottom: 100px;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-top: 20px;
   padding: 16px 32px;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
@@ -178,6 +175,7 @@ const DialogueBox = styled(motion.div)`
   text-align: center;
   max-width: 80%;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  z-index: 10;
 `;
 
 interface GuardianUpgradeAnimationProps {
@@ -270,7 +268,7 @@ export const GuardianUpgradeAnimation: React.FC<GuardianUpgradeAnimationProps> =
         />
       ))}
 
-      {/* 守护者 */}
+      {/* 守护者 + 对话框 */}
       <GuardianContainer>
         <UpgradeTitle
           initial={{ opacity: 0, y: -30 }}
@@ -300,21 +298,21 @@ export const GuardianUpgradeAnimation: React.FC<GuardianUpgradeAnimationProps> =
         >
           🤖 {variantName}
         </GuardianName>
-      </GuardianContainer>
 
-      {/* 对话框 */}
-      <AnimatePresence>
-        {showDialogue && (
-          <DialogueBox
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-          >
-            {dialogueText[difficulty]}
-          </DialogueBox>
-        )}
-      </AnimatePresence>
+        {/* 对话框 */}
+        <AnimatePresence>
+          {showDialogue && (
+            <DialogueBox
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              {dialogueText[difficulty]}
+            </DialogueBox>
+          )}
+        </AnimatePresence>
+      </GuardianContainer>
     </AnimationContainer>
   );
 };
