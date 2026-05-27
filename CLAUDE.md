@@ -23,7 +23,41 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 离线可用：核心玩法不依赖服务器
 - 回复语言：所有回复均用中文
 
-## 音效系统配置
+## 语音朗读系统
+
+游戏使用**预录制音频**作为主力语音方案，解决了华为鸿蒙等设备 Web Speech API 不可用的问题。
+
+### TTS 优先级
+```
+预录制音频 (PRECORDED) → Web Speech API → 百度云端 TTS → 静音
+```
+
+### 预录制音频目录
+```
+public/audio/story/{关卡ID}/
+  ├── 01-narration.mp3    # 旁白 (Xiaoxiao 晓晓)
+  ├── 02-xiaojun.mp3      # 小俊/炫蓝闪电 (Yunxi 云希)
+  ├── 03-guardian.mp3     # 守护者 (Yunjian 云健)
+  ├── q-e-01-xiaojun.mp3  # 答题气泡-简单 (Yunxi 云希)
+  ├── q-m-01-xiaojun.mp3  # 答题气泡-中等
+  └── q-h-01-xiaojun.mp3  # 答题气泡-困难
+```
+
+- 剧情音频：96 个，覆盖 21 关卡的对话和旁白
+- 答题气泡：329 个，覆盖 23 关卡 × 3 难度
+- 使用 edge-tts 批量生成，脚本：`scripts/generate_story_audio.py`、`scripts/generate_question_audio.py`
+- 播放速度 1.20x，保持音调不变 (`preservesPitch`)
+
+### 核心服务
+- `speech.service.ts` — TTS 引擎调度、预录制音频加载/播放、Web Speech 降级
+  - `preloadStoryAudio()` — 加载剧情音频，并行加载加快速度
+  - `preloadQuestionAudio()` — 加载答题气泡音频
+  - `speak(text, speaker, onEnd, segmentIndex)` — 统一语音入口
+  - `mapSpeaker()` — 说话人 → 文件名标识 (narration/xiaojun/guardian)
+- `baidu-tts.service.ts` — 百度云端 TTS 服务（兜底方案）
+- `sound.service.ts` — BGM/SFX 管理，含 requestId 机制防竞态
+
+### 音效系统配置
 
 ### 音频资源目录
 ```
