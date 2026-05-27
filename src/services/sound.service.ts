@@ -77,7 +77,7 @@ class SoundService {
           console.log(`[SoundService] Playing pending BGM: ${this.pendingBGM}`);
           const type = this.pendingBGM;
           this.pendingBGM = null;
-          this.playBGM(type);
+          this.playBGM(type).catch(() => {});
         }
       } catch (e) {
         // 忽略错误，下次交互再试
@@ -674,6 +674,16 @@ class SoundService {
     // 播放
     try {
       await audio.play();
+
+      // 播放完成后检查请求是否过期（防止旧请求的 audio.play() 重启已停止的 BGM）
+      if (requestId !== this.currentBGMRequest) {
+        console.log(`[SoundService] Request ${requestId} expired after play, stopping`);
+        audio.pause();
+        audio.currentTime = 0;
+        this.activeBGMAudios.delete(audio);
+        return;
+      }
+
       console.log(`[SoundService] BGM ${type} started playing`);
       this.pendingBGM = null;
     } catch (error: any) {
@@ -681,9 +691,16 @@ class SoundService {
       if (error.name === 'NotAllowedError' || error.name === 'AbortError') {
         // NotAllowedError: 浏览器阻止自动播放
         // AbortError: 播放被中断（如 stopBGM 被调用）
-        // 两种情况都设置 pendingBGM，等待下次用户交互或重试
-        console.log(`[SoundService] Setting pending BGM: ${type}`);
-        this.pendingBGM = type;
+        // 只有当请求仍然有效时才设置 pendingBGM
+        if (requestId === this.currentBGMRequest) {
+          console.log(`[SoundService] Setting pending BGM: ${type}`);
+          this.pendingBGM = type;
+        } else {
+          console.log(`[SoundService] Request ${requestId} expired after AbortError, not setting pending`);
+          audio.pause();
+          audio.currentTime = 0;
+          this.activeBGMAudios.delete(audio);
+        }
       } else {
         // 其他错误，使用生成的 BGM
         this.stopBGMInternal();
