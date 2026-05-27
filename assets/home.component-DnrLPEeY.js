@@ -1,4 +1,4 @@
-import{a as e}from"./config-msfdsG27.js";import{B as t,H as n,K as r,U as i,Y as a,Z as o,c as s,d as c,o as l,t as u,u as d,z as f}from"./index-GptMVVQA.js";import"./services-C_Dthk5B.js";var p=o(a(),1),m=n(),h=i.div`
+import{a as e}from"./config-msfdsG27.js";import{B as t,H as n,K as r,U as i,Y as a,Z as o,c as s,d as c,o as l,t as u,u as d,z as f}from"./index-DzK_59vN.js";import"./services-C_Dthk5B.js";var p=o(a(),1),m=n(),h=i.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -68,4 +68,4 @@ import{a as e}from"./config-msfdsG27.js";import{B as t,H as n,K as r,U as i,Y as
   justify-content: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 `,E=()=>{let e=r(),t=c.getUserData(),{playBGM:n}=s(),[i,a]=(0,p.useState)(!1);(0,p.useEffect)(()=>{n(`menu`)},[n]);let o=(0,p.useCallback)(()=>{d.isPreloaded()||d.preloadAll().catch(()=>{}),e(`/levels`)},[e]),l=(0,p.useCallback)(()=>{d.isPreloaded()||d.preloadAll().catch(()=>{}),e(`/collection`)},[e]);return(0,m.jsxs)(h,{children:[(0,m.jsx)(T,{onClick:()=>a(!0),whileHover:{scale:1.1},whileTap:{scale:.9},children:`🔊`}),(0,m.jsxs)(x,{initial:{opacity:0,y:-20},animate:{opacity:1,y:0},transition:{delay:.5},children:[(0,m.jsxs)(S,{children:[(0,m.jsx)(C,{children:`⭐`}),(0,m.jsx)(w,{children:t.totalStars})]}),(0,m.jsxs)(S,{children:[(0,m.jsx)(C,{children:`🃏`}),(0,m.jsx)(w,{children:t.collectedCards.length})]})]}),(0,m.jsx)(b,{src:f(`/assets/character/xiaojun.webp`),alt:`主角`,initial:{opacity:0,scale:.5},animate:{opacity:1,scale:1},transition:{type:`spring`,stiffness:200,damping:20}}),(0,m.jsx)(g,{initial:{opacity:0,y:20},animate:{opacity:1,y:0},transition:{delay:.3},children:`炫卡收集游戏`}),(0,m.jsx)(_,{initial:{opacity:0,y:20},animate:{opacity:1,y:0},transition:{delay:.4},children:`学习数学，收集炫卡，成为炫卡斗士！`}),(0,m.jsxs)(v,{initial:{opacity:0,y:20},animate:{opacity:1,y:0},transition:{delay:.5},children:[(0,m.jsx)(y,{variant:`primary`,size:`large`,onClick:o,children:`开始冒险`}),(0,m.jsx)(y,{variant:`secondary`,size:`large`,onClick:l,children:`卡牌收集册`})]}),(0,m.jsx)(u,{isOpen:i,onClose:()=>a(!1)})]})};export{E as default};
-//# sourceMappingURL=home.component-Bq7sEYKO.js.map
+//# sourceMappingURL=home.component-DnrLPEeY.js.map
