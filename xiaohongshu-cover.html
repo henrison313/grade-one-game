@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>炫卡闯关 — 小红书封面</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #0d0d1a;
+      padding: 20px;
+    }
+
+    .cover {
+      width: 450px;
+      height: 600px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      box-shadow: 0 30px 60px rgba(102,126,234,0.35), 0 0 120px rgba(118,75,162,0.25);
+      background: #0f0c29;
+    }
+
+    /* ─── 背景层 ─── */
+    .bg-base {
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, #0f0c29 0%, #1a1040 30%, #302b63 70%, #24243e 100%);
+    }
+
+    .bg-stars {
+      position: absolute; inset: 0;
+    }
+    .bg-star {
+      position: absolute;
+      width: 2px; height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: starPulse 3s ease-in-out infinite;
+    }
+    @keyframes starPulse {
+      0%,100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    /* 光晕 */
+    .glow-purple {
+      position: absolute;
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(118,75,162,0.4) 0%, transparent 70%);
+      top: -60px; left: -60px;
+    }
+    .glow-gold {
+      position: absolute;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(255,179,71,0.3) 0%, transparent 70%);
+      bottom: 80px; right: -40px;
+    }
+    .glow-blue {
+      position: absolute;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(102,126,234,0.3) 0%, transparent 70%);
+      top: 40%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* ─── 标题 ─── */
+    .title-zone {
+      position: absolute;
+      top: 28px; left: 24px; right: 24px;
+      z-index: 10;
+    }
+    .badge-row {
+      display: flex; gap: 8px; margin-bottom: 12px;
+    }
+    .badge {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 10px; font-weight: 900;
+      padding: 4px 10px; border-radius: 6px;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .badge-hot {
+      background: #ff4757; color: #fff;
+    }
+    .badge-new {
+      background: rgba(255,255,255,0.15); color: #fff;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .main-title {
+      font-family: 'ZCOOL KuaiLe', cursive;
+      font-size: 46px;
+      color: #fff;
+      line-height: 1.25;
+      text-shadow: 0 4px 0 rgba(0,0,0,0.3), 0 0 30px rgba(255,179,71,0.4);
+      margin-bottom: 6px;
+    }
+    .main-title em {
+      font-style: normal;
+      color: #ffb347;
+      position: relative;
+    }
+    .main-title em::after {
+      content: '';
+      position: absolute; bottom: 2px; left: 0; right: 0;
+      height: 6px;
+      background: #ff6b35;
+      border-radius: 3px;
+      opacity: 0.4;
+    }
+
+    .sub-line {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.75);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .sub-line .dot {
+      width: 4px; height: 4px; border-radius: 50%; background: #ffb347;
+    }
+
+    /* ─── 主角展示 ─── */
+    .hero-zone {
+      position: absolute;
+      top: 195px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      text-align: center;
+    }
+    .hero-ring {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
+      border: 2px solid rgba(255,255,255,0.25);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 10px;
+      box-shadow: 0 0 40px rgba(102,126,234,0.3), 0 0 0 8px rgba(102,126,234,0.08);
+      animation: heroFloat 3.5s ease-in-out infinite;
+    }
+    @keyframes heroFloat {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .hero-ring img {
+      width: 70px; height: 70px; object-fit: contain;
+    }
+
+    .hero-label {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 13px; font-weight: 900;
+      color: #ffb347;
+      text-shadow: 0 0 12px rgba(255,179,71,0.5);
+    }
+    .hero-name {
+      font-family: 'ZCOOL KuaiLe', cursive;
+      font-size: 18px;
+      color: #fff;
+      text-shadow: 0 2px 0 rgba(0,0,0,0.4);
+    }
+
+    /* ─── 卡牌陈列 ─── */
+    .cards-strip {
+      position: absolute;
+      top: 350px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; gap: 12px;
+      z-index: 6;
+    }
+    .game-card {
+      width: 80px; height: 108px;
+      border-radius: 14px;
+      background: linear-gradient(160deg, #2a2548, #1a1635);
+      border: 2px solid rgba(255,255,255,0.12);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 4px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.4);
+      transition: transform 0.3s;
+    }
+    .game-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .game-card img {
+      width: 56px; height: 56px; object-fit: contain;
+      position: relative; z-index: 1;
+    }
+    .game-card .card-rarity {
+      font-size: 9px; font-weight: 900;
+      letter-spacing: 1px;
+      position: relative; z-index: 1;
+    }
+    .rarity-ssr { color: #ffb347; }
+    .rarity-sr { color: #c084fc; }
+    .rarity-r { color: #60a5fa; }
+
+    /* ─── 游戏画面截图占位 ─── */
+    .screenshot-zone {
+      position: absolute;
+      bottom: 80px; left: 20px; right: 20px;
+      display: flex; gap: 8px;
+      z-index: 4;
+    }
+    .screenshot {
+      flex: 1; height: 70px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2));
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .screenshot .emoji-scene {
+      font-size: 36px; opacity: 0.7;
+    }
+    .screenshot-label {
+      position: absolute; bottom: 4px; left: 8px;
+      font-size: 8px; color: rgba(255,255,255,0.5);
+      font-family: 'Noto Sans SC', sans-serif;
+      font-weight: 700;
+    }
+
+    /* ─── 底部信息条 ─── */
+    .bottom-bar {
+      position: absolute;
+      bottom: 20px; left: 20px; right: 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 10;
+    }
+    .tag-row {
+      display: flex; gap: 6px;
+    }
+    .tag {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 10px; font-weight: 700;
+      padding: 4px 10px; border-radius: 20px;
+    }
+    .tag-fill { background: #ff6b35; color: #fff; }
+    .tag-outline { color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.25); }
+
+    .star-counter {
+      display: flex; align-items: center; gap: 4px;
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 12px; font-weight: 900;
+      color: #ffb347;
+    }
+
+    /* ─── 浮游数学符号 ─── */
+    .math-float {
+      position: absolute;
+      font-size: 22px;
+      font-weight: 900;
+      color: rgba(255,255,255,0.08);
+      font-family: 'Noto Sans SC', sans-serif;
+      animation: mathDrift 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes mathDrift {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-12px) rotate(5deg); }
+      75% { transform: translateY(8px) rotate(-3deg); }
+    }
+
+    /* ─── 边缘渐变遮罩 ─── */
+    .vignette {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.4) 100%);
+      pointer-events: none; z-index: 20;
+    }
+  </style>
+</head>
+<body>
+  <div class="cover">
+    <div class="bg-base"></div>
+    <div class="bg-stars" id="starsContainer"></div>
+
+    <div class="glow-purple"></div>
+    <div class="glow-gold"></div>
+    <div class="glow-blue"></div>
+
+    <!-- 浮游数学符号 -->
+    <span class="math-float" style="top:170px;left:12%;">+</span>
+    <span class="math-float" style="top:300px;right:10%;animation-delay:2s;">=</span>
+    <span class="math-float" style="top:420px;left:8%;animation-delay:4s;">12</span>
+    <span class="math-float" style="top:140px;right:18%;animation-delay:1s;">7</span>
+
+    <!-- 标题 -->
+    <div class="title-zone">
+      <div class="badge-row">
+        <span class="badge badge-hot">HOT</span>
+        <span class="badge badge-new">一年级适用</span>
+      </div>
+      <h1 class="main-title">
+        给娃做的<em>数学游戏</em><br>玩到停不下来！
+      </h1>
+      <div class="sub-line">
+        <span class="dot"></span> 人教版 · 炫卡斗士 · 离线可玩
+      </div>
+    </div>
+
+    <!-- 主角 -->
+    <div class="hero-zone">
+      <div class="hero-ring">
+        <img src="cover-xiaojun.png" alt="小俊">
+      </div>
+      <div class="hero-label">✦ 主角 ✦</div>
+      <div class="hero-name">小俊</div>
+    </div>
+
+    <!-- 炫卡展示 -->
+    <div class="cards-strip">
+      <div class="game-card" style="transform:rotate(-6deg);">
+        <img src="cover-card1.png" alt="炫蓝闪电">
+        <span class="card-rarity rarity-ssr">SSR</span>
+      </div>
+      <div class="game-card" style="transform:rotate(2deg);margin-top:-8px;">
+        <img src="cover-card2.png" alt="霹雳火影">
+        <span class="card-rarity rarity-ssr">SSR</span>
+      </div>
+      <div class="game-card" style="transform:rotate(-3deg);">
+        <img src="cover-card3.png" alt="暗影特工">
+        <span class="card-rarity rarity-sr">SR</span>
+      </div>
+      <div class="game-card" style="transform:rotate(8deg);margin-top:-4px;">
+        <img src="cover-card4.png" alt="暴旋洛克">
+        <span class="card-rarity rarity-ssr">SSR</span>
+      </div>
+    </div>
+
+    <!-- 游戏场景缩略 -->
+    <div class="screenshot-zone">
+      <div class="screenshot">
+        <span class="emoji-scene">🧮</span>
+        <span class="screenshot-label">答题闯关</span>
+      </div>
+      <div class="screenshot">
+        <span class="emoji-scene">⚔️</span>
+        <span class="screenshot-label">战斗场景</span>
+      </div>
+      <div class="screenshot">
+        <span class="emoji-scene">🃏</span>
+        <span class="screenshot-label">卡牌收集</span>
+      </div>
+    </div>
+
+    <!-- 底部 -->
+    <div class="bottom-bar">
+      <div class="tag-row">
+        <span class="tag tag-fill">21个关卡</span>
+        <span class="tag tag-outline">真人配音</span>
+        <span class="tag tag-outline">免费</span>
+      </div>
+      <div class="star-counter">⭐ 收集75+</div>
+    </div>
+
+    <div class="vignette"></div>
+  </div>
+
+  <script>
+    // 生成星空背景
+    (function() {
+      var c = document.getElementById('starsContainer');
+      var frag = document.createDocumentFragment();
+      for (var i = 0; i < 50; i++) {
+        var s = document.createElement('div');
+        s.className = 'bg-star';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.left = Math.random() * 100 + '%';
+        s.style.animationDelay = Math.random() * 3 + 's';
+        s.style.width = (1 + Math.random() * 2) + 'px';
+        s.style.height = s.style.width;
+        frag.appendChild(s);
+      }
+      c.appendChild(frag);
+    })();
+  </script>
+</body>
+</html>
