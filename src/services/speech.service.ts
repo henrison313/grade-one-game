@@ -605,6 +605,8 @@ class SpeechService {
       // 克隆音频以支持重复播放
       const audioClone = audio.cloneNode() as HTMLAudioElement;
       audioClone.volume = this.volume;
+      audioClone.playbackRate = 1.30;
+      audioClone.preservesPitch = true; // 保持音调不变
       this._currentPrecordedAudio = audioClone;
 
       // 如果需要压低 BGM
@@ -839,7 +841,7 @@ class SpeechService {
         }
         const config = this.getVoiceConfig(speaker);
         utterance.pitch = config.pitch;
-        utterance.rate = config.rate;
+        utterance.rate = config.rate * 1.30; // 快 30%
         utterance.volume = this.volume;
       }
 
