@@ -166,20 +166,45 @@ const FillBlankQuestion: React.FC<FillBlankQuestionProps> = ({
   const checkAnswer = (answers: string[]): boolean => {
     const correctAnswers = Array.isArray(question.answer) ? question.answer : [question.answer];
 
-    if (isMultiBlank) {
-      // 多空白：每个空白对应一个答案
-      // correctAnswers 中每个元素可能是逗号分隔的多个正确值（如 ['a,b', 'c,d']）
-      return answers.length === blankCount && answers.every((ans, i) => {
-        const correctForPosition = correctAnswers[i] || correctAnswers[0];
-        const validAnswersForPosition = correctForPosition.split(',').map(a => a.trim().toLowerCase());
-        return validAnswersForPosition.includes(ans.trim().toLowerCase());
-      });
+    if (!isMultiBlank) {
+      // 单空白：correctAnswers 表示"答案可以是其中任意一个"
+      return correctAnswers.some((ans) =>
+        ans.trim().toLowerCase() === answers[0]?.trim().toLowerCase()
+      );
     }
 
-    // 单空白：correctAnswers 表示"答案可以是其中任意一个"
-    return correctAnswers.some((ans) =>
-      ans.trim().toLowerCase() === answers[0]?.trim().toLowerCase()
-    );
+    // 多空白验证
+    if (answers.length !== blankCount) return false;
+
+    // 收集所有属于分组的空白索引
+    const groupedIndices = new Set<number>();
+    if (question.blankGroups) {
+      for (const group of question.blankGroups) {
+        for (const idx of group) groupedIndices.add(idx);
+      }
+    }
+
+    // 非分组空白：按位置逐一验证（保持原有逻辑）
+    for (let i = 0; i < blankCount; i++) {
+      if (!groupedIndices.has(i)) {
+        const correctForPosition = correctAnswers[i] || correctAnswers[0];
+        const validAnswersForPosition = correctForPosition.split(',').map(a => a.trim().toLowerCase());
+        if (!validAnswersForPosition.includes(answers[i].trim().toLowerCase())) return false;
+      }
+    }
+
+    // 分组空白：验证每组的多重集是否匹配
+    if (question.blankGroups) {
+      for (const group of question.blankGroups) {
+        const userValues = group.map(i => (answers[i] || '').trim().toLowerCase()).sort();
+        const expectedValues = group.map(i => (correctAnswers[i] || '').split(',')[0].trim().toLowerCase()).sort();
+        if (userValues.length !== expectedValues.length || !userValues.every((val, idx) => val === expectedValues[idx])) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   };
 
   const handleInputChange = (index: number, value: string) => {
@@ -216,8 +241,18 @@ const FillBlankQuestion: React.FC<FillBlankQuestionProps> = ({
     // 检查单个空白是否正确
     const isBlankCorrect = (index: number): boolean => {
       const userAnswer = (allAnswers[index] || '').trim().toLowerCase();
+
+      // 检查该空白是否属于某个分组
+      const group = question.blankGroups?.find(g => g.includes(index));
+      if (group) {
+        // 分组空白：整组多重集匹配则全部正确，否则全部错误
+        const userValues = group.map(i => (allAnswers[i] || '').trim().toLowerCase()).sort();
+        const expectedValues = group.map(i => (correctAnswers[i] || '').split(',')[0].trim().toLowerCase()).sort();
+        return userValues.length === expectedValues.length && userValues.every((val, idx) => val === expectedValues[idx]);
+      }
+
+      // 非分组空白：按位置逐一验证（保持原有逻辑）
       const correctAnswer = (correctAnswers[index] || '').trim().toLowerCase();
-      // 支持多个正确答案（逗号分隔）
       const validAnswers = correctAnswer.split(',').map(a => a.trim());
       return validAnswers.includes(userAnswer);
     };

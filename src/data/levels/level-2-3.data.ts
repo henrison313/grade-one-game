@@ -210,6 +210,7 @@ export const level2_3HardQuestions: Question[] = [
     type: 'fill_blank' as QuestionType.FILL_BLANK,
     question: '计算 17 - 9：把 17 分成 {{___}} 和 {{___}}，用 {{___}} - 9 = {{___}}，最后 {{___}} + 7 = {{___}}',
     answer: ['10', '7', '10', '1', '1', '8'],
+    blankGroups: [[0, 1]], // 前两个空白（10 和 7）可互换
     explanation: '17 - 9 破十法完整步骤：把 17 分成 10 和 7，用 10 - 9 = 1，最后 1 + 7 = 8！封装完成，喷射加仑成为保护者！他曾厌恶团队合作，但友情的力量改变了他的想法！',
     hint: '17 分成 10 和 7，按步骤填写',
   },

@@ -1160,6 +1160,35 @@ const DragQuestion: React.FC<DragQuestionProps> = ({
         ) : useAbsoluteLayout ? (
           <AbsoluteLayoutWrapper ref={containerRef}>
             <AbsoluteLayoutContainer $size={scaledLayoutSize}>
+              {/* 连线层 — 坐标按 scale 缩放 */}
+              {question.connections && question.connections.length > 0 && (
+                <ConnectionSvg>
+                  <defs>
+                    <marker id="arrowhead-abs" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                      <polygon points="0 0, 10 3.5, 0 7" fill="#4F46E5" />
+                    </marker>
+                  </defs>
+                  {question.connections.map((conn, idx) => {
+                    const fromTarget = question.targets.find(t => t.id === conn.from);
+                    const toTarget = question.targets.find(t => t.id === conn.to);
+                    if (!fromTarget || !toTarget) return null;
+                    const fromX = (fromTarget.position.x + fromTarget.size.width / 2) * scale;
+                    const fromY = (fromTarget.position.y + fromTarget.size.height / 2) * scale;
+                    const toX = (toTarget.position.x + toTarget.size.width / 2) * scale;
+                    const toY = (toTarget.position.y + toTarget.size.height / 2) * scale;
+                    return (
+                      <ConnectionLine
+                        key={`conn-abs-${idx}`}
+                        x1={fromX}
+                        y1={fromY}
+                        x2={toX}
+                        y2={toY}
+                        markerEnd="url(#arrowhead-abs)"
+                      />
+                    );
+                  })}
+                </ConnectionSvg>
+              )}
               {question.targets.map(renderAbsoluteTarget)}
             </AbsoluteLayoutContainer>
           </AbsoluteLayoutWrapper>

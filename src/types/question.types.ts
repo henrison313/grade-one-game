@@ -204,6 +204,7 @@ export interface FillBlankQuestionData {
   question: string; // 使用 ___ 表示填空位置
   questionImage?: string;
   answer: string | string[]; // 正确答案，支持多个可接受答案
+  blankGroups?: number[][]; // 可选：每组内的空白索引顺序无关（如 [[0,1]] 表示前两个空可互换）
   explanation: string;
   hint?: string;
 }

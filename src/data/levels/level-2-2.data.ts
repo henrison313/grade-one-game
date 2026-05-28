@@ -206,6 +206,7 @@ export const level2_2HardQuestions: Question[] = [
     type: 'fill_blank' as QuestionType.FILL_BLANK,
     question: '计算 17 - 8：把 17 分成 {{___}} 和 {{___}}，用 {{___}} - 8 = {{___}}，最后 {{___}} + 7 = {{___}}',
     answer: ['10', '7', '10', '2', '2', '9'],
+    blankGroups: [[0, 1]], // 前两个空白（10 和 7）可互换
     explanation: '17 - 8 破十法完整步骤：把 17 分成 10 和 7，用 10 - 8 = 2，最后 2 + 7 = 9！地心裂缝入口通过！铁臂爵士听到了地心的呼唤！',
     hint: '17 分成 10 和 7，按步骤填写',
   },

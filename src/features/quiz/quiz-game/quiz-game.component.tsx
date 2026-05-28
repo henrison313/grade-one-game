@@ -499,7 +499,7 @@ const QuizGame: React.FC = () => {
           setAnswerState((prev) => ({ ...prev, marks: answer as Array<{ x: number; y: number; radius: number }> }));
           return;
         case 'fill_blank': {
-          const fillBlankQ = currentQuestion as { answer: string | string[]; question: string };
+          const fillBlankQ = currentQuestion as { answer: string | string[]; question: string; blankGroups?: number[][] };
           const userAnswerStr = answer as string;
           const correctAnswers = Array.isArray(fillBlankQ.answer) ? fillBlankQ.answer : [fillBlankQ.answer];
           const userAnswers = userAnswerStr.split(',').map(a => a.trim().toLowerCase());
@@ -510,15 +510,41 @@ const QuizGame: React.FC = () => {
           if (blankCount === 1) {
             // 单空白：correctAnswers 表示"答案可以是其中任意一个"
             isCorrect = correctAnswers.some(ans => ans.trim().toLowerCase() === userAnswers[0]);
+          } else if (userAnswers.length !== blankCount) {
+            isCorrect = false;
           } else {
-            // 多空白：每个空白对应一个答案，需要全部匹配
-            // 对于多空白，correctAnswers 中每个元素可能是逗号分隔的多个正确值
-            isCorrect = userAnswers.length === blankCount && userAnswers.every((userAns, i) => {
-              // 每个位置的正确答案可能是数组形式（如 ['a,b', 'c,d']）或字符串形式
-              const correctForPosition = correctAnswers[i] || correctAnswers[0];
-              const validAnswersForPosition = correctForPosition.split(',').map(a => a.trim().toLowerCase());
-              return validAnswersForPosition.includes(userAns);
-            });
+            // 收集所有属于分组的空白索引
+            const groupedIndices = new Set<number>();
+            if (fillBlankQ.blankGroups) {
+              for (const group of fillBlankQ.blankGroups) {
+                for (const idx of group) groupedIndices.add(idx);
+              }
+            }
+
+            // 非分组空白：按位置逐一验证
+            let allPositionalCorrect = true;
+            for (let i = 0; i < blankCount && allPositionalCorrect; i++) {
+              if (!groupedIndices.has(i)) {
+                const correctForPosition = correctAnswers[i] || correctAnswers[0];
+                const validAnswersForPosition = correctForPosition.split(',').map(a => a.trim().toLowerCase());
+                if (!validAnswersForPosition.includes(userAnswers[i])) allPositionalCorrect = false;
+              }
+            }
+
+            // 分组空白：验证每组的多重集是否匹配
+            let allGroupsCorrect = true;
+            if (allPositionalCorrect && fillBlankQ.blankGroups) {
+              for (const group of fillBlankQ.blankGroups) {
+                const userValues = group.map(i => (userAnswers[i] || '')).sort();
+                const expectedValues = group.map(i => (correctAnswers[i] || '').split(',')[0].trim().toLowerCase()).sort();
+                if (userValues.length !== expectedValues.length || !userValues.every((val, idx) => val === expectedValues[idx])) {
+                  allGroupsCorrect = false;
+                  break;
+                }
+              }
+            }
+
+            isCorrect = allPositionalCorrect && allGroupsCorrect;
           }
           setAnswerState((prev) => ({ ...prev, selectedAnswer: userAnswerStr }));
           break;

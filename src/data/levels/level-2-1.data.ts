@@ -207,6 +207,7 @@ export const level2_1HardQuestions: Question[] = [
     type: 'fill_blank' as QuestionType.FILL_BLANK,
     question: '计算 19 - 9：把 19 分成 {{___}} 和 {{___}}，用 {{___}} - 9 = 1，最后 {{___}} + 9 = {{___}}',
     answer: ['10', '9', '10', '1', '10'],
+    blankGroups: [[0, 1]], // 前两个空白（10 和 9）可互换
     explanation: '19 - 9 破十法完整步骤：把 19 分成 10 和 9，用 10 - 9 = 1，最后 1 + 9 = 10！时空裂缝入口通过！',
     hint: '19 分成 10 和 9，按步骤填写',
   },
@@ -263,10 +264,13 @@ export const level2_1HardQuestions: Question[] = [
   },
 
   // 第 5 题：终极挑战（终极形态觉醒）
+  // 使用绝对定位布局，按破十法竖形结构排列
   {
     type: 'drag' as QuestionType.DRAG,
     question: '用破十法计算 15 - 9：把 15 分成 10 和 5，把正确的数字拖到对应位置！',
     instruction: '把数字卡片拖到正确的位置',
+    useAbsoluteLayout: true,
+    layoutSize: { width: 500, height: 420 },
     items: [
       { id: 'num15', name: '15' },
       { id: 'num10', name: '10' },
@@ -275,15 +279,22 @@ export const level2_1HardQuestions: Question[] = [
       { id: 'num6', name: '6' },
     ],
     targets: [
-      { id: 'total', name: '被减数', accepts: ['num15'], position: { x: 50, y: 30 }, size: { width: 100, height: 60 } },
-      { id: 'ten', name: '10', accepts: ['num10'], position: { x: 50, y: 120 }, size: { width: 100, height: 60 } },
-      { id: 'one', name: '个位', accepts: ['num5'], position: { x: 180, y: 120 }, size: { width: 100, height: 60 } },
-      { id: 'result1', name: '10-9=', accepts: ['num1'], position: { x: 50, y: 210 }, size: { width: 100, height: 60 } },
-      { id: 'result2', name: '1+5=', accepts: ['num6'], position: { x: 180, y: 210 }, size: { width: 100, height: 60 } },
+      // 第一层：被减数 15，顶部居中
+      { id: 'total', name: '被减数', accepts: ['num15'], position: { x: 200, y: 20 }, size: { width: 100, height: 60 } },
+      // 第二层：拆分出 10（左）和个位 5（右）
+      { id: 'ten', name: '10', accepts: ['num10'], position: { x: 100, y: 115 }, size: { width: 100, height: 60 } },
+      { id: 'one', name: '个位', accepts: ['num5'], position: { x: 300, y: 115 }, size: { width: 100, height: 60 } },
+      // 第三层：10-9=1，对齐 10 下方
+      { id: 'result1', name: '10-9=', accepts: ['num1'], position: { x: 100, y: 210 }, size: { width: 100, height: 60 } },
+      // 第四层：1+5=6，底部居中
+      { id: 'result2', name: '1+5=', accepts: ['num6'], position: { x: 200, y: 305 }, size: { width: 100, height: 60 } },
     ],
     connections: [
-      { from: 'total', to: 'ten' },
-      { from: 'total', to: 'one' },
+      { from: 'total', to: 'ten' },      // 15 → 10（拆分）
+      { from: 'total', to: 'one' },      // 15 → 5（拆分）
+      { from: 'ten', to: 'result1' },    // 10 → 10-9=1（减 9）
+      { from: 'one', to: 'result2' },    // 5 → 1+5=6（个位参与最后加法）
+      { from: 'result1', to: 'result2' }, // 1 → 1+5=6（中间结果参与最后加法）
     ],
     explanation: '破十法：15 分成 10 和 5，10 - 9 = 1，1 + 5 = 6！雷霆暗影炮组装完成，暗影特工终极形态觉醒！',
     hint: '先找到被减数 15，再找 10 和 5',
