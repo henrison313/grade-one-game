@@ -4,7 +4,7 @@
 
 ## 在线游玩
 
-🔗 **[https://grade-one-game.vercel.app/](https://grade-one-game.vercel.app/)**（推荐，国内可直接访问）
+🔗 **[https://xkgame-dp0nmjopsxp1.edgeone.cool/](https://xkgame-dp0nmjopsxp1.edgeone.cool/)**（推荐，腾讯云 EdgeOne，国内访问最快）
 
 备用地址：[https://henrison313.github.io/grade-one-game/](https://henrison313.github.io/grade-one-game/)（GitHub Pages，国内部分地区可能无法访问）
 
