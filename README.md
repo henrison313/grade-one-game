@@ -4,10 +4,9 @@
 
 ## 在线游玩
 
-🔗 [点击这里开始游戏](https://henrison313.github.io/grade-one-game/)
+🔗 **[https://grade-one-game.vercel.app/](https://grade-one-game.vercel.app/)**（推荐，国内可直接访问）
 
-> **注意**：GitHub Pages 在国内部分地区可能无法访问（`ERR_CONNECTION_RESET`）。
-> 如遇到连接问题，可部署到 Vercel 或 Cloudflare Pages 解决。
+备用地址：[https://henrison313.github.io/grade-one-game/](https://henrison313.github.io/grade-one-game/)（GitHub Pages，国内部分地区可能无法访问）
 
 ## 游戏简介
 
