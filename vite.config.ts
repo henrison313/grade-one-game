@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs';
 
 export default defineConfig({
-  base: '/grade-one-game/',
+  base: process.env.DEPLOY_TARGET === 'gh-pages' ? '/grade-one-game/' : '/',
   plugins: [
     react(),
     // GitHub Pages SPA 支持：构建后复制 index.html 为 404.html

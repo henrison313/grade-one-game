@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "build:gh": "tsc && vite build --base=/grade-one-game/ && sed -i '' 's|<head>|<head><base href=\"/grade-one-game/\">|' dist/index.html && sed -i '' 's|\"/assets/|\"./assets/|g' dist/assets/*.js && sed -i '' 's|\\`/assets/|\\`./assets/|g' dist/assets/*.js && sed -i '' 's|\"/audio/|\"./audio/|g' dist/assets/*.js && sed -i '' 's|\\`/audio/|\\`./audio/|g' dist/assets/*.js",
+    "build:gh": "DEPLOY_TARGET=gh-pages tsc && DEPLOY_TARGET=gh-pages vite build && sed -i '' 's|<head>|<head><base href=\"/grade-one-game/\">|' dist/index.html && sed -i '' 's|\"/assets/|\"./assets/|g' dist/assets/*.js && sed -i '' 's|\\`/assets/|\\`./assets/|g' dist/assets/*.js && sed -i '' 's|\"/audio/|\"./audio/|g' dist/assets/*.js && sed -i '' 's|\\`/audio/|\\`./audio/|g' dist/assets/*.js",
     "preview": "vite preview",
     "lint": "eslint src --ext .ts,.tsx",
     "deploy": "npm run build:gh && gh-pages -d dist"
